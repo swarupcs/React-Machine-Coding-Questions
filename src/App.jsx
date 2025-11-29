@@ -1,13 +1,24 @@
-import './App.css'
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import MainLayout from './components/layout/MainLayout';
+import Home from './pages/Home';
+import Category from './pages/Category';
+import QuestionPreview from './pages/QuestionPreview';
 
-function App() {
-
-
+export default function App() {
   return (
-    <>
-    
-    </>
-  )
-}
+    <BrowserRouter>
+      <MainLayout>
+        <Routes>
+          <Route path='/' element={<Home />} />
 
-export default App
+          <Route path='/category/:categoryName' element={<Category />} />
+
+          <Route
+            path='/category/:categoryName/:questionName'
+            element={<QuestionPreview />}
+          />
+        </Routes>
+      </MainLayout>
+    </BrowserRouter>
+  );
+}
