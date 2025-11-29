@@ -1,0 +1,54 @@
+[
+  {
+    "id": 1,
+    "name": "public",
+    "isFolder": true,
+    "children": [{ "id": 2, "name": "index.html", "isFolder": false }]
+  },
+  {
+    "id": 3,
+    "name": "src",
+    "isFolder": true,
+    "children": [
+      {
+        "id": 4,
+        "name": "components",
+        "isFolder": true,
+        "children": [
+          { "id": 5, "name": "Header.jsx", "isFolder": false },
+          { "id": 6, "name": "Button.jsx", "isFolder": false }
+        ]
+      },
+      {
+        "id": 7,
+        "name": "pages",
+        "isFolder": true,
+        "children": [{ "id": 8, "name": "Home.jsx", "isFolder": false }]
+      },
+      { 
+        "id": 9,
+        "name": "utils",
+        "isFolder": true,
+        "children": [{ "id": 10, "name": "api.js", "isFolder": false }]
+      },
+      { "id": 11, "name": "App.jsx", "isFolder": false },
+      { "id": 12, "name": "main.jsx", "isFolder": false }
+    ]
+  },
+  { "id": 13, "name": "package.json", "isFolder": false },
+  { "id": 14, "name": "package-lock.json", "isFolder": false },
+  { "id": 15, "name": ".gitignore", "isFolder": false },
+  {
+    "id": 16,
+    "name": "node_modules",
+    "isFolder": true,
+    "children": [
+      {
+        "id": 17,
+        "name": "react",
+        "isFolder": true,
+        "children": [{ "name": "index.js", "isFolder": false }]
+      }
+    ]
+  }
+]

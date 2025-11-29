@@ -1,0 +1,20 @@
+.layout-container {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Sidebar stays left */
+.sidebar {
+  width: 250px;
+  border-right: 1px solid #ddd;
+  background: #f8f8f8;
+}
+
+/* Main page content */
+.layout-main {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  background: #f0f0f3;
+}

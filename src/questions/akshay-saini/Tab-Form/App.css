@@ -1,0 +1,32 @@
+#root {
+    font-family: sans-serif;
+    /* text-align: center; */
+}
+
+.heading-container {
+    display: flex;
+}
+
+.heading {
+    padding: 10px;
+    cursor: pointer;
+    border: 1px solid black;
+}
+
+.heading:hover {
+    background-color: #f0f0f0;
+}
+
+
+.tab-body {
+    display: flex;
+    border: 1px solid black;
+    height: 200px;
+    padding: 10px;
+}
+
+.error {
+    color: red;
+    display: block;
+    font-size: small;
+}

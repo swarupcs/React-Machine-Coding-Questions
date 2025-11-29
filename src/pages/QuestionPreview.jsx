@@ -1,7 +1,8 @@
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { Card, CardContent } from '@/components/ui/card';
-import { Loader2 } from 'lucide-react';
+import './QuestionPreview.css'; // <-- new CSS file
+import ShadowWrapper from '../components/ShadowWrapper';
+import IframeSandbox from '../components/IframeSandbox';
 
 const modules = import.meta.glob('../questions/*/*/App.jsx');
 
@@ -22,23 +23,27 @@ export default function QuestionPreview() {
   }, [categoryName, questionName]);
 
   return (
-    <div className='space-y-4'>
-      <h1 className='text-2xl font-bold capitalize'>
+    <div className='qp-container'>
+      <h1 className='qp-title'>
         {categoryName} → {questionName}
       </h1>
 
-      <Card>
-        <CardContent className='p-4'>
-          {!Component ? (
-            <div className='flex items-center gap-2'>
-              <Loader2 className='animate-spin' />
-              Loading...
-            </div>
-          ) : (
-            <Component />
-          )}
-        </CardContent>
-      </Card>
+      <div className='qp-card'>
+        <div className='qp-content'>
+          <div className='qp-isolate'>
+            {!Component ? (
+              <div className='qp-loading'>
+                <div className='qp-spinner'></div>
+                Loading...
+              </div>
+            ) : (
+              // <IframeSandbox>
+                <Component />
+              // </IframeSandbox>
+            )}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

@@ -1,46 +1,85 @@
 import { Link, useLocation } from 'react-router-dom';
-import { ScrollArea } from '@/components/ui/scroll-area';
+import { useState } from 'react';
+import './Sidebar.css';
 
-const questionModules = import.meta.glob('../../questions/*/App.jsx');
+// Correct glob for your structure
+// src/components/layout/Sidebar.jsx → "../questions/"
+const modules = import.meta.glob('../../questions/*/*/App.jsx');
 
 export default function Sidebar() {
   const location = useLocation();
+  const [openCategory, setOpenCategory] = useState(null);
 
-  const questionNames = Object.keys(questionModules).map((path) => {
-    return path.split('/')[2];
+  // Build categories: { "akshay-saini": ["accordion", "todo-list", ...] }
+  const categories = {};
+
+  Object.keys(modules).forEach((path) => {
+    // Example path:
+    // "../../questions/akshay-saini/accordion/App.jsx"
+    const parts = path.split('/');
+
+    const category = parts[3]; // akshay-saini
+    const question = parts[4]; // accordion
+
+    if (!categories[category]) {
+      categories[category] = [];
+    }
+
+    categories[category].push(question);
   });
 
+  const toggle = (cat) => {
+    setOpenCategory(openCategory === cat ? null : cat);
+  };
+
   return (
-    <div className='w-64 bg-background border-r'>
-      <h2 className='text-xl font-semibold p-4 border-b'>MCQ Library</h2>
+    <div className='sidebar'>
+      <h2 className='sidebar-title'>MCQ Library</h2>
 
-      <ScrollArea className='h-[calc(100vh-60px)] px-2'>
-        <ul className='space-y-1'>
-          <li>
-            <Link
-              to='/'
-              className={`block p-2 rounded hover:bg-muted ${
-                location.pathname === '/' ? 'bg-muted' : ''
-              }`}
-            >
-              🏠 Home
-            </Link>
+      <ul className='sidebar-list'>
+        {/* Home */}
+        <li>
+          <Link
+            to='/'
+            className={
+              location.pathname === '/' ? 'sidebar-link active' : 'sidebar-link'
+            }
+          >
+            🏠 Home
+          </Link>
+        </li>
+
+        {/* Categories */}
+        {Object.keys(categories).map((cat) => (
+          <li key={cat}>
+            {/* Category toggle row */}
+            <div className='sidebar-category' onClick={() => toggle(cat)}>
+              <span>{openCategory === cat ? '▼' : '▶'}</span>
+              <span className='category-name'>{cat}</span>
+            </div>
+
+            {/* Show questions inside this category */}
+            {openCategory === cat && (
+              <ul className='question-sublist'>
+                {categories[cat].map((question) => (
+                  <li key={question}>
+                    <Link
+                      to={`/category/${cat}/${question}`}
+                      className={
+                        location.pathname === `/category/${cat}/${question}`
+                          ? 'sidebar-sublink active'
+                          : 'sidebar-sublink'
+                      }
+                    >
+                      • {question}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            )}
           </li>
-
-          {questionNames.map((name) => (
-            <li key={name}>
-              <Link
-                to={`/${name}`}
-                className={`block p-2 rounded hover:bg-muted ${
-                  location.pathname === `/${name}` ? 'bg-muted' : ''
-                }`}
-              >
-                📌 {name}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </ScrollArea>
+        ))}
+      </ul>
     </div>
   );
 }

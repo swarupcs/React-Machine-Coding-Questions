@@ -1,0 +1,43 @@
+/* Main container */
+.category-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Page title */
+.category-title {
+  font-size: 28px;
+  font-weight: bold;
+  text-transform: capitalize;
+}
+
+/* Grid layout */
+.questions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+/* Question card */
+.question-card {
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 16px;
+  cursor: pointer;
+  background: #fff;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+/* Hover effect */
+.question-card:hover {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  transform: translateY(-3px);
+}
+
+/* Card title */
+.question-title {
+  font-size: 18px;
+  font-weight: 600;
+  text-transform: capitalize;
+}

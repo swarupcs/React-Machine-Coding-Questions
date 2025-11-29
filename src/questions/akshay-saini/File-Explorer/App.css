@@ -1,0 +1,14 @@
+#root {
+  text-align: center;
+}
+
+.container {
+  text-align: left;
+  padding-left: 20px;
+  max-width: 200px;
+}
+
+.icon {
+  width: 15px;
+  margin-left: 20px;
+}

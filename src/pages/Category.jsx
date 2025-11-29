@@ -1,5 +1,5 @@
 import { useParams, Link } from 'react-router-dom';
-import { Card, CardHeader, CardTitle } from '@/components/ui/card';
+import './Category.css';
 
 const modules = import.meta.glob('../questions/*/*/App.jsx');
 
@@ -20,17 +20,15 @@ export default function Category() {
   });
 
   return (
-    <div className='space-y-4'>
-      <h1 className='text-2xl font-bold capitalize'>{categoryName}</h1>
+    <div className='category-container'>
+      <h1 className='category-title'>{categoryName}</h1>
 
-      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
+      <div className='questions-grid'>
         {questions.map((q) => (
           <Link key={q} to={`/category/${categoryName}/${q}`}>
-            <Card className='hover:shadow-lg transition cursor-pointer'>
-              <CardHeader>
-                <CardTitle className='capitalize'>{q}</CardTitle>
-              </CardHeader>
-            </Card>
+            <div className='question-card'>
+              <h2 className='question-title'>{q}</h2>
+            </div>
           </Link>
         ))}
       </div>

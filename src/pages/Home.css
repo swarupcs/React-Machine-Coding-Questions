@@ -1,0 +1,43 @@
+/* Page container */
+.home-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Title */
+.home-title {
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+/* Responsive grid for category cards */
+.home-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+/* Category card */
+.home-card {
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 16px;
+  cursor: pointer;
+  background: #fff;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+/* Hover effect */
+.home-card:hover {
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+  transform: translateY(-3px);
+}
+
+/* Card title */
+.home-card-title {
+  font-size: 18px;
+  font-weight: 600;
+  text-transform: capitalize;
+}

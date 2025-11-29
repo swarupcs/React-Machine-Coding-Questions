@@ -1,0 +1,28 @@
+.search-input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+
+.results-container {
+  width: 500px;
+  margin: auto;
+  border: 1px solid #ccc;
+  padding: 5px;
+  text-align: left;
+  max-height: 500px;
+  overflow-y: scroll;
+}
+
+
+.result-item {
+  display: block;
+  padding: 5px;
+}
+
+.result-item:hover {
+  background-color: #f0f0f0;
+}
+
