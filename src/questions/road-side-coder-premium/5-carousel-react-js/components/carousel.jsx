@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 
-/* eslint-disable react/prop-types */
 const Carousel = ({
   images = [],
   isLoading = false,
@@ -12,7 +11,7 @@ const Carousel = ({
 }) => {
   const imgRef = useRef(null);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [imgWidth, setImgWidth] = useState(0);
+  const [imgWidth, setImgWidth] = useState(300); // fallback width
 
   useEffect(() => {
     if (images.length > 0) {
@@ -25,13 +24,17 @@ const Carousel = ({
       prevIndex === 0 ? imageLimit - 1 : prevIndex - 1
     );
   };
+
   const goToNext = () => {
     setCurrentIndex((prevIndex) =>
       prevIndex === imageLimit - 1 ? 0 : prevIndex + 1
     );
   };
 
-  console.log(imgRef?.current?.offsetWidth);
+  const safeImages = images.slice(
+    0,
+    imageLimit > images.length ? images.length : imageLimit
+  );
 
   return isLoading ? (
     <div>Loading...</div>
@@ -39,32 +42,43 @@ const Carousel = ({
     <div className='carousel' style={{ width: imgPerSlide * imgWidth }}>
       <div
         className='image-container'
-        style={{ transform: `translateX(-${currentIndex * imgWidth}px)` }}
+        style={{
+          transform: `translateX(-${currentIndex * imgWidth}px)`,
+          transition: 'transform 0.4s ease',
+        }}
       >
-        {images
-          .slice(0, imageLimit > images.length ? images.length : imageLimit)
-          .map((image, index) => {
-            return (
-              <img
-                onLoad={() => setImgWidth(imgRef?.current?.offsetWidth)}
-                ref={imgRef}
-                key={image.id}
-                src={image.url}
-                onClick={() => onImgClick(image, index)}
-                alt={image.title}
-                className='image'
-              />
-            );
-          })}
+        {safeImages.map((image, index) => (
+          <img
+            key={image.id}
+            ref={index === 0 ? imgRef : null}
+            src={
+              image.url ||
+              `https://picsum.photos/seed/${image.id}/${600}/${400}`
+            }
+            onError={(e) => {
+              e.target.src = `https://picsum.photos/seed/${image.id}/600/400`;
+            }}
+            onLoad={() => {
+              if (index === 0 && imgRef.current) {
+                setImgWidth(imgRef.current.offsetWidth || 300);
+              }
+            }}
+            onClick={() => onImgClick(image, index)}
+            alt={image.title}
+            className='image'
+          />
+        ))}
       </div>
-      {customPrevButton instanceof Function ? (
+
+      {customPrevButton ? (
         customPrevButton(goToPrev)
       ) : (
         <button className='btn prev' onClick={goToPrev}>
           Prev
         </button>
       )}
-      {customNextButton instanceof Function ? (
+
+      {customNextButton ? (
         customNextButton(goToNext)
       ) : (
         <button className='btn next' onClick={goToNext}>
