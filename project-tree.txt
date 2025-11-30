@@ -106,5 +106,10 @@ src
 │   │       ├── StarRating.jsx
 │   │       └── styles.css
 │   ├── road-side-coder-premium
+│   │   └── 5-carousel-react-js
+│   │       ├── App.css
+│   │       ├── App.jsx
+│   │       └── components
+│   │           └── carousel.jsx
 │   └── road-side-coder-yt
 └── utils

@@ -33,24 +33,61 @@ export default function QuestionPreview() {
   const prefix = `../questions/${categoryName}/${questionName}/`;
 
   // 1) Load React component (if App.jsx exists)
+  // safe loader for React components
   useEffect(() => {
     let mounted = true;
     const reactPath = prefix + 'App.jsx';
 
-    if (reactModules[reactPath]) {
-      reactModules[reactPath]()
-        .then((mod) => {
-          if (!mounted) return;
-          setReactComponent(() => mod.default || mod);
-        })
-        .catch((err) => {
-          console.error('Failed to load React component:', err);
-          if (mounted) setReactComponent(null);
-        });
-    } else {
-      // no React component in this folder
-      setReactComponent(null);
+    async function loadReact() {
+      if (!reactModules[reactPath]) {
+        if (mounted) setReactComponent(null);
+        return;
+      }
+
+      try {
+        const mod = await reactModules[reactPath](); // dynamic import
+        if (!mounted) return;
+
+        // Helper: choose the component from module
+        const chooseComponent = (m) => {
+          if (!m) return null;
+          // prefer default
+          if (typeof m.default === 'function' || typeof m.default === 'object')
+            return m.default;
+          // otherwise find first exported function/class
+          const vals = Object.values(m);
+          for (const v of vals) {
+            if (
+              typeof v === 'function' ||
+              (typeof v === 'object' && v && (v.$$typeof || v.render))
+            ) {
+              return v;
+            }
+          }
+          return null;
+        };
+
+        const Comp = chooseComponent(mod);
+
+        if (!Comp) {
+          console.warn(
+            "QuestionPreview: loaded module but couldn't find a React component export. Module keys:",
+            Object.keys(mod),
+            'module:',
+            mod
+          );
+          setReactComponent(null);
+          return;
+        }
+
+        setReactComponent(() => Comp);
+      } catch (err) {
+        console.error('Failed to dynamically import React component:', err);
+        if (mounted) setReactComponent(null);
+      }
     }
+
+    loadReact();
 
     return () => {
       mounted = false;
@@ -58,41 +95,40 @@ export default function QuestionPreview() {
   }, [categoryName, questionName]);
 
   // 2) Resolve CSS and JS URLs for this folder (call the functions returned by import.meta.glob)
-useEffect(() => {
-  let cancelled = false;
+  useEffect(() => {
+    let cancelled = false;
 
-  async function loadAssets() {
-    // match ANY css file inside the question folder
-    const matchedCssKeys = Object.keys(cssModules).filter((p) =>
-      p.startsWith(prefix)
-    );
+    async function loadAssets() {
+      // match ANY css file inside the question folder
+      const matchedCssKeys = Object.keys(cssModules).filter((p) =>
+        p.startsWith(prefix)
+      );
 
-    const cssPromises = matchedCssKeys.map((key) => cssModules[key]());
-    const resolvedCss = (await Promise.all(cssPromises)).filter(Boolean);
+      const cssPromises = matchedCssKeys.map((key) => cssModules[key]());
+      const resolvedCss = (await Promise.all(cssPromises)).filter(Boolean);
 
-    // match vanilla js files
-    const matchedJsKeys = Object.keys(jsModules).filter((p) =>
-      p.startsWith(prefix)
-    );
+      // match vanilla js files
+      const matchedJsKeys = Object.keys(jsModules).filter((p) =>
+        p.startsWith(prefix)
+      );
 
-    const jsPromises = matchedJsKeys.map((key) => jsModules[key]());
-    const resolvedJs = (await Promise.all(jsPromises)).filter(Boolean);
+      const jsPromises = matchedJsKeys.map((key) => jsModules[key]());
+      const resolvedJs = (await Promise.all(jsPromises)).filter(Boolean);
 
-    if (!cancelled) {
-      setCssUrls(resolvedCss);
-      setJsUrls(resolvedJs);
+      if (!cancelled) {
+        setCssUrls(resolvedCss);
+        setJsUrls(resolvedJs);
+      }
     }
-  }
 
-  loadAssets();
+    loadAssets();
 
-  return () => {
-    cancelled = true;
-    setCssUrls([]);
-    setJsUrls([]);
-  };
-}, [categoryName, questionName]);
-
+    return () => {
+      cancelled = true;
+      setCssUrls([]);
+      setJsUrls([]);
+    };
+  }, [categoryName, questionName]);
 
   // 3) Detect vanilla HTML (served URL) if present
   const htmlUrl = htmlModules[prefix + 'index.html'] || null;

@@ -12,17 +12,19 @@ export default function IframeSandbox({
 
   useEffect(() => {
     const iframe = iframeRef.current;
+    if (!iframe) return;
+
     const doc = iframe.contentDocument;
+    if (!doc) return;
 
-    // always cleanup old root BEFORE rewriting iframe
-    if (reactRootRef.current) {
-      reactRootRef.current.unmount();
-      reactRootRef.current = null;
-    }
+    // Clean slate before loading anything
+    doc.open();
+    doc.write('<!DOCTYPE html><html><head></head><body></body></html>');
+    doc.close();
 
-    // ---------------------------
-    // VANILLA HTML MODE
-    // ---------------------------
+    //
+    // ------------------------ VANILLA HTML MODE ------------------------
+    //
     if (htmlUrl) {
       fetch(htmlUrl)
         .then((res) => res.text())
@@ -31,7 +33,7 @@ export default function IframeSandbox({
           doc.write(html);
           doc.close();
 
-          // inject CSS
+          // Inject CSS
           cssUrls.forEach((href) => {
             const link = doc.createElement('link');
             link.rel = 'stylesheet';
@@ -39,7 +41,7 @@ export default function IframeSandbox({
             doc.head.appendChild(link);
           });
 
-          // inject JS
+          // Inject JS
           jsUrls.forEach((src) => {
             const script = doc.createElement('script');
             script.type = 'module';
@@ -47,61 +49,51 @@ export default function IframeSandbox({
             doc.body.appendChild(script);
           });
         });
+
+      // in vanilla mode do NOT mount React
       return;
     }
 
-    // ---------------------------
-    // REACT MODE
-    // ---------------------------
+    //
+    // ------------------------ REACT MODE ------------------------
+    //
+    // Create root container
+    doc.body.innerHTML = `<div id="root"></div>`;
 
-    // reset iframe content BEFORE mounting React
-    doc.open();
-    doc.write(`
-      <!DOCTYPE html>
-      <html>
-        <head></head>
-        <body><div id="root"></div></body>
-      </html>
-    `);
-    doc.close();
+    // Inject CSS first
+    cssUrls.forEach((href) => {
+      const link = doc.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = href;
+      doc.head.appendChild(link);
+    });
 
     const mountNode = doc.getElementById('root');
 
-    // Load CSS before mounting React
-    let cssLoaded = 0;
-
-    function tryMountReact() {
-      if (cssLoaded === cssUrls.length) {
-        reactRootRef.current = ReactDOM.createRoot(mountNode);
-        reactRootRef.current.render(children);
+    // Cleanup previous root
+    if (reactRootRef.current) {
+      try {
+        reactRootRef.current.unmount();
+      } catch (err) {
+        console.warn('React root unmount failed:', err);
       }
     }
 
-    if (cssUrls.length === 0) {
-      tryMountReact();
-    } else {
-      cssUrls.forEach((href) => {
-        const link = doc.createElement('link');
-        link.rel = 'stylesheet';
-        link.href = href;
+    // Create new React root
+    reactRootRef.current = ReactDOM.createRoot(mountNode);
+    reactRootRef.current.render(children);
 
-        link.onload = () => {
-          cssLoaded++;
-          tryMountReact();
-        };
-
-        doc.head.appendChild(link);
-      });
-    }
-
-    // Cleanup on unmount
+    // Cleanup on iframe teardown
     return () => {
       if (reactRootRef.current) {
-        reactRootRef.current.unmount();
-        reactRootRef.current = null;
+        try {
+          reactRootRef.current.unmount();
+        } catch (err) {
+          console.warn('Unmount error:', err);
+        }
       }
     };
-  }, [children, htmlUrl, JSON.stringify(cssUrls), JSON.stringify(jsUrls)]);
+  }, [htmlUrl, JSON.stringify(cssUrls), JSON.stringify(jsUrls), children]);
 
   return (
     <iframe
