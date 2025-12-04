@@ -1,0 +1,31 @@
+progress {
+  width: 100%;
+  height: 60px;
+  accent-color: red;
+  background-color: yellow;
+  -webkit-appearance: none;
+  border-radius: 10px;
+}
+
+progress::-webkit-progress-bar {
+  background-color: white;
+  border-radius: 10px;
+}
+
+progress::-webkit-progress-value {
+  background-color: aqua;
+  border-radius: 10px;
+  transition: all 0.2s linear;
+}
+
+progress::-moz-progress-bar {
+  background-color: aqua;
+  border-radius: 10px;
+  transition: all 0.2s linear;
+}
+
+.visible-hidden {
+  height: 0;
+  overflow: hidden;
+  position: absolute;
+}
