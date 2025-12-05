@@ -1,0 +1,21 @@
+.suggestions {
+  display: flex;
+  flex-direction: column;
+  background-color: lightblue;
+  border-radius: 4px;
+  position: absolute;
+  top: 46px;
+  width: 100%;
+}
+
+.suggestions button {
+  background: transparent;
+}
+
+.suggestions button:hover {
+  background: lightgreen;
+}
+
+.suggestions button[data-selected="true"] {
+  background-color: red;
+}
