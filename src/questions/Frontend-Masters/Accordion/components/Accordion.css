@@ -1,0 +1,28 @@
+.accordion {
+  width: 500px;
+  overflow: hidden;
+
+  margin-top: 40px;
+  height: 44px;
+  transition: height 0.3s ease-in;
+}
+
+.heading {
+  background-color: lightsalmon;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.heading span[data-expanded="true"] {
+  transform: rotate(90deg);
+  display: inline-block;
+}
+
+.content {
+  background-color: darkgrey;
+  border-radius: 4px;
+}
+
+.accordion[data-expanded="true"] {
+  height: 200px;
+}
