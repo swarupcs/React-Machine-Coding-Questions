@@ -1,0 +1,17 @@
+.time {
+  font-size: 6rem;
+  width: 300px;
+}
+
+.time {
+  font-size: 6rem;
+}
+
+.stopwatch {
+  display: flex;
+  flex-direction: column;
+}
+
+button {
+  margin-bottom: 10px;
+}
