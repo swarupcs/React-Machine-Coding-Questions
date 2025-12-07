@@ -6,8 +6,8 @@ import OverlappingCircle from './OverlappingCircle';
 
 
 
-function App() {
+function OverLappingCircleApp() {
   return <OverlappingCircle />;
 }
 
-export default App;
+export default OverLappingCircleApp;

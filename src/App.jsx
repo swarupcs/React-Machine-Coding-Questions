@@ -3,6 +3,7 @@ import MainLayout from './components/layout/MainLayout';
 import Home from './pages/Home';
 import Category from './pages/Category';
 import QuestionPreview from './pages/QuestionPreview';
+import OverLappingCircleApp from './questions/Frontend-Masters/Overlapping-Circle/App';
 
 export default function App() {
   return (
@@ -16,6 +17,10 @@ export default function App() {
           <Route
             path='/category/:categoryName/:questionName'
             element={<QuestionPreview />}
+          />
+          <Route
+            path='/overlapping-circles'
+            element={<OverLappingCircleApp/>}
           />
         </Routes>
       </MainLayout>
