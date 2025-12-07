@@ -1,9 +1,8 @@
 # Frontebd Master
 
-
 * [ ] Tic Tac Toe
-* [ ] Timer
-* [ ] Pagination
+* [X] Timer
+* [X] Pagination
 * [ ] Switch
 * [ ] Star Rating
 * [ ] File Explorer
@@ -11,6 +10,6 @@
 * [ ] Sortable List
 * [ ] Infinite Scroll
 * [ ] Digital Clock
-* [ ] Stop Watch
+* [X] Stop Watch
 * [ ] Pop Over
 * [ ] Toast
