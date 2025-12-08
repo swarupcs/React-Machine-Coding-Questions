@@ -4,6 +4,7 @@ import Home from './pages/Home';
 import Category from './pages/Category';
 import QuestionPreview from './pages/QuestionPreview';
 import OverLappingCircleApp from './questions/Frontend-Masters/Overlapping-Circle/App';
+import PopOverApp from './questions/Frontend-Masters/Popover/App';
 
 export default function App() {
   return (
@@ -20,7 +21,12 @@ export default function App() {
           />
           <Route
             path='/overlapping-circles'
-            element={<OverLappingCircleApp/>}
+            element={<OverLappingCircleApp />}
+          />
+
+          <Route
+            path='/popover'
+            element={<PopOverApp />}
           />
         </Routes>
       </MainLayout>
