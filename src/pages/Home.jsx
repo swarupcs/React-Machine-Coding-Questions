@@ -1,10 +1,12 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Home.css';
 
 const modules = import.meta.glob('../questions/*/*/App.jsx');
 
 export default function Home() {
   const categories = new Set();
+
+  const navigate = useNavigate();
 
   Object.keys(modules).forEach((path) => {
     const parts = path.split('/');
@@ -14,6 +16,17 @@ export default function Home() {
 
   return (
     <div className='home-container'>
+      <div>
+        <button onClick={() => navigate('/overlapping-circles')}>
+          Overlapping Circles
+        </button>
+      </div>
+
+      <div>
+        <button onClick={() => navigate('/pop-over')}>
+          PopOver
+        </button>
+      </div>
       <h1 className='home-title'>Categories</h1>
 
       <div className='home-grid'>

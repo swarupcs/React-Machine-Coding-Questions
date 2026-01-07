@@ -19,17 +19,13 @@ export default function App() {
             path='/category/:categoryName/:questionName'
             element={<QuestionPreview />}
           />
-          <Route
-            path='/overlapping-circles'
-            element={<OverLappingCircleApp />}
-          />
-
-          <Route
-            path='/popover'
-            element={<PopOverApp />}
-          />
         </Routes>
       </MainLayout>
+      <Routes>
+        <Route path='/overlapping-circles' element={<OverLappingCircleApp />} />
+
+        <Route path='/popover' element={<PopOverApp />} />
+      </Routes>
     </BrowserRouter>
   );
 }

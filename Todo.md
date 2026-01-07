@@ -11,5 +11,5 @@
 * [ ] Infinite Scroll
 * [ ] Digital Clock
 * [X] Stop Watch
-* [ ] Pop Over
+* [X] Pop Over (2nd type pending)
 * [ ] Toast
