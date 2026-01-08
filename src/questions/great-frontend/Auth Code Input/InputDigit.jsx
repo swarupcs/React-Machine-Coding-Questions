@@ -5,7 +5,7 @@ export default function InputDigit({
   isFocused,
   ...props
 }) {
-  const inputRef = useRef < HTMLInputElement > null;
+  const inputRef = useRef(null);
 
   useEffect(() => {
     if (isFocused) {
