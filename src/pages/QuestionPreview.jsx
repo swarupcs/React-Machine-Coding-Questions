@@ -6,34 +6,33 @@ import IframeSandbox from '../components/IframeSandbox';
 // detect App.jsx (React)
 const reactModules = import.meta.glob('../questions/*/*/App.jsx');
 
-// detect index.html (vanilla)
+// detect index.html (vanilla) - using new query syntax
 const htmlModules = import.meta.glob('../questions/*/*/index.html', {
-  as: 'url',
+  query: '?url',
+  import: 'default',
 });
 
-// detect ALL css files (as url functions)
-const cssModules = import.meta.glob('../questions/*/*/*.css', { as: 'url' });
+// Import CSS as raw text - using new query syntax
+const cssModules = import.meta.glob('../questions/*/*/*.css', {
+  query: '?raw',
+  import: 'default',
+});
 
-// detect ALL js files (as url functions)
+// detect ALL js files - using new query syntax
 const jsModules = import.meta.glob('../questions/*/*/{script.js,index.js}', {
-  as: 'url',
+  query: '?url',
+  import: 'default',
 });
-
-
 
 export default function QuestionPreview() {
   const { categoryName, questionName } = useParams();
   const [ReactComponent, setReactComponent] = useState(null);
-
-  // resolved urls for the current folder (injected into iframe)
-  const [cssUrls, setCssUrls] = useState([]);
+  const [cssContent, setCssContent] = useState('');
   const [jsUrls, setJsUrls] = useState([]);
 
-  // prefix used to match glob keys
   const prefix = `../questions/${categoryName}/${questionName}/`;
 
-  // 1) Load React component (if App.jsx exists)
-  // safe loader for React components
+  // 1) Load React component
   useEffect(() => {
     let mounted = true;
     const reactPath = prefix + 'App.jsx';
@@ -45,16 +44,13 @@ export default function QuestionPreview() {
       }
 
       try {
-        const mod = await reactModules[reactPath](); // dynamic import
+        const mod = await reactModules[reactPath]();
         if (!mounted) return;
 
-        // Helper: choose the component from module
         const chooseComponent = (m) => {
           if (!m) return null;
-          // prefer default
           if (typeof m.default === 'function' || typeof m.default === 'object')
             return m.default;
-          // otherwise find first exported function/class
           const vals = Object.values(m);
           for (const v of vals) {
             if (
@@ -70,12 +66,7 @@ export default function QuestionPreview() {
         const Comp = chooseComponent(mod);
 
         if (!Comp) {
-          console.warn(
-            "QuestionPreview: loaded module but couldn't find a React component export. Module keys:",
-            Object.keys(mod),
-            'module:',
-            mod
-          );
+          console.warn("Couldn't find a React component export");
           setReactComponent(null);
           return;
         }
@@ -94,29 +85,37 @@ export default function QuestionPreview() {
     };
   }, [categoryName, questionName]);
 
-  // 2) Resolve CSS and JS URLs for this folder (call the functions returned by import.meta.glob)
+  // 2) Load CSS content as raw text
   useEffect(() => {
     let cancelled = false;
 
     async function loadAssets() {
-      // match ANY css file inside the question folder
+      // Match CSS files
       const matchedCssKeys = Object.keys(cssModules).filter((p) =>
-        p.startsWith(prefix)
+        p.startsWith(prefix),
       );
 
       const cssPromises = matchedCssKeys.map((key) => cssModules[key]());
-      const resolvedCss = (await Promise.all(cssPromises)).filter(Boolean);
+      const resolvedCss = await Promise.all(cssPromises);
 
-      // match vanilla js files
+      // Combine all CSS content
+      const combinedCss = resolvedCss.filter(Boolean).join('\n\n');
+
+      // Match vanilla js files
       const matchedJsKeys = Object.keys(jsModules).filter((p) =>
-        p.startsWith(prefix)
+        p.startsWith(prefix),
       );
 
       const jsPromises = matchedJsKeys.map((key) => jsModules[key]());
       const resolvedJs = (await Promise.all(jsPromises)).filter(Boolean);
 
       if (!cancelled) {
-        setCssUrls(resolvedCss);
+        console.log('[QuestionPreview] Loaded CSS:', {
+          length: combinedCss.length,
+          preview: combinedCss.substring(0, 200),
+          files: matchedCssKeys,
+        });
+        setCssContent(combinedCss);
         setJsUrls(resolvedJs);
       }
     }
@@ -125,16 +124,13 @@ export default function QuestionPreview() {
 
     return () => {
       cancelled = true;
-      setCssUrls([]);
+      setCssContent('');
       setJsUrls([]);
     };
   }, [categoryName, questionName]);
 
-  // 3) Detect vanilla HTML (served URL) if present
+  // 3) Detect vanilla HTML
   const htmlUrl = htmlModules[prefix + 'index.html'] || null;
-
-  // debug helper (remove or comment out after testing)
-  // console.log('prefix', prefix, 'cssUrls', cssUrls, 'jsUrls', jsUrls, 'htmlUrl', htmlUrl, 'ReactComponent?', !!ReactComponent);
 
   return (
     <div className='qp-container'>
@@ -144,18 +140,18 @@ export default function QuestionPreview() {
 
       <div className='qp-card'>
         <div className='qp-content'>
-          {/* React mode: render React component inside iframe and inject cssUrls */}
+          {/* React mode */}
           {ReactComponent && (
-            <IframeSandbox cssUrls={cssUrls}>
+            <IframeSandbox cssContent={cssContent}>
               <ReactComponent />
             </IframeSandbox>
           )}
 
-          {/* Vanilla mode: load index.html and inject cssUrls & jsUrls */}
+          {/* Vanilla mode */}
           {!ReactComponent && htmlUrl && (
             <IframeSandbox
               htmlUrl={htmlUrl}
-              cssUrls={cssUrls}
+              cssContent={cssContent}
               jsUrls={jsUrls}
             />
           )}

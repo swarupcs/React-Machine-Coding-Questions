@@ -1,6 +1,7 @@
 import { useParams, Link } from 'react-router-dom';
 import './Category.css';
 
+// Updated glob syntax - no 'as' option needed for default imports
 const modules = import.meta.glob('../questions/*/*/App.jsx');
 
 export default function Category() {

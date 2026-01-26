@@ -11,6 +11,7 @@ export default function App() {
         open={open}
         title='Modal Title'
         onClose={() => {
+          console.log("close clicked")
           setOpen(false);
         }}
       >

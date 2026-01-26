@@ -1,0 +1,1188 @@
+
+======================================================================
+FILE: App.css
+======================================================================
+
+
+======================================================================
+FILE: App.jsx
+======================================================================
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import MainLayout from './components/layout/MainLayout';
+import Home from './pages/Home';
+import Category from './pages/Category';
+import QuestionPreview from './pages/QuestionPreview';
+import OverLappingCircleApp from './questions/Frontend-Masters/Overlapping-Circle/App';
+import PopOverApp from './questions/Frontend-Masters/Popover/App';
+
+export default function App() {
+  return (
+    <BrowserRouter>
+      <MainLayout>
+        <Routes>
+          <Route path='/' element={<Home />} />
+
+          <Route path='/category/:categoryName' element={<Category />} />
+
+          <Route
+            path='/category/:categoryName/:questionName'
+            element={<QuestionPreview />}
+          />
+        </Routes>
+      </MainLayout>
+      <Routes>
+        <Route path='/overlapping-circles' element={<OverLappingCircleApp />} />
+
+        <Route path='/popover' element={<PopOverApp />} />
+      </Routes>
+    </BrowserRouter>
+  );
+}
+
+
+======================================================================
+FILE: components\IframeSandbox.jsx
+======================================================================
+import { useEffect, useRef } from 'react';
+import ReactDOM from 'react-dom/client';
+import * as ReactDOMExports from 'react-dom';
+
+export default function IframeSandbox({
+  children,
+  htmlUrl = null,
+  cssUrls = [],
+  cssContent = '',
+  jsUrls = [],
+}) {
+  const iframeRef = useRef(null);
+  const reactRootRef = useRef(null);
+
+  useEffect(() => {
+    const iframe = iframeRef.current;
+    if (!iframe) return;
+
+    const doc = iframe.contentDocument;
+    const win = iframe.contentWindow;
+    if (!doc || !win) return;
+
+    // Clean slate
+    doc.open();
+    doc.write('<!DOCTYPE html><html><head></head><body></body></html>');
+    doc.close();
+
+    // CRITICAL: Monitor parent window's body for modals that leak out
+    const parentObserver = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        mutation.addedNodes.forEach((node) => {
+          if (node.nodeType === 1) {
+            const className = (node.className || '').toString().toLowerCase();
+
+            if (
+              className.includes('modal') ||
+              className.includes('overlay') ||
+              className.includes('backdrop')
+            ) {
+              console.log(
+                '[Parent Monitor] 🚨 Modal leaked to parent window! Moving to iframe...',
+                className,
+              );
+
+              // Move the modal into the iframe
+              const modalRoot = doc.getElementById('modal-root') || doc.body;
+              modalRoot.appendChild(node);
+              console.log('[Parent Monitor] ✅ Modal moved to iframe');
+            }
+          }
+        });
+      });
+    });
+
+    // Watch parent body for leaked modals
+    parentObserver.observe(document.body, {
+      childList: true,
+      subtree: false,
+    });
+
+    const cleanup = () => {
+      parentObserver.disconnect();
+    };
+
+    //
+    // ------------------------ VANILLA HTML MODE ------------------------
+    //
+    if (htmlUrl) {
+      fetch(htmlUrl)
+        .then((res) => res.text())
+        .then((html) => {
+          doc.open();
+          doc.write(html);
+          doc.close();
+
+          if (cssContent) {
+            const style = doc.createElement('style');
+            style.textContent = cssContent;
+            doc.head.appendChild(style);
+          }
+
+          cssUrls.forEach((href) => {
+            const link = doc.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = href;
+            doc.head.appendChild(link);
+          });
+
+          jsUrls.forEach((src) => {
+            const script = doc.createElement('script');
+            script.type = 'module';
+            script.src = src;
+            doc.body.appendChild(script);
+          });
+        });
+
+      return;
+    }
+
+    //
+    // ------------------------ REACT MODE ------------------------
+    //
+    doc.body.innerHTML = `
+      <div id="root"></div>
+      <div id="modal-root"></div>
+    `;
+
+    // Base styles
+    const baseStyles = `
+      * {
+        box-sizing: border-box;
+      }
+      
+      html, body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        font-family: system-ui, -apple-system, sans-serif;
+      }
+      
+      body {
+        padding: 20px;
+        position: relative;
+      }
+      
+      #root {
+        position: relative;
+        min-height: 400px;
+        z-index: 1;
+      }
+      
+      #modal-root {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        pointer-events: none !important;
+        z-index: 999999 !important;
+      }
+      
+      #modal-root > * {
+        pointer-events: auto !important;
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        z-index: 999999 !important;
+      }
+    `;
+
+    const baseStyleTag = doc.createElement('style');
+    baseStyleTag.textContent = baseStyles;
+    doc.head.appendChild(baseStyleTag);
+
+    // Modal enhancement CSS
+    const modalEnhancementStyle = doc.createElement('style');
+    modalEnhancementStyle.textContent = getModalEnhancements();
+    doc.head.appendChild(modalEnhancementStyle);
+
+    // User CSS
+    if (cssContent) {
+      const style = doc.createElement('style');
+      style.textContent = cssContent;
+      doc.head.appendChild(style);
+    }
+
+    cssUrls.forEach((href) => {
+      const link = doc.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = href;
+      doc.head.appendChild(link);
+    });
+
+    const mountNode = doc.getElementById('root');
+
+    // Cleanup previous root
+    if (reactRootRef.current) {
+      try {
+        reactRootRef.current.unmount();
+      } catch (err) {
+        console.warn('React root unmount failed:', err);
+      }
+    }
+
+    // CRITICAL: Patch createPortal BEFORE rendering
+    patchCreatePortal(doc);
+
+    // Setup aggressive DOM monitor
+    setupDOMMonitor(doc);
+
+    // Create new React root
+    reactRootRef.current = ReactDOM.createRoot(mountNode);
+    reactRootRef.current.render(children);
+
+    return () => {
+      cleanup();
+      if (reactRootRef.current) {
+        try {
+          reactRootRef.current.unmount();
+        } catch (err) {
+          console.warn('Unmount error:', err);
+        }
+      }
+    };
+  }, [
+    htmlUrl,
+    cssContent,
+    JSON.stringify(cssUrls),
+    JSON.stringify(jsUrls),
+    children,
+  ]);
+
+  return (
+    <iframe
+      ref={iframeRef}
+      style={{
+        width: '100%',
+        minHeight: '800px',
+        border: '1px solid #ccc',
+        borderRadius: '10px',
+        background: 'white',
+      }}
+    />
+  );
+}
+
+function getModalEnhancements() {
+  return `
+    [class*="modal"],
+    [class*="overlay"],
+    [class*="backdrop"],
+    [class*="dialog"],
+    [class*="popup"],
+    [id*="modal"],
+    [role="dialog"] {
+      position: fixed !important;
+      z-index: 999999 !important;
+    }
+    
+    [class*="modal-overlay"],
+    [class*="backdrop"],
+    [class*="overlay"] {
+      position: fixed !important;
+      inset: 0 !important;
+      width: 100vw !important;
+      height: 100vh !important;
+      z-index: 999999 !important;
+    }
+  `;
+}
+
+/**
+ * Patch ReactDOM.createPortal at the module level
+ */
+function patchCreatePortal(iframeDoc) {
+  const originalCreatePortal = ReactDOMExports.createPortal;
+
+  console.log('[Portal Patch] Installing createPortal interceptor');
+
+  // Override the createPortal function
+  ReactDOMExports.createPortal = function (children, container, key) {
+    console.log(
+      '[Portal Patch] createPortal called with container:',
+      container?.tagName,
+      container,
+    );
+
+    // Get modal root in iframe
+    let modalRoot = iframeDoc.getElementById('modal-root');
+    if (!modalRoot) {
+      modalRoot = iframeDoc.createElement('div');
+      modalRoot.id = 'modal-root';
+      modalRoot.style.cssText = `
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        pointer-events: none !important;
+        z-index: 999999 !important;
+      `;
+      iframeDoc.body.appendChild(modalRoot);
+    }
+
+    // If container is ANY body element, redirect to iframe's modal-root
+    if (!container || container.tagName === 'BODY') {
+      console.log('[Portal Patch] ✅ Redirecting portal to iframe modal-root');
+      container = modalRoot;
+    }
+
+    // Call original createPortal
+    return originalCreatePortal.call(this, children, container, key);
+  };
+
+  console.log('[Portal Patch] ✅ Interceptor installed');
+}
+
+/**
+ * Setup aggressive DOM monitor to catch and fix any modals
+ */
+function setupDOMMonitor(iframeDoc) {
+  const iframeBody = iframeDoc.body;
+
+  function getModalRoot() {
+    let modalRoot = iframeDoc.getElementById('modal-root');
+    if (!modalRoot) {
+      modalRoot = iframeDoc.createElement('div');
+      modalRoot.id = 'modal-root';
+      modalRoot.style.cssText = `
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        pointer-events: none !important;
+        z-index: 999999 !important;
+      `;
+      iframeDoc.body.appendChild(modalRoot);
+    }
+    return modalRoot;
+  }
+
+  function fixModalElement(element) {
+    const className = (element.className || '').toString().toLowerCase();
+    const id = (element.id || '').toString().toLowerCase();
+
+    const isModal =
+      className.includes('modal') ||
+      className.includes('overlay') ||
+      className.includes('backdrop') ||
+      className.includes('dialog') ||
+      id.includes('modal');
+
+    if (!isModal) return false;
+
+    console.log('[DOM Monitor] 🎯 Modal detected:', className || id);
+
+    // Force styles
+    element.style.position = 'fixed';
+    element.style.zIndex = '999999';
+    element.style.top = '0';
+    element.style.left = '0';
+    element.style.right = '0';
+    element.style.bottom = '0';
+
+    // Move to modal-root
+    const modalRoot = getModalRoot();
+    if (element.parentElement !== modalRoot) {
+      console.log('[DOM Monitor] 📦 Moving modal to modal-root');
+      modalRoot.appendChild(element);
+    }
+
+    return true;
+  }
+
+  // Monitor ALL additions to body
+  const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      mutation.addedNodes.forEach((node) => {
+        if (node.nodeType === 1 && node.parentElement === iframeBody) {
+          console.log(
+            '[DOM Monitor] Element added to body:',
+            node.className,
+            node.tagName,
+          );
+          fixModalElement(node);
+
+          // Also check children
+          const children = node.querySelectorAll('*');
+          children.forEach(fixModalElement);
+        }
+      });
+    });
+  });
+
+  observer.observe(iframeBody, {
+    childList: true,
+    subtree: false,
+  });
+
+  // Periodic checks
+  [100, 300, 500, 1000, 2000].forEach((delay) => {
+    setTimeout(() => {
+      console.log('[DOM Monitor] Periodic scan at', delay, 'ms');
+
+      // Check everything in body (except #root and #modal-root)
+      Array.from(iframeBody.children).forEach((child) => {
+        if (child.id !== 'root' && child.id !== 'modal-root') {
+          console.log(
+            '[DOM Monitor] Found element in body:',
+            child.className,
+            child.tagName,
+          );
+          fixModalElement(child);
+        }
+      });
+    }, delay);
+  });
+
+  console.log('[DOM Monitor] ✅ Active');
+}
+
+
+======================================================================
+FILE: components\layout\MainLayout.css
+======================================================================
+.layout-container {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Sidebar stays left */
+.sidebar {
+  width: 250px;
+  border-right: 1px solid #ddd;
+  background: #f8f8f8;
+}
+
+/* Main page content */
+.layout-main {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  background: #f0f0f3;
+}
+
+
+======================================================================
+FILE: components\layout\MainLayout.jsx
+======================================================================
+import Sidebar from './Sidebar';
+import './MainLayout.css';
+
+export default function MainLayout({ children }) {
+  return (
+    <div className='layout-container'>
+      <Sidebar />
+      <main className='layout-main'>{children}</main>
+    </div>
+  );
+}
+
+
+======================================================================
+FILE: components\layout\Sidebar.css
+======================================================================
+.sidebar {
+  width: 250px;
+  height: 100vh;
+  background: #ffffff;
+  border-right: 1px solid #ccc;
+  padding: 16px;
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+
+.sidebar-title {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #ddd;
+}
+
+.sidebar-list,
+.question-sublist {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Top-level links */
+.sidebar-link {
+  display: block;
+  padding: 8px 12px;
+  margin-bottom: 8px;
+  background: #f7f7f7;
+  border-radius: 6px;
+  text-decoration: none;
+  color: #333;
+  font-size: 15px;
+  transition: 0.2s;
+}
+
+.sidebar-link:hover {
+  background: #e0e0e0;
+}
+
+.sidebar-link.active {
+  background: #cfd8ff;
+  font-weight: bold;
+}
+
+/* Category title bar */
+.sidebar-category {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  margin-bottom: 6px;
+  cursor: pointer;
+  background: #fafafa;
+  border-radius: 6px;
+  transition: 0.2s;
+}
+
+.sidebar-category:hover {
+  background: #eaeaea;
+}
+
+.category-name {
+  text-transform: capitalize;
+  font-size: 15px;
+}
+
+/* Sub-questions list */
+.question-sublist {
+  padding-left: 20px;
+  margin-top: 6px;
+  margin-bottom: 10px;
+}
+
+.sidebar-sublink {
+  display: block;
+  padding: 6px 8px;
+  margin: 4px 0;
+  text-decoration: none;
+  color: #555;
+  background: #f9f9f9;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: 0.2s;
+}
+
+.sidebar-sublink:hover {
+  background: #e6e6e6;
+  color: #222;
+}
+
+.sidebar-sublink.active {
+  background: #dbe4ff;
+  font-weight: bold;
+  color: #111;
+}
+
+
+======================================================================
+FILE: components\layout\Sidebar.jsx
+======================================================================
+import { Link, useLocation } from 'react-router-dom';
+import { useState } from 'react';
+import './Sidebar.css';
+
+// Updated glob syntax - no 'as' option needed for default imports
+const modules = import.meta.glob('../../questions/*/*/App.jsx');
+
+export default function Sidebar() {
+  const location = useLocation();
+  const [openCategory, setOpenCategory] = useState(null);
+
+  // Build categories: { "akshay-saini": ["accordion", "todo-list", ...] }
+  const categories = {};
+
+  Object.keys(modules).forEach((path) => {
+    // Example path:
+    // "../../questions/akshay-saini/accordion/App.jsx"
+    const parts = path.split('/');
+
+    const category = parts[3]; // akshay-saini
+    const question = parts[4]; // accordion
+
+    if (!categories[category]) {
+      categories[category] = [];
+    }
+
+    categories[category].push(question);
+  });
+
+  const toggle = (cat) => {
+    setOpenCategory(openCategory === cat ? null : cat);
+  };
+
+  return (
+    <div className='sidebar'>
+      <h2 className='sidebar-title'>MCQ Library</h2>
+
+      <ul className='sidebar-list'>
+        {/* Home */}
+        <li>
+          <Link
+            to='/'
+            className={
+              location.pathname === '/' ? 'sidebar-link active' : 'sidebar-link'
+            }
+          >
+            🏠 Home
+          </Link>
+        </li>
+
+        {/* Categories */}
+        {Object.keys(categories).map((cat) => (
+          <li key={cat}>
+            {/* Category toggle row */}
+            <div className='sidebar-category' onClick={() => toggle(cat)}>
+              <span>{openCategory === cat ? '▼' : '▶'}</span>
+              <span className='category-name'>{cat}</span>
+            </div>
+
+            {/* Show questions inside this category */}
+            {openCategory === cat && (
+              <ul className='question-sublist'>
+                {categories[cat].map((question) => (
+                  <li key={question}>
+                    <Link
+                      to={`/category/${cat}/${question}`}
+                      className={
+                        location.pathname === `/category/${cat}/${question}`
+                          ? 'sidebar-sublink active'
+                          : 'sidebar-sublink'
+                      }
+                    >
+                      • {question}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+
+======================================================================
+FILE: components\ShadowWrapper.jsx
+======================================================================
+import { useRef, useEffect } from 'react';
+import ReactDOM from 'react-dom/client';
+
+export default function ShadowWrapper({ children }) {
+  const hostRef = useRef(null);
+  const shadowRootRef = useRef(null);
+  const reactRootRef = useRef(null);
+
+  useEffect(() => {
+    // CREATE SHADOW ROOT ONLY ONCE
+    if (!shadowRootRef.current) {
+      shadowRootRef.current = hostRef.current.attachShadow({ mode: 'open' });
+
+      // container where React will mount inside the shadowDOM
+      const mountPoint = document.createElement('div');
+      shadowRootRef.current.appendChild(mountPoint);
+
+      // Create react root only once
+      reactRootRef.current = ReactDOM.createRoot(mountPoint);
+    }
+
+    // Render children into shadow DOM root
+    reactRootRef.current.render(children);
+
+    // Cleanup: unmount only when this wrapper is fully destroyed
+    return () => {
+      // Important: unmount safely without causing race condition
+      if (reactRootRef.current) {
+        reactRootRef.current.unmount();
+      }
+    };
+  }, [children]);
+
+  return <div ref={hostRef}></div>;
+}
+
+
+======================================================================
+FILE: hooks\useDynamicCss.js
+======================================================================
+import { useEffect } from 'react';
+
+export default function useDynamicCss(cssUrl) {
+  useEffect(() => {
+    if (!cssUrl) return;
+
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = cssUrl;
+    document.head.appendChild(link);
+
+    return () => {
+      document.head.removeChild(link);
+    };
+  }, [cssUrl]);
+}
+
+
+======================================================================
+FILE: index.css
+======================================================================
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+
+}
+
+
+======================================================================
+FILE: main.jsx
+======================================================================
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import './index.css'
+import App from './App.jsx'
+
+createRoot(document.getElementById('root')).render(
+  <StrictMode>
+    <App />
+  </StrictMode>,
+)
+
+
+======================================================================
+FILE: pages\Category.css
+======================================================================
+/* Main container */
+.category-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Page title */
+.category-title {
+  font-size: 28px;
+  font-weight: bold;
+  text-transform: capitalize;
+}
+
+/* Grid layout */
+.questions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+/* Question card */
+.question-card {
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 16px;
+  cursor: pointer;
+  background: #fff;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+/* Hover effect */
+.question-card:hover {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  transform: translateY(-3px);
+}
+
+/* Card title */
+.question-title {
+  font-size: 18px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+
+======================================================================
+FILE: pages\Category.jsx
+======================================================================
+import { useParams, Link } from 'react-router-dom';
+import './Category.css';
+
+// Updated glob syntax - no 'as' option needed for default imports
+const modules = import.meta.glob('../questions/*/*/App.jsx');
+
+export default function Category() {
+  const { categoryName } = useParams();
+
+  const questions = [];
+
+  Object.keys(modules).forEach((path) => {
+    const parts = path.split('/');
+
+    const category = parts[2];
+    const question = parts[3];
+
+    if (category === categoryName) {
+      questions.push(question);
+    }
+  });
+
+  return (
+    <div className='category-container'>
+      <h1 className='category-title'>{categoryName}</h1>
+
+      <div className='questions-grid'>
+        {questions.map((q) => (
+          <Link key={q} to={`/category/${categoryName}/${q}`}>
+            <div className='question-card'>
+              <h2 className='question-title'>{q}</h2>
+            </div>
+          </Link>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+
+======================================================================
+FILE: pages\Home.css
+======================================================================
+/* Page container */
+.home-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Title */
+.home-title {
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+/* Responsive grid for category cards */
+.home-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+/* Category card */
+.home-card {
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 16px;
+  cursor: pointer;
+  background: #fff;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+/* Hover effect */
+.home-card:hover {
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+  transform: translateY(-3px);
+}
+
+/* Card title */
+.home-card-title {
+  font-size: 18px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+
+======================================================================
+FILE: pages\Home.jsx
+======================================================================
+import { Link, useNavigate } from 'react-router-dom';
+import './Home.css';
+
+// Updated glob syntax - no 'as' option needed for default imports
+const modules = import.meta.glob('../questions/*/*/App.jsx');
+
+export default function Home() {
+  const categories = new Set();
+
+  const navigate = useNavigate();
+
+  Object.keys(modules).forEach((path) => {
+    const parts = path.split('/');
+    const category = parts[2];
+    categories.add(category);
+  });
+
+  return (
+    <div className='home-container'>
+      <div>
+        <button onClick={() => navigate('/overlapping-circles')}>
+          Overlapping Circles
+        </button>
+      </div>
+
+      <div>
+        <button onClick={() => navigate('/popover')}>PopOver</button>
+      </div>
+
+      <h1 className='home-title'>Categories</h1>
+
+      <div className='home-grid'>
+        {[...categories].map((cat) => (
+          <Link key={cat} to={`/category/${cat}`}>
+            <div className='home-card'>
+              <h2 className='home-card-title'>{cat}</h2>
+            </div>
+          </Link>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+
+======================================================================
+FILE: pages\QuestionPreview.css
+======================================================================
+/* Page container */
+.qp-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Title */
+.qp-title {
+  font-size: 28px;
+  font-weight: bold;
+  text-transform: capitalize;
+}
+
+/* Card wrapper */
+.qp-card {
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background: white;
+}
+
+/* Inner padded area */
+.qp-content {
+  padding: 20px;
+}
+
+/* Isolate styles of MCQ components */
+.qp-isolate {
+  isolation: isolate;
+}
+
+/* Loading section */
+.qp-loading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #555;
+  font-size: 16px;
+}
+
+/* Simple loader animation */
+.qp-spinner {
+  width: 18px;
+  height: 18px;
+  border: 3px solid #ddd;
+  border-top-color: #555;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+/* Loader animation */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+======================================================================
+FILE: pages\QuestionPreview.jsx
+======================================================================
+import { useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import './QuestionPreview.css';
+import IframeSandbox from '../components/IframeSandbox';
+
+// detect App.jsx (React)
+const reactModules = import.meta.glob('../questions/*/*/App.jsx');
+
+// detect index.html (vanilla) - using new query syntax
+const htmlModules = import.meta.glob('../questions/*/*/index.html', {
+  query: '?url',
+  import: 'default',
+});
+
+// Import CSS as raw text - using new query syntax
+const cssModules = import.meta.glob('../questions/*/*/*.css', {
+  query: '?raw',
+  import: 'default',
+});
+
+// detect ALL js files - using new query syntax
+const jsModules = import.meta.glob('../questions/*/*/{script.js,index.js}', {
+  query: '?url',
+  import: 'default',
+});
+
+export default function QuestionPreview() {
+  const { categoryName, questionName } = useParams();
+  const [ReactComponent, setReactComponent] = useState(null);
+  const [cssContent, setCssContent] = useState('');
+  const [jsUrls, setJsUrls] = useState([]);
+
+  const prefix = `../questions/${categoryName}/${questionName}/`;
+
+  // 1) Load React component
+  useEffect(() => {
+    let mounted = true;
+    const reactPath = prefix + 'App.jsx';
+
+    async function loadReact() {
+      if (!reactModules[reactPath]) {
+        if (mounted) setReactComponent(null);
+        return;
+      }
+
+      try {
+        const mod = await reactModules[reactPath]();
+        if (!mounted) return;
+
+        const chooseComponent = (m) => {
+          if (!m) return null;
+          if (typeof m.default === 'function' || typeof m.default === 'object')
+            return m.default;
+          const vals = Object.values(m);
+          for (const v of vals) {
+            if (
+              typeof v === 'function' ||
+              (typeof v === 'object' && v && (v.$$typeof || v.render))
+            ) {
+              return v;
+            }
+          }
+          return null;
+        };
+
+        const Comp = chooseComponent(mod);
+
+        if (!Comp) {
+          console.warn("Couldn't find a React component export");
+          setReactComponent(null);
+          return;
+        }
+
+        setReactComponent(() => Comp);
+      } catch (err) {
+        console.error('Failed to dynamically import React component:', err);
+        if (mounted) setReactComponent(null);
+      }
+    }
+
+    loadReact();
+
+    return () => {
+      mounted = false;
+    };
+  }, [categoryName, questionName]);
+
+  // 2) Load CSS content as raw text
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadAssets() {
+      // Match CSS files
+      const matchedCssKeys = Object.keys(cssModules).filter((p) =>
+        p.startsWith(prefix),
+      );
+
+      const cssPromises = matchedCssKeys.map((key) => cssModules[key]());
+      const resolvedCss = await Promise.all(cssPromises);
+
+      // Combine all CSS content
+      const combinedCss = resolvedCss.filter(Boolean).join('\n\n');
+
+      // Match vanilla js files
+      const matchedJsKeys = Object.keys(jsModules).filter((p) =>
+        p.startsWith(prefix),
+      );
+
+      const jsPromises = matchedJsKeys.map((key) => jsModules[key]());
+      const resolvedJs = (await Promise.all(jsPromises)).filter(Boolean);
+
+      if (!cancelled) {
+        console.log('[QuestionPreview] Loaded CSS:', {
+          length: combinedCss.length,
+          preview: combinedCss.substring(0, 200),
+          files: matchedCssKeys,
+        });
+        setCssContent(combinedCss);
+        setJsUrls(resolvedJs);
+      }
+    }
+
+    loadAssets();
+
+    return () => {
+      cancelled = true;
+      setCssContent('');
+      setJsUrls([]);
+    };
+  }, [categoryName, questionName]);
+
+  // 3) Detect vanilla HTML
+  const htmlUrl = htmlModules[prefix + 'index.html'] || null;
+
+  return (
+    <div className='qp-container'>
+      <h1 className='qp-title'>
+        {categoryName} → {questionName}
+      </h1>
+
+      <div className='qp-card'>
+        <div className='qp-content'>
+          {/* React mode */}
+          {ReactComponent && (
+            <IframeSandbox cssContent={cssContent}>
+              <ReactComponent />
+            </IframeSandbox>
+          )}
+
+          {/* Vanilla mode */}
+          {!ReactComponent && htmlUrl && (
+            <IframeSandbox
+              htmlUrl={htmlUrl}
+              cssContent={cssContent}
+              jsUrls={jsUrls}
+            />
+          )}
+
+          {/* Nothing found */}
+          {!ReactComponent && !htmlUrl && <h2>Not found</h2>}
+        </div>
+      </div>
+    </div>
+  );
+}
+

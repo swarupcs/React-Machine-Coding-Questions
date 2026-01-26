@@ -2,8 +2,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { useState } from 'react';
 import './Sidebar.css';
 
-// Correct glob for your structure
-// src/components/layout/Sidebar.jsx → "../questions/"
+// Updated glob syntax - no 'as' option needed for default imports
 const modules = import.meta.glob('../../questions/*/*/App.jsx');
 
 export default function Sidebar() {

@@ -1,6 +1,7 @@
 src
 ├── App.css
 ├── App.jsx
+├── all_code.txt
 ├── assets
 │   └── react.svg
 ├── components
@@ -23,6 +24,192 @@ src
 │   ├── QuestionPreview.css
 │   └── QuestionPreview.jsx
 ├── questions
+│   ├── Frontend-Masters
+│   │   ├── Accordion
+│   │   │   ├── App.css
+│   │   │   ├── App.jsx
+│   │   │   ├── components
+│   │   │   │   ├── Accordion.css
+│   │   │   │   └── Accordion.jsx
+│   │   │   └── index.css
+│   │   ├── AutoComplete
+│   │   │   ├── App.css
+│   │   │   ├── App.jsx
+│   │   │   ├── components
+│   │   │   │   ├── AutoComplete.jsx
+│   │   │   │   ├── button
+│   │   │   │   │   ├── Button.jsx
+│   │   │   │   │   ├── index.jsx
+│   │   │   │   │   └── style.css
+│   │   │   │   ├── index.jsx
+│   │   │   │   ├── input-text
+│   │   │   │   │   ├── InputText.jsx
+│   │   │   │   │   ├── index.jsx
+│   │   │   │   │   └── style.css
+│   │   │   │   ├── style.css
+│   │   │   │   └── suggestions
+│   │   │   │       ├── Suggestions.jsx
+│   │   │   │       ├── index.jsx
+│   │   │   │       └── style.css
+│   │   │   └── index.css
+│   │   ├── Carousel
+│   │   │   ├── App.css
+│   │   │   ├── App.jsx
+│   │   │   ├── Carousel.css
+│   │   │   ├── Carousel.jsx
+│   │   │   ├── assets
+│   │   │   │   ├── 1.jpg
+│   │   │   │   ├── 2.jpg
+│   │   │   │   ├── 3.jpg
+│   │   │   │   ├── 4.jpg
+│   │   │   │   ├── 5.jpg
+│   │   │   │   ├── fav.png
+│   │   │   │   ├── instagram.png
+│   │   │   │   ├── react.svg
+│   │   │   │   ├── util.js
+│   │   │   │   └── youtube.png
+│   │   │   └── index.css
+│   │   ├── Config-Form
+│   │   │   ├── App.css
+│   │   │   ├── App.jsx
+│   │   │   ├── AppWithArray.jsx
+│   │   │   ├── form-wrapper
+│   │   │   │   ├── checkbox
+│   │   │   │   │   ├── checkbox.jsx
+│   │   │   │   │   ├── index.jsx
+│   │   │   │   │   └── style.css
+│   │   │   │   ├── form-wrapper.jsx
+│   │   │   │   ├── form-wrapper_array.jsx
+│   │   │   │   ├── index.jsx
+│   │   │   │   ├── style.css
+│   │   │   │   └── text-field
+│   │   │   │       ├── index.jsx
+│   │   │   │       ├── style.css
+│   │   │   │       └── text-field.jsx
+│   │   │   └── index.css
+│   │   ├── Grid-Lights-ReactJS
+│   │   │   ├── App.jsx
+│   │   │   └── styles.css
+│   │   ├── Memory-Game
+│   │   │   ├── App.css
+│   │   │   ├── App.jsx
+│   │   │   ├── MemoryGame.css
+│   │   │   ├── MemoryGame.jsx
+│   │   │   └── index.css
+│   │   ├── Multi-Step-Form
+│   │   │   ├── App.css
+│   │   │   ├── App.jsx
+│   │   │   ├── AppWithArray.jsx
+│   │   │   ├── index.css
+│   │   │   └── multi-step-form
+│   │   │       ├── index.jsx
+│   │   │       ├── multi-step-form.jsx
+│   │   │       ├── step1
+│   │   │       │   ├── index.jsx
+│   │   │       │   ├── step1.jsx
+│   │   │       │   └── style.css
+│   │   │       ├── step2
+│   │   │       │   ├── index.jsx
+│   │   │       │   ├── step2.jsx
+│   │   │       │   └── style.css
+│   │   │       ├── step3
+│   │   │       │   ├── index.jsx
+│   │   │       │   ├── step3.jsx
+│   │   │       │   └── style.css
+│   │   │       └── style.css
+│   │   ├── OTP
+│   │   │   ├── App.css
+│   │   │   ├── App.jsx
+│   │   │   ├── AppWithArray.jsx
+│   │   │   ├── OTP.css
+│   │   │   ├── OTP.jsx
+│   │   │   └── index.css
+│   │   ├── Overlapping-Circle
+│   │   │   ├── App.css
+│   │   │   ├── App.jsx
+│   │   │   ├── OverLappingCircle.css
+│   │   │   ├── OverlappingCircle.jsx
+│   │   │   └── index.css
+│   │   ├── Pagination
+│   │   │   ├── App.css
+│   │   │   ├── App.jsx
+│   │   │   ├── Pagination.css
+│   │   │   ├── Pagination.jsx
+│   │   │   └── index.css
+│   │   ├── Popover
+│   │   │   ├── App.css
+│   │   │   ├── App.jsx
+│   │   │   ├── Popover.css
+│   │   │   └── Popover.jsx
+│   │   ├── Popover-2
+│   │   │   ├── App.css
+│   │   │   ├── App.jsx
+│   │   │   ├── Popover.css
+│   │   │   └── Popover.jsx
+│   │   ├── Progress
+│   │   │   ├── App.css
+│   │   │   ├── App.jsx
+│   │   │   ├── Progress.css
+│   │   │   ├── Progress.jsx
+│   │   │   └── index.css
+│   │   ├── React-Modal-Dialog
+│   │   │   ├── App.css
+│   │   │   ├── App.jsx
+│   │   │   ├── Dialog.css
+│   │   │   ├── Dialog.jsx
+│   │   │   └── index.css
+│   │   ├── Stopwatch
+│   │   │   ├── App.css
+│   │   │   ├── App.jsx
+│   │   │   ├── Stopwatch.css
+│   │   │   ├── Stopwatch.jsx
+│   │   │   └── index.css
+│   │   ├── Tab-List
+│   │   │   ├── App.css
+│   │   │   ├── App.jsx
+│   │   │   ├── components
+│   │   │   │   ├── TabList.jsx
+│   │   │   │   ├── button
+│   │   │   │   │   ├── button.jsx
+│   │   │   │   │   └── index.jsx
+│   │   │   │   ├── index.jsx
+│   │   │   │   └── style.css
+│   │   │   └── index.css
+│   │   ├── Timer
+│   │   │   ├── App.css
+│   │   │   ├── App.jsx
+│   │   │   ├── Timer.css
+│   │   │   ├── Timer.jsx
+│   │   │   └── index.css
+│   │   ├── Todo-App
+│   │   │   ├── App.css
+│   │   │   ├── App.jsx
+│   │   │   ├── components
+│   │   │   │   ├── Todo.jsx
+│   │   │   │   ├── button
+│   │   │   │   │   ├── Button.jsx
+│   │   │   │   │   ├── index.jsx
+│   │   │   │   │   └── style.css
+│   │   │   │   ├── index.jsx
+│   │   │   │   ├── input-text
+│   │   │   │   │   ├── InputText.jsx
+│   │   │   │   │   ├── index.jsx
+│   │   │   │   │   └── style.css
+│   │   │   │   ├── style.css
+│   │   │   │   ├── todos
+│   │   │   │   │   ├── Todos.jsx
+│   │   │   │   │   ├── index.jsx
+│   │   │   │   │   └── style.css
+│   │   │   │   ├── useHandler.js
+│   │   │   │   └── utils.js
+│   │   │   └── index.css
+│   │   └── Traffic-Light
+│   │       ├── App.css
+│   │       ├── App.jsx
+│   │       ├── components
+│   │       │   ├── TrafficLight.css
+│   │       │   └── TrafficLight.jsx
+│   │       └── index.css
 │   ├── akshay-saini
 │   │   ├── Autocomplete-Search-Bar
 │   │   │   ├── App.css
@@ -67,16 +254,207 @@ src
 │   │       ├── App.css
 │   │       └── App.jsx
 │   ├── great-frontend
+│   │   ├── Accordion
+│   │   │   ├── Accordion.jsx
+│   │   │   ├── App.jsx
+│   │   │   └── styles.css
+│   │   ├── Accordion-II
+│   │   │   ├── Accordion.jsx
+│   │   │   ├── App.jsx
+│   │   │   └── styles.css
+│   │   ├── Accordion-III
+│   │   │   ├── Accordion.jsx
+│   │   │   ├── App.jsx
+│   │   │   └── styles.css
+│   │   ├── Analog Clock
+│   │   │   ├── App.jsx
+│   │   │   ├── Clock.jsx
+│   │   │   └── styles.css
+│   │   ├── Auth Code Input
+│   │   │   ├── App.jsx
+│   │   │   ├── AuthCodeInput.jsx
+│   │   │   ├── InputDigit.jsx
+│   │   │   └── styles.css
+│   │   ├── Birth Year Histogram
+│   │   │   ├── App.jsx
+│   │   │   └── Styles.css
+│   │   ├── Connect Four
+│   │   │   ├── App.jsx
+│   │   │   └── styles.css
+│   │   ├── Data Table
+│   │   │   ├── App.jsx
+│   │   │   ├── DataTable.jsx
+│   │   │   ├── styles.css
+│   │   │   └── users.js
+│   │   ├── Data Table II
+│   │   │   ├── App.jsx
+│   │   │   ├── DataTable.jsx
+│   │   │   ├── styles.css
+│   │   │   └── users.js
+│   │   ├── Data Table III
+│   │   │   ├── App.jsx
+│   │   │   ├── DataTable.jsx
+│   │   │   ├── houses.js
+│   │   │   ├── styles.css
+│   │   │   └── users.js
+│   │   ├── Data Table IV
+│   │   │   ├── App.jsx
+│   │   │   ├── DataTable.jsx
+│   │   │   ├── HeaderFilterInput.jsx
+│   │   │   ├── houses.js
+│   │   │   ├── styles.css
+│   │   │   └── users.js
+│   │   ├── Dice Roller
+│   │   │   ├── App.jsx
+│   │   │   └── styles.css
+│   │   ├── File-Explorer
+│   │   │   ├── App.jsx
+│   │   │   ├── FileExplorer.jsx
+│   │   │   ├── FileList.jsx
+│   │   │   └── styles.css
+│   │   ├── File-Explorer-II
+│   │   │   ├── App.jsx
+│   │   │   ├── FileExplorer.jsx
+│   │   │   ├── FileList.jsx
+│   │   │   └── styles.css
+│   │   ├── File-Explorer-III
+│   │   │   ├── App.jsx
+│   │   │   ├── FileExplorer.jsx
+│   │   │   ├── FileList.jsx
+│   │   │   └── styles.css
+│   │   ├── Flight Booker
+│   │   │   ├── App.jsx
+│   │   │   └── styles.css
+│   │   ├── Generate Table
+│   │   │   ├── App.jsx
+│   │   │   └── styles.css
+│   │   ├── Grid Lights
+│   │   │   ├── App.jsx
+│   │   │   └── styles.css
+│   │   ├── Image Carousel
+│   │   │   ├── App.jsx
+│   │   │   ├── ImageCarousel.jsx
+│   │   │   └── styles.css
+│   │   ├── Image Carousel II
+│   │   │   ├── App.jsx
+│   │   │   ├── ImageCarousel.jsx
+│   │   │   └── styles.css
+│   │   ├── Image Carousel III
+│   │   │   ├── App.jsx
+│   │   │   ├── ImageCarousel.jsx
+│   │   │   └── styles.css
+│   │   ├── Job Board
+│   │   │   ├── App.jsx
+│   │   │   ├── JobPosting.jsx
+│   │   │   └── styles.css
+│   │   ├── Like Button
+│   │   │   ├── App.jsx
+│   │   │   ├── Icons.jsx
+│   │   │   └── styles.css
+│   │   ├── Memory-Game
+│   │   │   ├── App.js
+│   │   │   └── styles.css
+│   │   ├── Modal Dialog
+│   │   │   ├── App.jsx
+│   │   │   ├── ModalDialog.jsx
+│   │   │   └── styles.css
+│   │   ├── Modal Dialog II
+│   │   │   ├── App.jsx
+│   │   │   ├── ModalDialog.jsx
+│   │   │   └── styles.css
+│   │   ├── Modal Dialog III
+│   │   │   ├── App.jsx
+│   │   │   ├── ModalDialog.jsx
+│   │   │   └── styles.css
+│   │   ├── Modal Dialog IV
+│   │   │   ├── App.jsx
+│   │   │   ├── ModalDialog.jsx
+│   │   │   └── styles.css
+│   │   ├── Mortgage Calculator
+│   │   │   ├── App.jsx
+│   │   │   └── styles.css
+│   │   ├── Nested Checkboxes
+│   │   │   ├── App.jsx
+│   │   │   ├── CheckboxInput.jsx
+│   │   │   ├── CheckboxList.jsx
+│   │   │   ├── Checkboxes.jsx
+│   │   │   └── styles.css
+│   │   ├── Pixel Art
+│   │   │   ├── App.jsx
+│   │   │   ├── Canvas.jsx
+│   │   │   ├── Cell.jsx
+│   │   │   ├── Toolbar.jsx
+│   │   │   ├── colors.js
+│   │   │   └── styles.css
+│   │   ├── Progress Bars
+│   │   │   ├── App.jsx
+│   │   │   └── styles.css
+│   │   ├── Progress Bars II
+│   │   │   ├── App.jsx
+│   │   │   └── styles.css
+│   │   ├── Progress Bars III
+│   │   │   ├── App.jsx
+│   │   │   └── styles.css
+│   │   ├── Progress Bars IV
+│   │   │   ├── App.jsx
+│   │   │   └── styles.css
+│   │   ├── Selectable Cells
+│   │   │   ├── App.jsx
+│   │   │   └── styles.css
+│   │   ├── Stopwatch
+│   │   │   ├── App.jsx
+│   │   │   ├── Stopwatch.jsx
+│   │   │   └── styles.css
+│   │   ├── Tabs
+│   │   │   ├── App.jsx
+│   │   │   ├── Tabs.jsx
+│   │   │   └── styles.css
+│   │   ├── Tabs II
+│   │   │   ├── App.jsx
+│   │   │   ├── Tabs.jsx
+│   │   │   └── styles.css
+│   │   ├── Tabs III
+│   │   │   ├── App.jsx
+│   │   │   ├── Tabs.jsx
+│   │   │   └── styles.css
 │   │   ├── Temperature-Converter
 │   │   │   ├── App.jsx
 │   │   │   ├── README.md
 │   │   │   └── styles.css
+│   │   ├── Tic-tac-toe
+│   │   │   ├── App.jsx
+│   │   │   └── styles.css
+│   │   ├── Tic-tac-toe II
+│   │   │   ├── App.jsx
+│   │   │   └── styles.css
 │   │   ├── Todo-List
+│   │   │   ├── App.jsx
+│   │   │   └── styles.css
+│   │   ├── Traffic Light
+│   │   │   ├── App.jsx
+│   │   │   ├── TrafficLight.jsx
+│   │   │   └── styles.css
+│   │   ├── Transfer List
+│   │   │   ├── App.jsx
+│   │   │   └── styles.css
+│   │   ├── Transfer List II
 │   │   │   ├── App.jsx
 │   │   │   └── styles.css
 │   │   ├── Tweet
 │   │   │   ├── App.jsx
 │   │   │   ├── README.md
+│   │   │   └── styles.css
+│   │   ├── Undoable Counter
+│   │   │   ├── App.jsx
+│   │   │   └── styles.css
+│   │   ├── Users Database
+│   │   │   ├── App.jsx
+│   │   │   └── styles.css
+│   │   ├── Whack-A-Mole
+│   │   │   ├── App.jsx
+│   │   │   └── styles.css
+│   │   ├── Wordle
+│   │   │   ├── App.jsx
 │   │   │   └── styles.css
 │   │   ├── contact-form
 │   │   │   ├── App.jsx
@@ -100,16 +478,138 @@ src
 │   │   │   ├── ProgressBar.jsx
 │   │   │   ├── README.md
 │   │   │   └── styles.css
-│   │   └── star-rating
+│   │   ├── signup-form
+│   │   │   ├── Readme.md
+│   │   │   ├── index.html
+│   │   │   ├── index.js
+│   │   │   └── styles.css
+│   │   ├── star-rating
+│   │   │   ├── App.jsx
+│   │   │   ├── README.md
+│   │   │   ├── StarRating.jsx
+│   │   │   └── styles.css
+│   │   └── traffic-light
 │   │       ├── App.jsx
 │   │       ├── README.md
-│   │       ├── StarRating.jsx
+│   │       ├── TrafficLight.jsx
 │   │       └── styles.css
 │   ├── road-side-coder-premium
-│   │   └── 5-carousel-react-js
+│   │   ├── 11-config-driven-form
+│   │   │   ├── App.css
+│   │   │   ├── App.jsx
+│   │   │   └── components
+│   │   │       ├── form-elements.jsx
+│   │   │       ├── form-field.jsx
+│   │   │       └── form.jsx
+│   │   ├── 12-progress-bar-react-js
+│   │   │   ├── App.jsx
+│   │   │   ├── components
+│   │   │   │   └── ProgressBar.jsx
+│   │   │   ├── constants.js
+│   │   │   └── styles.css
+│   │   ├── 13-star-rating-react-js
+│   │   │   ├── App.css
+│   │   │   ├── App.jsx
+│   │   │   ├── components
+│   │   │   │   └── star-rating.jsx
+│   │   │   └── index.css
+│   │   ├── 14-ecommerce-filters
+│   │   │   ├── App.css
+│   │   │   ├── App.jsx
+│   │   │   ├── components
+│   │   │   │   ├── app-layout.jsx
+│   │   │   │   ├── filters.jsx
+│   │   │   │   ├── header.jsx
+│   │   │   │   ├── pagination.jsx
+│   │   │   │   └── star-rating.jsx
+│   │   │   ├── context
+│   │   │   │   ├── context.jsx
+│   │   │   │   └── reducer.js
+│   │   │   └── pages
+│   │   │       └── home.jsx
+│   │   ├── 15-shopping-cart
+│   │   │   ├── App.css
+│   │   │   ├── App.jsx
+│   │   │   ├── components
+│   │   │   │   ├── app-layout.jsx
+│   │   │   │   ├── filters.jsx
+│   │   │   │   ├── header.jsx
+│   │   │   │   ├── pagination.jsx
+│   │   │   │   └── star-rating.jsx
+│   │   │   ├── context
+│   │   │   │   ├── context.jsx
+│   │   │   │   └── reducer.js
+│   │   │   └── pages
+│   │   │       ├── cart.jsx
+│   │   │       └── home.jsx
+│   │   ├── 17-advance-tic-tac-toe
+│   │   │   ├── App.css
+│   │   │   ├── App.jsx
+│   │   │   ├── components
+│   │   │   │   └── tic-tac-toe.jsx
+│   │   │   └── hooks
+│   │   │       └── use-tic-tac-toe.jsx
+│   │   ├── 18-toast-component
+│   │   │   ├── App.css
+│   │   │   ├── App.jsx
+│   │   │   ├── components
+│   │   │   │   ├── Notification.css
+│   │   │   │   └── Notification.jsx
+│   │   │   ├── hooks
+│   │   │   │   └── useNotification.jsx
+│   │   │   ├── ts-components
+│   │   │   │   ├── Notification.css
+│   │   │   │   └── Notification.tsx
+│   │   │   └── ts-hooks
+│   │   │       └── useNotification.tsx
+│   │   ├── 19-autosuggestion-typehead-component
+│   │   │   ├── App.css
+│   │   │   ├── App.jsx
+│   │   │   ├── components
+│   │   │   │   ├── autocomplete.jsx
+│   │   │   │   ├── styles.css
+│   │   │   │   └── suggestions-list.jsx
+│   │   │   └── hooks
+│   │   │       └── use-cache.jsx
+│   │   ├── 20-nested-comments
+│   │   │   ├── App.css
+│   │   │   ├── App.jsx
+│   │   │   ├── components
+│   │   │   │   ├── comment.jsx
+│   │   │   │   ├── nested-comments.jsx
+│   │   │   │   └── styles.css
+│   │   │   ├── data
+│   │   │   │   └── comments.json
+│   │   │   ├── hooks
+│   │   │   │   └── use-comment-tree.jsx
+│   │   │   ├── ts-components
+│   │   │   │   ├── comment.tsx
+│   │   │   │   ├── nested-comments.tsx
+│   │   │   │   ├── styles.css
+│   │   │   │   └── types.ts
+│   │   │   └── ts-hooks
+│   │   │       └── use-comment-tree.tsx
+│   │   ├── 21-Poll-Widget
+│   │   │   ├── App.css
+│   │   │   ├── App.tsx
+│   │   │   ├── components
+│   │   │   │   ├── Poll.tsx
+│   │   │   │   └── loading.tsx
+│   │   │   └── db
+│   │   │       ├── api.ts
+│   │   │       └── data.json
+│   │   ├── 5-carousel-react-js
+│   │   │   ├── App.css
+│   │   │   ├── App.jsx
+│   │   │   └── components
+│   │   │       └── carousel.jsx
+│   │   ├── 7-pagination-react-js
+│   │   │   ├── App.css
+│   │   │   ├── App.jsx
+│   │   │   └── components
+│   │   │       └── pagination.jsx
+│   │   └── 8-infinite-scroll-react-js
 │   │       ├── App.css
-│   │       ├── App.jsx
-│   │       └── components
-│   │           └── carousel.jsx
+│   │       └── App.jsx
 │   └── road-side-coder-yt
 └── utils

@@ -1,6 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import './Home.css';
 
+// Updated glob syntax - no 'as' option needed for default imports
 const modules = import.meta.glob('../questions/*/*/App.jsx');
 
 export default function Home() {
@@ -23,10 +24,9 @@ export default function Home() {
       </div>
 
       <div>
-        <button onClick={() => navigate('/pop-over')}>
-          PopOver
-        </button>
+        <button onClick={() => navigate('/popover')}>PopOver</button>
       </div>
+
       <h1 className='home-title'>Categories</h1>
 
       <div className='home-grid'>
