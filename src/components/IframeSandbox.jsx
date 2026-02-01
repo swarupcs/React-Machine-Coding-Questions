@@ -13,8 +13,26 @@ export default function IframeSandbox({
   const [isReady, setIsReady] = useState(false);
   const [iframeDoc, setIframeDoc] = useState(null);
   const rootRef = useRef(null);
+  const mountedRef = useRef(true);
+
+  // Cleanup function to properly unmount and reset
+  const cleanup = () => {
+    setIsReady(false);
+    setIframeDoc(null);
+    __setIframeDocument(null);
+
+    if (rootRef.current) {
+      try {
+        rootRef.current.unmount();
+      } catch (err) {
+        console.warn('Failed to unmount:', err);
+      }
+      rootRef.current = null;
+    }
+  };
 
   useEffect(() => {
+    mountedRef.current = true;
     const iframe = iframeRef.current;
     if (!iframe) return;
 
@@ -28,6 +46,8 @@ export default function IframeSandbox({
       fetch(htmlUrl)
         .then((res) => res.text())
         .then((html) => {
+          if (!mountedRef.current) return;
+
           doc.open();
           doc.write(html);
           doc.close();
@@ -47,20 +67,17 @@ export default function IframeSandbox({
         })
         .catch((err) => console.error('Failed to load HTML:', err));
 
-      return;
+      return cleanup;
     }
 
     // For React mode - setup environment
     setupReactEnvironment(doc, win, cssContent, () => {
+      if (!mountedRef.current) return;
       setIframeDoc(doc);
       setIsReady(true);
     });
 
-    return () => {
-      setIsReady(false);
-      setIframeDoc(null);
-      __setIframeDocument(null); // Clear iframe document
-    };
+    return cleanup;
   }, [htmlUrl, cssContent, JSON.stringify(jsUrls)]);
 
   // Render React component into iframe once ready
@@ -103,9 +120,18 @@ export default function IframeSandbox({
         } catch (err) {
           console.warn('Failed to unmount:', err);
         }
+        rootRef.current = null;
       }
     };
   }, [isReady, children, htmlUrl, iframeDoc]);
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      mountedRef.current = false;
+      cleanup();
+    };
+  }, []);
 
   return (
     <iframe
@@ -114,7 +140,7 @@ export default function IframeSandbox({
       style={{
         width: '100%',
         minHeight: '600px',
-        border: '1px solid #e0e0e0',
+        border: 'none',
         borderRadius: '8px',
         background: 'white',
       }}
@@ -151,6 +177,7 @@ function setupReactEnvironment(iframeDoc, iframeWin, cssContent, onReady) {
           
           body {
             padding: 20px;
+            background: white;
           }
           
           #root {
@@ -178,6 +205,7 @@ function setupReactEnvironment(iframeDoc, iframeWin, cssContent, onReady) {
   if (cssContent) {
     const style = iframeDoc.createElement('style');
     style.textContent = cssContent;
+    style.setAttribute('data-question-styles', 'true');
     iframeDoc.head.appendChild(style);
   }
 

@@ -4,7 +4,9 @@ import './MainLayout.css';
 export default function MainLayout({ children }) {
   return (
     <div className='layout-container'>
-      <Sidebar />
+      <aside className='sidebar'>
+        <Sidebar />
+      </aside>
       <main className='layout-main'>{children}</main>
     </div>
   );

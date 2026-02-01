@@ -2,26 +2,100 @@
 .qp-container {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 28px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Breadcrumb */
+.qp-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #718096;
+  margin-bottom: -8px;
+}
+
+.qp-breadcrumb a {
+  color: #667eea;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+
+.qp-breadcrumb a:hover {
+  color: #764ba2;
+}
+
+.qp-breadcrumb span {
+  color: #cbd5e0;
 }
 
 /* Title */
 .qp-title {
-  font-size: 28px;
-  font-weight: bold;
+  font-size: 36px;
+  font-weight: 800;
   text-transform: capitalize;
+  margin: 0;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: -0.5px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Arrow separator in title */
+.qp-title-separator {
+  color: #cbd5e0;
+  font-weight: 400;
 }
 
 /* Card wrapper */
 .qp-card {
-  border: 1px solid #ccc;
-  border-radius: 10px;
+  border: 2px solid rgba(102, 126, 234, 0.15);
+  border-radius: 20px;
   background: white;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+/* Top accent bar */
+.qp-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 50%, #667eea 100%);
+  background-size: 200% 100%;
+  animation: shimmer 3s linear infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 200% 0%;
+  }
+}
+
+.qp-card:hover {
+  border-color: rgba(102, 126, 234, 0.3);
+  box-shadow: 0 12px 48px rgba(102, 126, 234, 0.15);
 }
 
 /* Inner padded area */
 .qp-content {
-  padding: 20px;
+  padding: 32px;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.01) 0%, rgba(118, 75, 162, 0.01) 100%);
 }
 
 /* Isolate styles of MCQ components */
@@ -32,20 +106,31 @@
 /* Loading section */
 .qp-loading {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 10px;
-  color: #555;
+  justify-content: center;
+  gap: 20px;
+  color: #4a5568;
   font-size: 16px;
+  padding: 80px 20px;
+  min-height: 400px;
 }
 
-/* Simple loader animation */
+.qp-loading-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Modern loader animation */
 .qp-spinner {
-  width: 18px;
-  height: 18px;
-  border: 3px solid #ddd;
-  border-top-color: #555;
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(102, 126, 234, 0.1);
+  border-top-color: #667eea;
+  border-bottom-color: #764ba2;
   border-radius: 50%;
-  animation: spin 0.6s linear infinite;
+  animation: spin 1s linear infinite;
 }
 
 /* Loader animation */
@@ -53,4 +138,91 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.qp-loading-text {
+  font-size: 16px;
+  font-weight: 600;
+  color: #4a5568;
+}
+
+/* Action buttons */
+.qp-actions {
+  display: flex;
+  gap: 12px;
+  padding: 0 32px 24px;
+}
+
+.qp-action-btn {
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  border: 2px solid rgba(102, 126, 234, 0.3);
+  background: white;
+  color: #667eea;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.qp-action-btn:hover {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-color: transparent;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.qp-action-btn:active {
+  transform: translateY(0);
+}
+
+/* Error state */
+.qp-error {
+  padding: 40px;
+  text-align: center;
+  color: #e53e3e;
+  background: rgba(254, 215, 215, 0.3);
+  border-radius: 12px;
+  margin: 20px;
+}
+
+.qp-error-icon {
+  font-size: 48px;
+  margin-bottom: 12px;
+}
+
+.qp-error-title {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.qp-error-message {
+  font-size: 14px;
+  color: #742a2a;
+}
+
+/* Not found state */
+.qp-not-found {
+  padding: 80px 20px;
+  text-align: center;
+}
+
+.qp-not-found-icon {
+  font-size: 64px;
+  margin-bottom: 16px;
+  opacity: 0.5;
+}
+
+.qp-not-found-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #4a5568;
+  margin-bottom: 8px;
+}
+
+.qp-not-found-message {
+  font-size: 16px;
+  color: #718096;
 }

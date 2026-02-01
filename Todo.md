@@ -13,3 +13,12 @@
 * [X] Stop Watch
 * [X] Pop Over (2nd type pending)
 * [ ] Toast
+
+
+
+
+## Not Working
+
+great-frontend
+→
+Selectable Cells

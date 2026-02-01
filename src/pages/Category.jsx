@@ -21,18 +21,34 @@ export default function Category() {
   });
 
   return (
-    <div className='category-container'>
+    <div className='category-container animate-fadeIn'>
+      {/* Breadcrumb */}
+      <div className='category-breadcrumb'>
+        <Link to='/'>Home</Link>
+        <span>›</span>
+        <span>{categoryName}</span>
+      </div>
+
       <h1 className='category-title'>{categoryName}</h1>
 
-      <div className='questions-grid'>
-        {questions.map((q) => (
-          <Link key={q} to={`/category/${categoryName}/${q}`}>
-            <div className='question-card'>
-              <h2 className='question-title'>{q}</h2>
-            </div>
-          </Link>
-        ))}
-      </div>
+      {questions.length > 0 ? (
+        <div className='questions-grid'>
+          {questions.map((q) => (
+            <Link key={q} to={`/category/${categoryName}/${q}`}>
+              <div className='question-card'>
+                <h2 className='question-title'>{q}</h2>
+              </div>
+            </Link>
+          ))}
+        </div>
+      ) : (
+        <div className='category-empty'>
+          <div className='category-empty-icon'>📭</div>
+          <div className='category-empty-text'>
+            No questions available in this category
+          </div>
+        </div>
+      )}
     </div>
   );
 }

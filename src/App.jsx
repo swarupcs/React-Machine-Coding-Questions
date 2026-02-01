@@ -9,21 +9,26 @@ import PopOverApp from './questions/Frontend-Masters/Popover/App';
 export default function App() {
   return (
     <BrowserRouter>
-      <MainLayout>
-        <Routes>
-          <Route path='/' element={<Home />} />
-
-          <Route path='/category/:categoryName' element={<Category />} />
-
-          <Route
-            path='/category/:categoryName/:questionName'
-            element={<QuestionPreview />}
-          />
-        </Routes>
-      </MainLayout>
       <Routes>
-        <Route path='/overlapping-circles' element={<OverLappingCircleApp />} />
+        {/* Main app routes with layout */}
+        <Route
+          path='/*'
+          element={
+            <MainLayout>
+              <Routes>
+                <Route path='/' element={<Home />} />
+                <Route path='/category/:categoryName' element={<Category />} />
+                <Route
+                  path='/category/:categoryName/:questionName'
+                  element={<QuestionPreview />}
+                />
+              </Routes>
+            </MainLayout>
+          }
+        />
 
+        {/* Standalone routes without layout */}
+        <Route path='/overlapping-circles' element={<OverLappingCircleApp />} />
         <Route path='/popover' element={<PopOverApp />} />
       </Routes>
     </BrowserRouter>

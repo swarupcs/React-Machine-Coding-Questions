@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import './QuestionPreview.css';
 import IframeSandbox from '../components/IframeSandbox';
@@ -29,8 +29,20 @@ export default function QuestionPreview() {
   const [ReactComponent, setReactComponent] = useState(null);
   const [cssContent, setCssContent] = useState('');
   const [jsUrls, setJsUrls] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const prefix = `../questions/${categoryName}/${questionName}/`;
+
+  // Create a unique key for this question to force remount
+  const questionKey = `${categoryName}/${questionName}`;
+
+  // Reset state when question changes
+  useEffect(() => {
+    setLoading(true);
+    setReactComponent(null);
+    setCssContent('');
+    setJsUrls([]);
+  }, [questionKey]);
 
   // 1) Load React component
   useEffect(() => {
@@ -39,7 +51,10 @@ export default function QuestionPreview() {
 
     async function loadReact() {
       if (!reactModules[reactPath]) {
-        if (mounted) setReactComponent(null);
+        if (mounted) {
+          setReactComponent(null);
+          setLoading(false);
+        }
         return;
       }
 
@@ -68,13 +83,18 @@ export default function QuestionPreview() {
         if (!Comp) {
           console.warn("Couldn't find a React component export");
           setReactComponent(null);
+          setLoading(false);
           return;
         }
 
         setReactComponent(() => Comp);
+        setLoading(false);
       } catch (err) {
         console.error('Failed to dynamically import React component:', err);
-        if (mounted) setReactComponent(null);
+        if (mounted) {
+          setReactComponent(null);
+          setLoading(false);
+        }
       }
     }
 
@@ -83,7 +103,7 @@ export default function QuestionPreview() {
     return () => {
       mounted = false;
     };
-  }, [categoryName, questionName]);
+  }, [categoryName, questionName, prefix]);
 
   // 2) Load CSS content as raw text
   useEffect(() => {
@@ -92,7 +112,7 @@ export default function QuestionPreview() {
     async function loadAssets() {
       // Match CSS files
       const matchedCssKeys = Object.keys(cssModules).filter((p) =>
-        p.startsWith(prefix),
+        p.startsWith(prefix)
       );
 
       const cssPromises = matchedCssKeys.map((key) => cssModules[key]());
@@ -103,7 +123,7 @@ export default function QuestionPreview() {
 
       // Match vanilla js files
       const matchedJsKeys = Object.keys(jsModules).filter((p) =>
-        p.startsWith(prefix),
+        p.startsWith(prefix)
       );
 
       const jsPromises = matchedJsKeys.map((key) => jsModules[key]());
@@ -127,29 +147,50 @@ export default function QuestionPreview() {
       setCssContent('');
       setJsUrls([]);
     };
-  }, [categoryName, questionName]);
+  }, [categoryName, questionName, prefix]);
 
   // 3) Detect vanilla HTML
   const htmlUrl = htmlModules[prefix + 'index.html'] || null;
 
   return (
-    <div className='qp-container'>
+    <div className='qp-container animate-fadeIn' key={questionKey}>
+      {/* Breadcrumb */}
+      <div className='qp-breadcrumb'>
+        <Link to='/'>Home</Link>
+        <span>›</span>
+        <Link to={`/category/${categoryName}`}>{categoryName}</Link>
+        <span>›</span>
+        <span>{questionName}</span>
+      </div>
+
       <h1 className='qp-title'>
-        {categoryName} → {questionName}
+        <span>{categoryName}</span>
+        <span className='qp-title-separator'>→</span>
+        <span>{questionName}</span>
       </h1>
 
       <div className='qp-card'>
         <div className='qp-content'>
+          {loading && (
+            <div className='qp-loading'>
+              <div className='qp-loading-content'>
+                <div className='qp-spinner'></div>
+                <span className='qp-loading-text'>Loading question...</span>
+              </div>
+            </div>
+          )}
+
           {/* React mode */}
-          {ReactComponent && (
-            <IframeSandbox cssContent={cssContent}>
+          {!loading && ReactComponent && (
+            <IframeSandbox key={questionKey} cssContent={cssContent}>
               <ReactComponent />
             </IframeSandbox>
           )}
 
           {/* Vanilla mode */}
-          {!ReactComponent && htmlUrl && (
+          {!loading && !ReactComponent && htmlUrl && (
             <IframeSandbox
+              key={questionKey}
               htmlUrl={htmlUrl}
               cssContent={cssContent}
               jsUrls={jsUrls}
@@ -157,7 +198,16 @@ export default function QuestionPreview() {
           )}
 
           {/* Nothing found */}
-          {!ReactComponent && !htmlUrl && <h2>Not found</h2>}
+          {!loading && !ReactComponent && !htmlUrl && (
+            <div className='qp-not-found'>
+              <div className='qp-not-found-icon'>🔍</div>
+              <h2 className='qp-not-found-title'>Question Not Found</h2>
+              <p className='qp-not-found-message'>
+                The question you're looking for doesn't exist or hasn't been
+                created yet.
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </div>
