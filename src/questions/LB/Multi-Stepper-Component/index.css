@@ -1,0 +1,54 @@
+body {
+    font-family: sans-serif;
+    background: #f2f2f2;
+  }
+  
+  .app {
+    width: 400px;
+    margin: 50px auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+  }
+  
+  .steps-container {
+    position: relative;
+    margin-bottom: 30px;
+  }
+  
+  .steps-wrapper {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .steps {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: gray;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  
+  .steps.active {
+    background: skyblue;
+  }
+  
+  .progress-line {
+    position: absolute;
+    height: 2px;
+    background: skyblue;
+    width: 0;
+    top: 50%;
+    left: 0;
+    z-index: -1;
+    transition: width 0.25s ease;
+  }
+  
+  .step-content {
+    margin-top: 20px;
+  }
+  
