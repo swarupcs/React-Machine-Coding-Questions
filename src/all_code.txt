@@ -46,6 +46,7 @@ FILE: components\IframeSandbox.jsx
 import { useEffect, useRef, useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import * as React from 'react';
+import { __setIframeDocument } from '../react-dom-wrapper';
 
 export default function IframeSandbox({
   children,
@@ -55,38 +56,38 @@ export default function IframeSandbox({
 }) {
   const iframeRef = useRef(null);
   const [isReady, setIsReady] = useState(false);
+  const [iframeDoc, setIframeDoc] = useState(null);
+  const rootRef = useRef(null);
 
   useEffect(() => {
     const iframe = iframeRef.current;
     if (!iframe) return;
 
-    const iframeDoc = iframe.contentDocument;
-    const iframeWin = iframe.contentWindow;
+    const doc = iframe.contentDocument;
+    const win = iframe.contentWindow;
 
-    if (!iframeDoc || !iframeWin) return;
+    if (!doc || !win) return;
 
     // For vanilla HTML mode
     if (htmlUrl) {
       fetch(htmlUrl)
         .then((res) => res.text())
         .then((html) => {
-          iframeDoc.open();
-          iframeDoc.write(html);
-          iframeDoc.close();
+          doc.open();
+          doc.write(html);
+          doc.close();
 
-          // Add CSS content if provided
           if (cssContent) {
-            const style = iframeDoc.createElement('style');
+            const style = doc.createElement('style');
             style.textContent = cssContent;
-            iframeDoc.head.appendChild(style);
+            doc.head.appendChild(style);
           }
 
-          // Add JS scripts
           jsUrls.forEach((src) => {
-            const script = iframeDoc.createElement('script');
+            const script = doc.createElement('script');
             script.type = 'module';
             script.src = src;
-            iframeDoc.body.appendChild(script);
+            doc.body.appendChild(script);
           });
         })
         .catch((err) => console.error('Failed to load HTML:', err));
@@ -94,54 +95,62 @@ export default function IframeSandbox({
       return;
     }
 
-    // For React mode
-    setupReactEnvironment(iframeDoc, iframeWin, cssContent, () => {
+    // For React mode - setup environment
+    setupReactEnvironment(doc, win, cssContent, () => {
+      setIframeDoc(doc);
       setIsReady(true);
     });
 
     return () => {
       setIsReady(false);
+      setIframeDoc(null);
+      __setIframeDocument(null); // Clear iframe document
     };
   }, [htmlUrl, cssContent, JSON.stringify(jsUrls)]);
 
   // Render React component into iframe once ready
-  // Render React component into iframe once ready
   useEffect(() => {
-    if (!isReady || htmlUrl) return;
+    if (!isReady || htmlUrl || !iframeDoc) return;
 
     const iframe = iframeRef.current;
-    const iframeDoc = iframe?.contentDocument;
-    const iframeWin = iframe?.contentWindow;
+    const doc = iframe?.contentDocument;
+    const win = iframe?.contentWindow;
 
-    if (!iframeDoc || !iframeWin) return;
+    if (!doc || !win) return;
 
     try {
-      // Get React and ReactDOM from imports (add these at the top of your file)
-      // Make sure you have: import * as React from 'react'; and import ReactDOM from 'react-dom/client';
+      // Set the iframe document for the portal wrapper
+      __setIframeDocument(iframeDoc);
 
-      // Make React available in iframe context
-      iframeWin.React = React;
-      iframeWin.ReactDOM = ReactDOM;
+      // Make React and ReactDOM available in iframe window
+      win.React = React;
+      win.ReactDOM = ReactDOM;
 
-      const mountPoint = iframeDoc.getElementById('root');
+      const mountPoint = doc.getElementById('root');
       if (!mountPoint) return;
 
-      // Create and render
-      const root = ReactDOM.createRoot(mountPoint);
-      root.render(children);
-
-      // Cleanup function
-      return () => {
-        try {
-          root.unmount();
-        } catch (err) {
-          console.warn('Failed to unmount:', err);
-        }
-      };
+      // Create root and render
+      if (rootRef.current) {
+        rootRef.current.unmount();
+      }
+      rootRef.current = ReactDOM.createRoot(mountPoint);
+      rootRef.current.render(children);
     } catch (err) {
       console.error('Failed to render React in iframe:', err);
     }
-  }, [isReady, children, htmlUrl]);
+
+    // Cleanup
+    return () => {
+      __setIframeDocument(null);
+      if (rootRef.current) {
+        try {
+          rootRef.current.unmount();
+        } catch (err) {
+          console.warn('Failed to unmount:', err);
+        }
+      }
+    };
+  }, [isReady, children, htmlUrl, iframeDoc]);
 
   return (
     <iframe
@@ -160,7 +169,6 @@ export default function IframeSandbox({
 }
 
 function setupReactEnvironment(iframeDoc, iframeWin, cssContent, onReady) {
-  // Clear and setup document
   iframeDoc.open();
   iframeDoc.write(`
     <!DOCTYPE html>
@@ -195,7 +203,6 @@ function setupReactEnvironment(iframeDoc, iframeWin, cssContent, onReady) {
             min-height: 400px;
           }
 
-          /* Reset common elements to avoid conflicts */
           h1, h2, h3, h4, h5, h6, p, ul, ol, li {
             margin: 0;
             padding: 0;
@@ -213,75 +220,14 @@ function setupReactEnvironment(iframeDoc, iframeWin, cssContent, onReady) {
   `);
   iframeDoc.close();
 
-  // Add custom CSS
   if (cssContent) {
     const style = iframeDoc.createElement('style');
     style.textContent = cssContent;
     iframeDoc.head.appendChild(style);
   }
 
-  // Signal ready
   if (onReady) onReady();
 }
-
-// Demo component to show how it works
-function DemoApp() {
-  return (
-    <div style={{ padding: '20px', fontFamily: 'system-ui' }}>
-      <h1 style={{ marginBottom: '30px', color: '#333' }}>
-        IframeSandbox Demo
-      </h1>
-      
-      <div style={{ marginBottom: '30px' }}>
-        <h2 style={{ marginBottom: '15px' }}>React Component Example</h2>
-        <IframeSandbox
-          cssContent={`
-            .demo-box {
-              padding: 20px;
-              background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-              color: white;
-              border-radius: 10px;
-              text-align: center;
-            }
-            .demo-button {
-              margin-top: 15px;
-              padding: 10px 20px;
-              background: white;
-              color: #667eea;
-              border: none;
-              border-radius: 5px;
-              cursor: pointer;
-              font-weight: bold;
-            }
-            .demo-button:hover {
-              background: #f0f0f0;
-            }
-          `}
-        >
-          <DemoComponent />
-        </IframeSandbox>
-      </div>
-
-      <div style={{ marginBottom: '30px' }}>
-        <h2 style={{ marginBottom: '15px' }}>Another Isolated Component</h2>
-        <IframeSandbox
-          cssContent={`
-            .demo-box {
-              padding: 20px;
-              background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-              color: white;
-              border-radius: 10px;
-              text-align: center;
-            }
-          `}
-        >
-          <AnotherDemoComponent />
-        </IframeSandbox>
-      </div>
-    </div>
-  );
-}
-
 
 
 ======================================================================
@@ -1018,4 +964,85 @@ export default function QuestionPreview() {
     </div>
   );
 }
+
+
+======================================================================
+FILE: react-dom-wrapper.js
+======================================================================
+// This file wraps react-dom to intercept createPortal calls
+// Place this at: src/react-dom-wrapper.js
+
+import { createPortal as originalCreatePortal } from 'react-dom';
+
+// Global variable to store the current iframe document
+let currentIframeDoc = null;
+
+// Function to set the iframe document (called by IframeSandbox)
+export function __setIframeDocument(doc) {
+  currentIframeDoc = doc;
+}
+
+// Wrapped createPortal that automatically redirects to iframe body
+export function createPortal(children, container, key) {
+  // If targeting document.body and we have an iframe, redirect to iframe body
+  if (container === document.body && currentIframeDoc) {
+    return originalCreatePortal(children, currentIframeDoc.body, key);
+  }
+  return originalCreatePortal(children, container, key);
+}
+
+// Re-export everything else from react-dom
+export {
+  // Main rendering methods
+  render,
+  hydrate,
+  unmountComponentAtNode,
+  findDOMNode,
+
+  // Utilities
+  flushSync,
+  unstable_batchedUpdates,
+} from 'react-dom';
+
+// Re-export all from react-dom/client
+export * from 'react-dom/client';
+
+
+======================================================================
+FILE: utils\portalWrapper.js
+======================================================================
+// This file wraps react-dom and provides a patched createPortal
+import { createPortal as originalCreatePortal } from 'react-dom';
+
+let iframeDocumentBody = null;
+
+// Set the iframe document body (called by IframeSandbox)
+export function setIframeDocument(doc) {
+  iframeDocumentBody = doc ? doc.body : null;
+}
+
+// Custom createPortal that automatically redirects to iframe body
+export function createPortal(children, container, key) {
+  // If container is document.body and we have an iframe body, use iframe body instead
+  if (container === document.body && iframeDocumentBody) {
+    return originalCreatePortal(children, iframeDocumentBody, key);
+  }
+  return originalCreatePortal(children, container, key);
+}
+
+// Re-export everything else from react-dom except createPortal
+export {
+  // Main exports
+  render,
+  hydrate,
+  unmountComponentAtNode,
+  findDOMNode,
+
+  // Other utilities
+  flushSync,
+  unstable_batchedUpdates,
+} from 'react-dom';
+
+// Re-export client
+export * from 'react-dom/client';
 

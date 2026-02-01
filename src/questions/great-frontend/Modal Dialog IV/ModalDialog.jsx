@@ -1,10 +1,7 @@
-import { ComponentProps, RefObject, useEffect, useId, useRef } from 'react';
+import { useEffect, useId, useRef } from 'react';
 import { createPortal } from 'react-dom';
 
-export default function ModalDialog({
-  open = false,
-  ...props
-}) {
+export default function ModalDialog({ open = false, ...props }) {
   if (!open) {
     return null;
   }
@@ -24,25 +21,20 @@ function useOnKeyDown(key, fn) {
     }
 
     document.addEventListener('keydown', onKeyDown);
-
-    return () => {
-      document.removeEventListener('keydown', onKeyDown);
-    };
-  }, [fn]);
+    return () => document.removeEventListener('keydown', onKeyDown);
+  }, [fn, key]);
 }
 
 /**
  * Invokes a function when clicking outside an element.
  */
 function useOnClickOutside(elRef, fn) {
-  // Add event handling for close when clicking outside.
   useEffect(() => {
     function onClickOutside(event) {
-      // No-op if clicked element is a descendant of element's contents.
       if (
         event.target instanceof Node &&
-        elRef.current != null &&
-        !elRef.current?.contains(event.target)
+        elRef.current &&
+        !elRef.current.contains(event.target)
       ) {
         fn();
       }
@@ -59,7 +51,7 @@ function useOnClickOutside(elRef, fn) {
 }
 
 function getTabbableElements(elRef) {
-  if (elRef.current == null) {
+  if (!elRef.current) {
     return [];
   }
 
@@ -86,29 +78,19 @@ function useFocusOnFirstTabbableElement(elRef) {
  */
 function useFocusTrap(elRef) {
   function trapFocus(event) {
-    if (elRef.current == null) {
-      return;
-    }
+    if (!elRef.current) return;
 
     const tabbableElements = getTabbableElements(elRef);
     const firstElement = tabbableElements[0];
     const lastElement = tabbableElements[tabbableElements.length - 1];
 
     if (event.shiftKey) {
-      // Shift + Tab event
-      if (
-        document.activeElement === firstElement &&
-        lastElement instanceof HTMLElement
-      ) {
+      if (document.activeElement === firstElement && lastElement) {
         event.preventDefault();
         lastElement.focus();
       }
     } else {
-      // Tab event
-      if (
-        document.activeElement === lastElement &&
-        firstElement instanceof HTMLElement
-      ) {
+      if (document.activeElement === lastElement && firstElement) {
         event.preventDefault();
         firstElement.focus();
       }
@@ -122,52 +104,48 @@ function useFocusTrap(elRef) {
  * Retain reference to trigger element and focus that element when closed.
  */
 function useReturnFocusToTrigger() {
-  const triggerElRef = (useRef < Element) | (null > null);
+  const triggerElRef = useRef(null);
 
   useEffect(() => {
-    // Save a reference to the focused element when mounted.
     triggerElRef.current = document.activeElement;
 
     return () => {
       if (triggerElRef.current instanceof HTMLElement) {
-        // Focuses on element when unmounted.
         triggerElRef.current.focus();
       }
     };
   }, []);
 }
 
-function ModalDialogImpl({
-  children,
-  title,
-  onClose,
-}) {
+function ModalDialogImpl({ children, title, onClose }) {
   const titleId = useId();
   const contentId = useId();
-  const dialogRef = useRef < HTMLDivElement > null;
+  const dialogRef = useRef(null);
 
-  // Closing-related hooks.
+  // Closing-related hooks
   useOnKeyDown('Escape', onClose);
   useOnClickOutside(dialogRef, onClose);
 
-  // Focus-related hooks.
-  useReturnFocusToTrigger(); // Has to be called before useFocusOnFirstTabbableElement otherwise the focus is lost.
+  // Focus-related hooks
+  useReturnFocusToTrigger();
   useFocusOnFirstTabbableElement(dialogRef);
   useFocusTrap(dialogRef);
 
   return createPortal(
     <div className='modal-overlay'>
       <div
-        aria-describedby={contentId}
-        aria-labelledby={titleId}
-        className='modal'
         role='dialog'
+        aria-labelledby={titleId}
+        aria-describedby={contentId}
+        className='modal'
         ref={dialogRef}
       >
         <h1 className='modal-title' id={titleId}>
           {title}
         </h1>
+
         <div id={contentId}>{children}</div>
+
         <button onClick={onClose}>Close</button>
       </div>
     </div>,

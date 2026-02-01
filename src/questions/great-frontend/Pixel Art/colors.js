@@ -10,7 +10,4 @@ export const COLORS = {
   blue: '#228be6',
   purple: '#7950f2',
   beige: '#ff8787',
-} as const;
-export type Color = keyof typeof COLORS;
-
-export type Mode = 'draw' | 'erase';
+};

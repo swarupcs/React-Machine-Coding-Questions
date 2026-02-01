@@ -1,4 +1,4 @@
-import { ComponentProps, RefObject, useEffect, useId, useRef } from 'react';
+import { useEffect, useId, useRef } from 'react';
 import { createPortal } from 'react-dom';
 
 export default function ModalDialog({
@@ -65,7 +65,7 @@ function ModalDialogImpl({
 }) {
   const titleId = useId();
   const contentId = useId();
-  const dialogRef = useRef < HTMLDivElement > null;
+  const dialogRef = useRef( null);
 
   useOnKeyDown('Escape', onClose);
   useOnClickOutside(dialogRef, onClose);

@@ -1,16 +1,12 @@
-import { COLORS, Color } from './colors';
+import { COLORS } from './colors';
 
-type Props = Readonly<{
-  color: Color | null;
-  isDragging: boolean;
-  onMark: () => void;
-}>;
+
 
 export default function Cell({
   color,
   isDragging,
   onMark,
-}: Props) {
+}) {
   return (
     <button
       onClick={onMark}

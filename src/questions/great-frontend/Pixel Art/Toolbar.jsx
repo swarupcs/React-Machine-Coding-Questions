@@ -1,19 +1,14 @@
-import { COLORS, Color, Mode } from './colors';
+import { COLORS } from './colors';
 
-type Props = Readonly<{
-  selectedColor: Color;
-  onColorChange: (color: Color) => void;
-  mode: Mode;
-  onModeChange: (mode: Mode) => void;
-}>;
+
 
 export default function Toolbar({
   selectedColor,
   onColorChange,
   mode,
   onModeChange,
-}: Props) {
-  function onColorClick(color: Color) {
+}) {
+  function onColorClick(color) {
     onModeChange('draw');
     onColorChange(color);
   }
@@ -70,9 +65,9 @@ export default function Toolbar({
                   return '#fff';
                 }
               })(),
-              backgroundColor: hex as string,
+              backgroundColor: hex,
             }}
-            onClick={() => onColorClick(color as Color)}
+            onClick={() => onColorClick(color)}
           />
         ))}
       </div>

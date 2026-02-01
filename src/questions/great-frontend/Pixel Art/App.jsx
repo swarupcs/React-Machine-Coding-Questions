@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import Canvas from './Canvas';
 import Toolbar from './Toolbar';
-import { Color, Mode } from './colors';
+
 
 export default function App() {
-  const [mode, setMode] = useState<Mode>('draw');
+  const [mode, setMode] = useState('draw');
   const [selectedColor, setColor] =
-    useState<Color>('black');
+    useState('black');
 
   return (
     <div className="app">

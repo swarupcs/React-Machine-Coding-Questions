@@ -1,9 +1,6 @@
-import CheckboxInput, { CheckboxValue } from './CheckboxInput';
+import CheckboxInput from './CheckboxInput';
 
-export default function CheckboxList({
-  items,
-  onCheck,
-}) {
+export default function CheckboxList({ items, onCheck }) {
   return (
     <ul>
       {items.map((item, index) => (

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import Cell from './Cell';
-import { Color, Mode } from './colors';
+
 
 
 export default function Canvas({
@@ -10,7 +10,7 @@ export default function Canvas({
   initialRows = 15,
   initialColumns = 15,
 }) {
-  const [grid, setGrid] = useState<(Color | null)[][]>(
+  const [grid, setGrid] = useState(
     Array.from({ length: initialRows }, () =>
       Array(initialColumns).fill(null),
     ),
