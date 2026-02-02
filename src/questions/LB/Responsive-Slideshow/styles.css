@@ -1,0 +1,99 @@
+body {
+  font-family: sans-serif;
+}
+
+.App {
+  text-align: center;
+}
+
+/* Slider */
+.slider {
+  position: relative;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.slides {
+  position: relative;
+}
+
+/* Slide */
+.slide {
+  display: none;
+  position: relative;
+}
+
+.slide img {
+  width: 100%;
+  border-radius: 6px;
+}
+
+/* Caption */
+.slide span {
+  position: absolute;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: white;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 6px 12px;
+  border-radius: 4px;
+}
+
+/* Fade animation */
+@keyframes fade {
+  from {
+    opacity: 0.4;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.slide.active {
+  display: block;
+  animation: fade 1.5s;
+}
+
+/* Navigation dots */
+.navigation-bottom {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.dots {
+  width: 14px;
+  height: 14px;
+  background: gray;
+  border-radius: 50%;
+  margin: 0 4px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.dots.active {
+  background: skyblue;
+}
+
+/* Prev / Next */
+.navigation-next-prev .next-prev {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 24px;
+  cursor: pointer;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  padding: 6px 10px;
+  border-radius: 50%;
+  user-select: none;
+}
+
+.next {
+  right: 10px;
+}
+
+.prev {
+  left: 10px;
+}
