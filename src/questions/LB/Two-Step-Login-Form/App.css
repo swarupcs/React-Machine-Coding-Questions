@@ -1,0 +1,30 @@
+body {
+  font-family: Arial, sans-serif;
+  background: #f1f3f4;
+}
+
+.app {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.box {
+  background: white;
+  padding: 30px;
+  width: 360px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.buttonWrapper {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
