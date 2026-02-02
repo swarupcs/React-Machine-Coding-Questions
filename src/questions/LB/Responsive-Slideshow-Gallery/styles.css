@@ -1,0 +1,89 @@
+.App {
+  font-family: sans-serif;
+  text-align: center;
+}
+
+/* Slider */
+.slider {
+  position: relative;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+/* Slide */
+.slide {
+  position: relative;
+  display: none;
+}
+
+.slide img {
+  width: 100%;
+  border-radius: 6px;
+}
+
+/* Caption */
+.slide span {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #fff;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 6px 12px;
+  border-radius: 4px;
+}
+
+/* Fade animation */
+@keyframes fade {
+  from {
+    opacity: 0.4;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.slide.active {
+  display: block;
+  animation: fade 1.5s;
+}
+
+/* Thumbnails */
+.navigation-bottom {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.preview {
+  margin: 0 2px;
+  cursor: pointer;
+  border: 3px solid gray;
+  transition: all 0.2s ease;
+}
+
+.preview.active {
+  border-color: skyblue;
+}
+
+/* Prev / Next */
+.navigation-next-prev .next-prev {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.5em;
+  cursor: pointer;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  padding: 6px 10px;
+  border-radius: 50%;
+  user-select: none;
+}
+
+.next {
+  right: 10px;
+}
+
+.prev {
+  left: 10px;
+}
