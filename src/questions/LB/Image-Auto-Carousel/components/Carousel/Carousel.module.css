@@ -1,0 +1,29 @@
+.wrapper {
+  position: relative;
+  width: 80%;
+  height: 80vh;
+  margin: 0 auto;
+  overflow: hidden;
+  border: 2px solid #000;
+}
+
+.slide {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  will-change: transform, opacity;
+}
+
+.controls {
+  width: 80%;
+  margin: 20px auto 0;
+  display: flex;
+  justify-content: space-between;
+  font-size: 2rem;
+}
+
+.controls span {
+  cursor: pointer;
+  user-select: none;
+}
