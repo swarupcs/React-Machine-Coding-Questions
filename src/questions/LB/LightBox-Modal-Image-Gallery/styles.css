@@ -1,0 +1,88 @@
+* {
+  box-sizing: border-box;
+}
+
+.App {
+  font-family: sans-serif;
+  text-align: center;
+}
+
+/* Slider */
+.slider {
+  position: relative;
+  max-width: 500px;
+  margin: auto;
+}
+
+.slide {
+  display: none;
+  position: relative;
+}
+
+@keyframes fade {
+  from {
+    opacity: 0.4;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.slide.active {
+  display: block;
+  animation: fade 1.5s;
+}
+
+.slide img {
+  width: 100%;
+}
+
+.slide span {
+  position: absolute;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: white;
+}
+
+/* Prev / Next */
+.next-prev {
+  position: absolute;
+  top: 50%;
+  font-size: 1.5em;
+  cursor: pointer;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  padding: 6px 10px;
+  border-radius: 50%;
+}
+
+.next {
+  right: 10px;
+}
+
+.prev {
+  left: 10px;
+}
+
+/* Image grid */
+.image-list {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.image-list > div {
+  flex: 1 33%;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.image-list img {
+  width: 100%;
+  border: 3px solid gray;
+}
+
+.image-list .active img {
+  border-color: skyblue;
+}
