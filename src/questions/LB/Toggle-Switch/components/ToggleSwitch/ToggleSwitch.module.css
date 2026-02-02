@@ -1,0 +1,92 @@
+.wrapper {
+  display: inline-flex;
+  margin: 0 10px;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+/* Checkbox */
+.switch input {
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  z-index: 1;
+  cursor: pointer;
+}
+
+/* Slider */
+.slider {
+  position: absolute;
+  inset: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+}
+
+.slider::before {
+  content: "";
+  position: absolute;
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: 0.4s;
+}
+
+/* Variants */
+input:checked + .primary {
+  background-color: #2196f3;
+}
+
+input:checked + .success {
+  background-color: #7cb342;
+}
+
+input:checked + .danger {
+  background-color: #ff5722;
+}
+
+/* Knob movement */
+input:checked + .slider::before {
+  transform: translateX(26px);
+}
+
+/* Rounded */
+.round {
+  border-radius: 34px;
+}
+
+.round::before {
+  border-radius: 50%;
+}
+
+/* Children */
+.children {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0;
+  transition: 0.2s;
+  width: 26px;
+  height: 26px;
+  text-align: center;
+  line-height: 26px;
+}
+
+.checked {
+  left: 4px;
+}
+
+.unchecked {
+  right: 4px;
+}
+
+.visible {
+  opacity: 1;
+}
