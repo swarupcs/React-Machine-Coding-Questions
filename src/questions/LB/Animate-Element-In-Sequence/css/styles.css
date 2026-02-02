@@ -1,0 +1,19 @@
+body {
+  font-family: sans-serif;
+  padding: 20px;
+}
+
+#entry {
+  margin-bottom: 20px;
+}
+
+.loading-bar {
+  height: 10px;
+  background-color: red;
+  width: 0%;
+  margin-bottom: 10px;
+}
+
+.hidden {
+  display: none;
+}
