@@ -1,0 +1,42 @@
+.wrapper {
+  margin: 10px 0;
+}
+
+/* Toggle button */
+.toggler {
+  position: relative;
+  width: 100%;
+  padding: 10px;
+  text-align: left;
+  background: #f9f9f9;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.toggler::after {
+  content: "+";
+  position: absolute;
+  right: 12px;
+}
+
+.toggler.active::after {
+  content: "-";
+}
+
+/* Panel animation */
+.panel {
+  overflow: hidden;
+  max-height: 0;
+  background: #90a4ae;
+  transition: max-height 0.4s ease;
+}
+
+.panel.active {
+  max-height: 500px;
+}
+
+.contentWrapper {
+  padding: 10px;
+}
