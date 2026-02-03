@@ -1,0 +1,40 @@
+body {
+  font-family: sans-serif;
+  background: #f5f5f5;
+}
+
+.container {
+  width: 400px;
+  margin: 60px auto;
+  padding: 20px;
+  background: white;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.inputs label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+input {
+  width: 100%;
+  padding: 6px;
+  margin-top: 4px;
+}
+
+.buttons {
+  margin: 15px 0;
+}
+
+button {
+  margin: 0 5px;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+.counter {
+  font-size: 48px;
+  font-weight: bold;
+  margin-top: 20px;
+}
