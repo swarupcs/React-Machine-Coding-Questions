@@ -1,0 +1,18 @@
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+
+  --col-grid-1: calc(((100% / 12) * 1) - (var(--row-spacing) * 4));
+  --col-grid-2: calc(((100% / 12) * 2) - (var(--row-spacing) * 4));
+  --col-grid-3: calc(((100% / 12) * 3) - (var(--row-spacing) * 4));
+  --col-grid-4: calc(((100% / 12) * 4) - (var(--row-spacing) * 4));
+  --col-grid-5: calc(((100% / 12) * 5) - (var(--row-spacing) * 4));
+  --col-grid-6: calc(((100% / 12) * 6) - (var(--row-spacing) * 4));
+  --col-grid-7: calc(((100% / 12) * 7) - (var(--row-spacing) * 4));
+  --col-grid-8: calc(((100% / 12) * 8) - (var(--row-spacing) * 4));
+  --col-grid-9: calc(((100% / 12) * 9) - (var(--row-spacing) * 4));
+  --col-grid-10: calc(((100% / 12) * 10) - (var(--row-spacing) * 4));
+  --col-grid-11: calc(((100% / 12) * 11) - (var(--row-spacing) * 4));
+  --col-grid-12: calc(((100% / 12) * 12) - (var(--row-spacing) * 4));
+}
