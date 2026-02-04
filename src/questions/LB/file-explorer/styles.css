@@ -1,0 +1,37 @@
+.App {
+  font-family: sans-serif;
+  padding: 16px;
+}
+
+.breadcrumb-bar {
+  margin-bottom: 12px;
+}
+
+.breadcrumb {
+  color: blue;
+  cursor: pointer;
+}
+
+.grid {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.box {
+  width: 120px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+}
+
+.folder {
+  background: #a7f3d0;
+  cursor: pointer;
+}
+
+.file {
+  background: #d1d5db;
+}
