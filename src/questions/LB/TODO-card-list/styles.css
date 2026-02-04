@@ -1,0 +1,46 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: sans-serif;
+  background: #000;
+}
+
+/* Root container */
+#root {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 10px;
+}
+
+/* Todo card */
+.todo-card {
+  background: #fff;
+  border-radius: 6px;
+  padding: 10px;
+  width: 220px;
+}
+
+.todo-card span {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.todo-card p {
+  margin: 0;
+  font-size: 14px;
+}
+
+/* Pagination controls */
+.controls {
+  padding: 10px;
+  background: #000;
+}
+
+.controls button {
+  margin-right: 8px;
+}
