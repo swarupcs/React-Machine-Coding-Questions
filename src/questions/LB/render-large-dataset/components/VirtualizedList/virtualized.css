@@ -1,0 +1,11 @@
+.virtual-box {
+  height: 600px;
+  border: 2px solid black;
+}
+
+.card {
+  padding: 10px;
+  margin: 6px;
+  border: 1px solid gray;
+  background: white;
+}

@@ -1,0 +1,15 @@
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.card {
+  width: 200px;
+  padding: 10px;
+  border: 1px solid #ccc;
+}
+
+.controls {
+  margin-top: 20px;
+}
