@@ -1,0 +1,21 @@
+#circle-area {
+    position: relative;
+    width: 600px;
+    height: 600px;
+    border: 1px solid #333;
+    margin: 0 auto;
+    cursor: pointer;
+  }
+  
+  #button-area {
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
