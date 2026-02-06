@@ -1,0 +1,31 @@
+.grid-wrapper {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .grid-row {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .grid-row.reverse {
+    flex-direction: row-reverse;
+  }
+  
+  .grid-cell {
+    width: 50px;
+    height: 50px;
+    border: 1px solid #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  
+  .grid-cell.active {
+    background-color: #4caf50;
+    color: white;
+  }
+  
