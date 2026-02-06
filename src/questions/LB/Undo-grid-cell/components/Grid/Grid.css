@@ -1,0 +1,29 @@
+.grid-area {
+    margin-top: 20px;
+  }
+  
+  .grid-row {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .cell {
+    width: 70px;
+    height: 70px;
+    border: 1px solid #333;
+    background-color: aqua;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .cell.active {
+    background-color: bisque;
+  }
+  
+  button {
+    margin-bottom: 15px;
+  }
+  
