@@ -1,0 +1,11 @@
+.explorer-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 6px 0;
+  }
+  
+  .explorer-item button {
+    margin-left: auto;
+  }
+  
