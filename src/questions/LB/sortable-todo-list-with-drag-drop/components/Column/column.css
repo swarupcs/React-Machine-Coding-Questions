@@ -1,0 +1,27 @@
+.column {
+  width: 250px;
+  min-height: 350px;
+  background: white;
+  border-radius: 10px;
+  padding: 12px;
+  border: 2px dashed #ccc;
+}
+
+.column-title {
+  font-size: 16px;
+  margin-bottom: 12px;
+  text-transform: capitalize;
+}
+
+.empty-drop {
+  text-align: center;
+  color: gray;
+  font-style: italic;
+}
+
+.drop-indicator {
+  height: 3px;
+  background: blue;
+  margin: 6px 0;
+  border-radius: 2px;
+}

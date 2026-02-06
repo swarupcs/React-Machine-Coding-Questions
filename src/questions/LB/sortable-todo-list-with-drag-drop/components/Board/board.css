@@ -1,0 +1,17 @@
+.board {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.board-input {
+  width: 300px;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.columns-wrapper {
+  display: flex;
+  gap: 20px;
+}
