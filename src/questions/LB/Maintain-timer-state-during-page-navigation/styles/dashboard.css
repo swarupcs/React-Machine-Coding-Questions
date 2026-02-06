@@ -1,0 +1,47 @@
+.dashboard {
+  display: flex;
+  height: 100vh;
+  font-family: sans-serif;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 220px;
+  background: #111;
+  color: white;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.logo {
+  font-size: 22px;
+  margin-bottom: 20px;
+}
+
+/* Navigation Links */
+.nav-item {
+  color: white;
+  text-decoration: none;
+  padding: 10px;
+  border-radius: 6px;
+  transition: 0.2s;
+}
+
+.nav-item:hover {
+  background: #333;
+}
+
+/* Active NavLink */
+.nav-item.active {
+  background: #00c853;
+  font-weight: bold;
+}
+
+/* Main Content */
+.content {
+  flex: 1;
+  padding: 30px;
+  background: #f4f4f4;
+}
