@@ -1,0 +1,36 @@
+/* Wrapper Center */
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 40px;
+  gap: 20px;
+}
+
+/* C Shape Layout */
+.c-shape {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Square Box */
+.square {
+  width: 25px;
+  height: 25px;
+  border: 2px solid black;
+  background: white;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+/* Move first + last square right */
+.square:first-child,
+.square:last-child {
+  margin-left: 35px;
+}
+
+/* Active Green */
+.square.green {
+  background-color: green;
+}
