@@ -1,0 +1,38 @@
+.tabs-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 400px;
+  margin: auto;
+}
+
+.tab-header {
+  display: flex;
+  gap: 10px;
+}
+
+.tab-header button {
+  padding: 10px 15px;
+  cursor: pointer;
+  border: none;
+  background: #eee;
+  border-radius: 6px;
+  transition: 0.2s;
+}
+
+.tab-header button.active {
+  background: greenyellow;
+  font-weight: bold;
+}
+
+.tab-body {
+  border: 1px solid #ccc;
+  padding: 15px;
+  min-height: 120px;
+  border-radius: 8px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.tab-panel-content.hide {
+  display: none;
+}

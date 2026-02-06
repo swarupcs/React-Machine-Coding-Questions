@@ -1,0 +1,13 @@
+body {
+  font-family: sans-serif;
+  background: #f9f9f9;
+  text-align: center;
+}
+
+h1 {
+  margin-bottom: 20px;
+}
+
+.app {
+  margin-top: 40px;
+}
