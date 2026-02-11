@@ -1,0 +1,72 @@
+.accordion {
+  width: 600px;
+  margin: 30px auto;
+}
+
+/* Accordion Item Box */
+.accordion-item {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  overflow: hidden;
+  background: white;
+  transition: all 0.3s ease;
+}
+
+/* Disabled State */
+.accordion-item.disabled {
+  opacity: 0.6;
+}
+
+/* Trigger Button */
+.accordion-trigger {
+  width: 100%;
+  padding: 16px;
+  border: none;
+  outline: none;
+  background: white;
+  cursor: pointer;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.accordion-trigger:hover {
+  background: #f3f4f6;
+}
+
+.accordion-trigger:disabled {
+  cursor: not-allowed;
+}
+
+/* Chevron Animation */
+.chevron {
+  transition: transform 0.3s ease;
+}
+
+.chevron.rotate {
+  transform: rotate(180deg);
+}
+
+/* Accordion Content Animation */
+.accordion-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.accordion-content.show {
+  max-height: 300px;
+}
+
+/* Inner Content */
+.accordion-inner {
+  padding: 16px;
+  border-top: 1px solid #ddd;
+  font-size: 14px;
+  line-height: 1.6;
+}
