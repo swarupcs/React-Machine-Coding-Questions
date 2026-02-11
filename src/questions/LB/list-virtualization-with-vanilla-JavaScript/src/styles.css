@@ -1,0 +1,50 @@
+body {
+  font-family: sans-serif;
+  padding: 20px;
+  background: #f9fafb;
+}
+
+h1 {
+  text-align: center;
+}
+
+/* Container */
+#list-container {
+  height: 500px;
+  width: 700px;
+  margin: 20px auto;
+  border: 2px solid black;
+  overflow: auto;
+  background: white;
+}
+
+/* Item Row */
+.virtual-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  box-sizing: border-box;
+}
+
+/* Controls */
+.controls {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+button {
+  padding: 10px 15px;
+  cursor: pointer;
+  border: none;
+  background: black;
+  color: white;
+  border-radius: 6px;
+}
+
+button:hover {
+  opacity: 0.8;
+}
