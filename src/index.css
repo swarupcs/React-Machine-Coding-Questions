@@ -37,17 +37,25 @@
 }
 
 html {
+  height: 100%;
   font-size: 16px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
 }
 
 body {
+  height: 100%;
   font-family: var(--font-sans);
   color: var(--text-primary);
   background: var(--bg-gradient);
   line-height: 1.6;
-  overflow-x: hidden;
+  overflow: hidden;
+}
+
+#root {
+  height: 100%;
+  overflow: hidden;
 }
 
 /* Selection styling */
