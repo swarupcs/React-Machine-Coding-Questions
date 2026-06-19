@@ -1,24 +1,15 @@
 import { useParams, Link } from 'react-router-dom';
 import './Category.css';
 
-// Updated glob syntax - no 'as' option needed for default imports
-const modules = import.meta.glob('../questions/*/*/App.jsx');
+import { getQuestionsRegistry } from '../utils/registry';
 
 export default function Category() {
   const { categoryName } = useParams();
 
-  const questions = [];
-
-  Object.keys(modules).forEach((path) => {
-    const parts = path.split('/');
-
-    const category = parts[2];
-    const question = parts[3];
-
-    if (category === categoryName) {
-      questions.push(question);
-    }
-  });
+  const allQuestions = getQuestionsRegistry();
+  const questions = allQuestions
+    .filter(q => q.category === categoryName)
+    .map(q => q.name);
 
   return (
     <div className='category-container animate-fadeIn'>

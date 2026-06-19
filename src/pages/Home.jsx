@@ -1,17 +1,15 @@
 import { Link, useNavigate } from 'react-router-dom';
 import './Home.css';
 
-// Updated glob syntax - no 'as' option needed for default imports
-const modules = import.meta.glob('../questions/*/*/App.jsx');
+import { getQuestionsRegistry } from '../utils/registry';
 
 export default function Home() {
   const categories = new Set();
   const navigate = useNavigate();
+  const questions = getQuestionsRegistry();
 
-  Object.keys(modules).forEach((path) => {
-    const parts = path.split('/');
-    const category = parts[2];
-    categories.add(category);
+  questions.forEach(q => {
+    categories.add(q.category);
   });
 
   return (

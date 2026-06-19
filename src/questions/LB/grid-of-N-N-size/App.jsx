@@ -1,10 +1,10 @@
-import Controls from './components/Controls/Controls';
+import Grid from './components/Grid/Grid';
 
 function App() {
   return (
     <div style={{ padding: '20px' }}>
       <h2>Okta Frontend Machine Coding</h2>
-      <Controls />
+      <Grid size={3} />
     </div>
   );
 }

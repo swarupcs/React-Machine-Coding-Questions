@@ -1,214 +1,206 @@
 import { useParams, Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
 import './QuestionPreview.css';
-import IframeSandbox from '../components/IframeSandbox';
+import FileExplorer from '../components/FileExplorer';
+import CodeViewer from '../components/CodeViewer';
 
-// detect App.jsx (React)
-const reactModules = import.meta.glob('../questions/*/*/App.jsx');
-
-// detect index.html (vanilla) - using new query syntax
-const htmlModules = import.meta.glob('../questions/*/*/index.html', {
-  query: '?url',
-  import: 'default',
-});
-
-// Import CSS as raw text - using new query syntax
-const cssModules = import.meta.glob('../questions/*/*/*.css', {
+// Load all raw files lazily
+const allRawFiles = import.meta.glob('../questions/*/*/**/*', {
   query: '?raw',
   import: 'default',
 });
 
-// detect ALL js files - using new query syntax
-const jsModules = import.meta.glob('../questions/*/*/{script.js,index.js}', {
-  query: '?url',
-  import: 'default',
-});
+// Custom resizable panel hook
+function useResize(initialPx, minPx = 100, maxPx = 600) {
+  const [width, setWidth] = useState(initialPx);
+  const dragging = useRef(false);
+  const startX = useRef(0);
+  const startWidth = useRef(0);
+
+  const onMouseDown = useCallback((e) => {
+    dragging.current = true;
+    startX.current = e.clientX;
+    startWidth.current = width;
+    document.body.style.cursor = 'col-resize';
+    document.body.style.userSelect = 'none';
+  }, [width]);
+
+  useEffect(() => {
+    const onMouseMove = (e) => {
+      if (!dragging.current) return;
+      const delta = e.clientX - startX.current;
+      const next = Math.max(minPx, Math.min(maxPx, startWidth.current + delta));
+      setWidth(next);
+    };
+    const onMouseUp = () => {
+      dragging.current = false;
+      document.body.style.cursor = '';
+      document.body.style.userSelect = '';
+    };
+    window.addEventListener('mousemove', onMouseMove);
+    window.addEventListener('mouseup', onMouseUp);
+    return () => {
+      window.removeEventListener('mousemove', onMouseMove);
+      window.removeEventListener('mouseup', onMouseUp);
+    };
+  }, [minPx, maxPx]);
+
+  return [width, onMouseDown];
+}
 
 export default function QuestionPreview() {
   const { categoryName, questionName } = useParams();
-  const [ReactComponent, setReactComponent] = useState(null);
-  const [cssContent, setCssContent] = useState('');
-  const [jsUrls, setJsUrls] = useState([]);
+
+  const [availableFiles, setAvailableFiles] = useState([]);
+  const [rawFilesCache, setRawFilesCache] = useState({});
+  const [selectedFilePath, setSelectedFilePath] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+
+  // Resizable panels: explorer width, editor width (preview gets the rest)
+  const [explorerWidth, onExplorerDrag] = useResize(200, 120, 400);
+  const [editorWidth, onEditorDrag] = useResize(480, 200, 900);
 
   const prefix = `../questions/${categoryName}/${questionName}/`;
-
-  // Create a unique key for this question to force remount
   const questionKey = `${categoryName}/${questionName}`;
 
-  // Reset state when question changes
   useEffect(() => {
     setLoading(true);
-    setReactComponent(null);
-    setCssContent('');
-    setJsUrls([]);
+    setAvailableFiles([]);
+    setRawFilesCache({});
+    setSelectedFilePath(null);
+    setIsFullscreen(false);
   }, [questionKey]);
 
-  // 1) Load React component
   useEffect(() => {
-    let mounted = true;
-    const reactPath = prefix + 'App.jsx';
+    const matchedKeys = Object.keys(allRawFiles).filter((p) => p.startsWith(prefix));
+    const filePaths = matchedKeys.map((key) => key.replace(prefix, ''));
+    setAvailableFiles(filePaths);
 
-    async function loadReact() {
-      if (!reactModules[reactPath]) {
-        if (mounted) {
-          setReactComponent(null);
-          setLoading(false);
-        }
-        return;
-      }
+    if (filePaths.includes('App.jsx')) handleSelectFile('App.jsx', matchedKeys);
+    else if (filePaths.includes('index.html')) handleSelectFile('index.html', matchedKeys);
+    else if (filePaths.length > 0) handleSelectFile(filePaths[0], matchedKeys);
 
+    setLoading(false);
+  }, [questionKey]);
+
+  const handleSelectFile = async (filePath, keys = null) => {
+    setSelectedFilePath(filePath);
+    if (rawFilesCache[filePath]) return;
+    const matchedKeys = keys || Object.keys(allRawFiles).filter((p) => p.startsWith(prefix));
+    const fullPath = matchedKeys.find(k => k.replace(prefix, '') === filePath);
+    if (fullPath && allRawFiles[fullPath]) {
       try {
-        const mod = await reactModules[reactPath]();
-        if (!mounted) return;
-
-        const chooseComponent = (m) => {
-          if (!m) return null;
-          if (typeof m.default === 'function' || typeof m.default === 'object')
-            return m.default;
-          const vals = Object.values(m);
-          for (const v of vals) {
-            if (
-              typeof v === 'function' ||
-              (typeof v === 'object' && v && (v.$$typeof || v.render))
-            ) {
-              return v;
-            }
-          }
-          return null;
-        };
-
-        const Comp = chooseComponent(mod);
-
-        if (!Comp) {
-          console.warn("Couldn't find a React component export");
-          setReactComponent(null);
-          setLoading(false);
-          return;
-        }
-
-        setReactComponent(() => Comp);
-        setLoading(false);
+        const content = await allRawFiles[fullPath]();
+        setRawFilesCache(prev => ({ ...prev, [filePath]: content }));
       } catch (err) {
-        console.error('Failed to dynamically import React component:', err);
-        if (mounted) {
-          setReactComponent(null);
-          setLoading(false);
-        }
+        console.error('Failed to load file:', err);
       }
     }
+  };
 
-    loadReact();
+  // Keyboard shortcut
+  const handleKeyDown = useCallback((e) => {
+    if (e.key === 'F11') { e.preventDefault(); setIsFullscreen(p => !p); }
+    if (e.key === 'Escape' && isFullscreen) setIsFullscreen(false);
+  }, [isFullscreen]);
 
-    return () => {
-      mounted = false;
-    };
-  }, [categoryName, questionName, prefix]);
-
-  // 2) Load CSS content as raw text
   useEffect(() => {
-    let cancelled = false;
-
-    async function loadAssets() {
-      // Match CSS files
-      const matchedCssKeys = Object.keys(cssModules).filter((p) =>
-        p.startsWith(prefix)
-      );
-
-      const cssPromises = matchedCssKeys.map((key) => cssModules[key]());
-      const resolvedCss = await Promise.all(cssPromises);
-
-      // Combine all CSS content
-      const combinedCss = resolvedCss.filter(Boolean).join('\n\n');
-
-      // Match vanilla js files
-      const matchedJsKeys = Object.keys(jsModules).filter((p) =>
-        p.startsWith(prefix)
-      );
-
-      const jsPromises = matchedJsKeys.map((key) => jsModules[key]());
-      const resolvedJs = (await Promise.all(jsPromises)).filter(Boolean);
-
-      if (!cancelled) {
-        console.log('[QuestionPreview] Loaded CSS:', {
-          length: combinedCss.length,
-          preview: combinedCss.substring(0, 200),
-          files: matchedCssKeys,
-        });
-        setCssContent(combinedCss);
-        setJsUrls(resolvedJs);
-      }
-    }
-
-    loadAssets();
-
-    return () => {
-      cancelled = true;
-      setCssContent('');
-      setJsUrls([]);
-    };
-  }, [categoryName, questionName, prefix]);
-
-  // 3) Detect vanilla HTML
-  const htmlUrl = htmlModules[prefix + 'index.html'] || null;
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [handleKeyDown]);
 
   return (
-    <div className='qp-container animate-fadeIn' key={questionKey}>
-      {/* Breadcrumb */}
-      <div className='qp-breadcrumb'>
-        <Link to='/'>Home</Link>
-        <span>›</span>
-        <Link to={`/category/${categoryName}`}>{categoryName}</Link>
-        <span>›</span>
-        <span>{questionName}</span>
+    <div className={`qp-container${isFullscreen ? ' qp-fullscreen' : ''}`} key={questionKey}>
+      {/* Compact header */}
+      <div className="qp-header">
+        <div className="qp-breadcrumb">
+          <Link to="/">Home</Link>
+          <span className="qp-breadcrumb-sep">›</span>
+          <Link to={`/category/${categoryName}`}>{categoryName}</Link>
+          <span className="qp-breadcrumb-sep">›</span>
+          <span className="qp-breadcrumb-current">{questionName}</span>
+        </div>
+        <div className="qp-header-actions">
+          <button
+            className="qp-fullscreen-btn"
+            onClick={() => setIsFullscreen(p => !p)}
+            title={isFullscreen ? 'Exit Fullscreen (Esc)' : 'Fullscreen (F11)'}
+          >
+            {isFullscreen ? (
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                <polyline points="4 14 10 14 10 20"/><polyline points="20 10 14 10 14 4"/>
+                <line x1="10" y1="14" x2="3" y2="21"/><line x1="21" y1="3" x2="14" y2="10"/>
+              </svg>
+            ) : (
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                <polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/>
+                <line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/>
+              </svg>
+            )}
+            <span>{isFullscreen ? 'Exit' : 'Fullscreen'}</span>
+          </button>
+        </div>
       </div>
 
-      <h1 className='qp-title'>
-        <span>{categoryName}</span>
-        <span className='qp-title-separator'>→</span>
-        <span>{questionName}</span>
-      </h1>
+      {/* Workspace */}
+      <div className="qp-workspace">
+        {loading ? (
+          <div className="qp-loading">
+            <div className="qp-spinner" />
+            <span className="qp-loading-text">Loading workspace…</span>
+          </div>
+        ) : availableFiles.length === 0 ? (
+          <div className="qp-not-found">
+            <div className="qp-not-found-icon">🔍</div>
+            <h2>Question Not Found</h2>
+            <p>The question you're looking for doesn't exist.</p>
+          </div>
+        ) : (
+          <div className="qp-panels">
+            {/* File Explorer */}
+            <div className="qp-panel-sidebar" style={{ width: explorerWidth, minWidth: explorerWidth, maxWidth: explorerWidth }}>
+              <FileExplorer
+                files={availableFiles}
+                selectedFile={selectedFilePath}
+                onSelectFile={(path) => handleSelectFile(path)}
+              />
+            </div>
 
-      <div className='qp-card'>
-        <div className='qp-content'>
-          {loading && (
-            <div className='qp-loading'>
-              <div className='qp-loading-content'>
-                <div className='qp-spinner'></div>
-                <span className='qp-loading-text'>Loading question...</span>
+            {/* Drag handle 1 */}
+            <div className="qp-drag-handle" onMouseDown={onExplorerDrag} />
+
+            {/* Code Editor */}
+            <div className="qp-panel-editor" style={{ width: editorWidth, minWidth: editorWidth, maxWidth: editorWidth }}>
+              <CodeViewer
+                filePath={selectedFilePath}
+                code={selectedFilePath ? rawFilesCache[selectedFilePath] : ''}
+              />
+            </div>
+
+            {/* Drag handle 2 */}
+            <div className="qp-drag-handle" onMouseDown={onEditorDrag} />
+
+            {/* Live Preview — fills remaining space */}
+            <div className="qp-panel-preview">
+              <div className="qp-preview-header">
+                <span className="qp-preview-title">
+                  <span className="qp-preview-dot" />
+                  Preview
+                </span>
+              </div>
+              <div className="qp-preview-content">
+                <iframe
+                  key={questionKey}
+                  title={`Sandbox - ${questionName}`}
+                  src={`/sandbox.html?question=${categoryName}/${questionName}`}
+                  style={{ width: '100%', height: '100%', border: 'none' }}
+                  sandbox="allow-scripts allow-same-origin allow-modals allow-forms"
+                />
               </div>
             </div>
-          )}
-
-          {/* React mode */}
-          {!loading && ReactComponent && (
-            <IframeSandbox key={questionKey} cssContent={cssContent}>
-              <ReactComponent />
-            </IframeSandbox>
-          )}
-
-          {/* Vanilla mode */}
-          {!loading && !ReactComponent && htmlUrl && (
-            <IframeSandbox
-              key={questionKey}
-              htmlUrl={htmlUrl}
-              cssContent={cssContent}
-              jsUrls={jsUrls}
-            />
-          )}
-
-          {/* Nothing found */}
-          {!loading && !ReactComponent && !htmlUrl && (
-            <div className='qp-not-found'>
-              <div className='qp-not-found-icon'>🔍</div>
-              <h2 className='qp-not-found-title'>Question Not Found</h2>
-              <p className='qp-not-found-message'>
-                The question you're looking for doesn't exist or hasn't been
-                created yet.
-              </p>
-            </div>
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </div>
   );

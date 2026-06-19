@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sandbox Runtime</title>
+    <style>
+      /* Base sandbox styling */
+      html, body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+          'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        background-color: #ffffff;
+        color: #333333;
+      }
+      body {
+        padding: 20px;
+        box-sizing: border-box;
+      }
+      #root {
+        width: 100%;
+        min-height: 400px;
+      }
+      /* Reset basic elements to prevent styles from bleeding out of their expected boxes */
+      h1, h2, h3, h4, h5, h6, p, ul, ol, li, figure {
+        margin: 0;
+        padding: 0;
+      }
+      button {
+        font-family: inherit;
+      }
+      *, *::before, *::after {
+        box-sizing: border-box;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- React Component Root -->
+    <div id="root"></div>
+    
+    <!-- Portal Root (For Modals, Tooltips, etc) -->
+    <div id="portal-root"></div>
+
+    <script type="module" src="/src/sandbox-entry.jsx"></script>
+  </body>
+</html>
