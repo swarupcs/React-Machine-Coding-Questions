@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { HeartIcon, SpinnerIcon } from './icons';
+import { HeartIcon, SpinnerIcon } from './Icons';
 
 function classNames(...args) {
   return args.filter(Boolean).join(' ');

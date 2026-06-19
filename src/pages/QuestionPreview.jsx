@@ -189,12 +189,17 @@ export default function QuestionPreview() {
                   Preview
                 </span>
               </div>
-              <div className="qp-preview-content">
+              <div className="qp-preview-content" style={{ overflow: 'auto' }}>
                 <iframe
                   key={questionKey}
                   title={`Sandbox - ${questionName}`}
                   src={`/sandbox.html?question=${categoryName}/${questionName}`}
-                  style={{ width: '100%', height: '100%', border: 'none' }}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    border: 'none',
+                    display: 'block',
+                  }}
                   sandbox="allow-scripts allow-same-origin allow-modals allow-forms"
                 />
               </div>
