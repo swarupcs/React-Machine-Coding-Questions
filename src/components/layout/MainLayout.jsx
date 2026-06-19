@@ -12,7 +12,7 @@ export default function MainLayout({ children }) {
   const isPreview = /\/category\/.+\/.+/.test(location.pathname);
 
   return (
-    <div className="flex h-screen overflow-hidden bg-background">
+    <div className="absolute inset-0 flex overflow-hidden bg-background">
       <aside className="hidden md:flex flex-shrink-0">
         <Sidebar />
       </aside>
