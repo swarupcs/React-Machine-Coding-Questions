@@ -92,9 +92,9 @@ export default function QuestionPreview() {
   }
 
   return (
-    <div className="flex flex-col h-full bg-[#1e1e1e] text-gray-300">
+    <div className="flex flex-col flex-1 w-full min-h-0 bg-[#1e1e1e] text-gray-300">
       {/* Top Breadcrumb Bar */}
-      <div className="h-10 flex items-center justify-between px-4 bg-[#181818] border-b border-border text-sm">
+      <div className="h-10 flex-shrink-0 flex items-center justify-between px-4 bg-[#181818] border-b border-border text-sm">
         <div className="flex items-center gap-2 text-muted-foreground">
           <Link to="/" className="hover:text-foreground">Home</Link>
           <ChevronRight className="w-4 h-4" />
@@ -104,10 +104,9 @@ export default function QuestionPreview() {
         </div>
       </div>
 
-      <div className="flex-1 overflow-hidden">
-        <PanelGroup direction="horizontal">
-          {/* Sidebar */}
-          <Panel defaultSize={20} minSize={15}>
+      <PanelGroup direction="horizontal" className="flex-1 min-h-0 w-full">
+        {/* Sidebar */}
+        <Panel defaultSize={15} minSize={10}>
             <FileExplorer
               files={availableFiles}
               selectedFile={selectedFilePath}
@@ -156,10 +155,10 @@ export default function QuestionPreview() {
           <PanelResizeHandle className="w-1 bg-[#2d2d2d] hover:bg-primary transition-colors cursor-col-resize" />
 
           {/* Preview */}
-          <Panel defaultSize={40} minSize={20}>
+          <Panel defaultSize={45} minSize={20}>
             <div className="flex flex-col h-full bg-background relative">
               {/* Toolbar */}
-              <div className="h-10 flex items-center justify-between px-3 bg-muted border-b">
+              <div className="h-10 flex-shrink-0 flex items-center justify-between px-3 bg-muted border-b">
                 <div className="flex items-center gap-1 bg-background rounded-md p-1 border shadow-sm">
                   <button onClick={() => setDeviceView('mobile')} className={`p-1.5 rounded transition-colors ${deviceView === 'mobile' ? 'bg-muted text-foreground' : 'text-muted-foreground hover:text-foreground'}`}>
                     <Smartphone className="w-4 h-4" />
@@ -182,12 +181,12 @@ export default function QuestionPreview() {
               </div>
               
               {/* Iframe Wrapper */}
-              <div className="flex-1 flex justify-center bg-[#e5e5e5] dark:bg-black/20 overflow-auto p-4">
+              <div className={`flex-1 flex justify-center bg-[#e5e5e5] dark:bg-black/20 overflow-auto ${deviceView === 'desktop' ? '' : 'p-4'}`}>
                 <div 
-                  className={`bg-white shadow-xl ring-1 ring-black/5 transition-all duration-300 ${
+                  className={`bg-white shadow-xl ring-1 ring-black/5 transition-all duration-300 flex-shrink-0 ${
                     deviceView === 'mobile' ? 'w-[375px] h-[812px] rounded-[2rem] border-8 border-gray-900 overflow-hidden' :
                     deviceView === 'tablet' ? 'w-[768px] h-[1024px] rounded-xl overflow-hidden' :
-                    'w-full h-full rounded-md overflow-hidden'
+                    'w-full h-full rounded-none overflow-hidden'
                   }`}
                 >
                   <iframe
@@ -202,7 +201,6 @@ export default function QuestionPreview() {
             </div>
           </Panel>
         </PanelGroup>
-      </div>
     </div>
   );
 }

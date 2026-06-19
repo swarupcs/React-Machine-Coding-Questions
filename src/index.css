@@ -135,6 +135,11 @@
 }
 
 @layer base {
+  html, body, #root {
+    height: 100%;
+    width: 100%;
+  }
+
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);

@@ -47,7 +47,7 @@ export default function MainLayout({ children }) {
           </header>
         )}
 
-        <div className={`flex-1 overflow-y-auto ${isPreview ? 'p-0 bg-[#1e1e1e]' : 'p-6 bg-muted/30'}`}>
+        <div className={`flex-1 ${isPreview ? 'flex flex-col overflow-hidden p-0 bg-[#1e1e1e]' : 'overflow-y-auto p-6 bg-muted/30'}`}>
           {children}
         </div>
       </main>
