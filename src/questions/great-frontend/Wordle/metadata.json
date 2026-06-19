@@ -1,0 +1,10 @@
+{
+  "id": "great-frontend/Wordle",
+  "title": "Wordle",
+  "category": "great-frontend",
+  "difficulty": "Medium",
+  "framework": "React",
+  "tags": [],
+  "estimatedTime": "30m",
+  "learningTopics": []
+}

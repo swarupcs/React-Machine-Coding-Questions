@@ -1,0 +1,1592 @@
+[
+  {
+    "id": "akshay-saini/accordion",
+    "title": "accordion",
+    "category": "akshay-saini",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "akshay-saini/Autocomplete-Search-Bar",
+    "title": "Autocomplete Search Bar",
+    "category": "akshay-saini",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "akshay-saini/Chips-Input",
+    "title": "Chips Input",
+    "category": "akshay-saini",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "akshay-saini/File-Explorer",
+    "title": "File Explorer",
+    "category": "akshay-saini",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "akshay-saini/Nested-CheckBox",
+    "title": "Nested CheckBox",
+    "category": "akshay-saini",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "akshay-saini/OTP-Input",
+    "title": "OTP Input",
+    "category": "akshay-saini",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "akshay-saini/Pagination",
+    "title": "Pagination",
+    "category": "akshay-saini",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "akshay-saini/Progress-Bar",
+    "title": "Progress Bar",
+    "category": "akshay-saini",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "akshay-saini/Tab-Form",
+    "title": "Tab Form",
+    "category": "akshay-saini",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "akshay-saini/todo-list",
+    "title": "todo list",
+    "category": "akshay-saini",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "Frontend-Masters/Accordion",
+    "title": "Accordion",
+    "category": "Frontend-Masters",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "Frontend-Masters/AutoComplete",
+    "title": "AutoComplete",
+    "category": "Frontend-Masters",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "Frontend-Masters/Carousel",
+    "title": "Carousel",
+    "category": "Frontend-Masters",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "Frontend-Masters/Config-Form",
+    "title": "Config Form",
+    "category": "Frontend-Masters",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "Frontend-Masters/Grid-Lights-ReactJS",
+    "title": "Grid Lights ReactJS",
+    "category": "Frontend-Masters",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "Frontend-Masters/Memory-Game",
+    "title": "Memory Game",
+    "category": "Frontend-Masters",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "Frontend-Masters/Multi-Step-Form",
+    "title": "Multi Step Form",
+    "category": "Frontend-Masters",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "Frontend-Masters/OTP",
+    "title": "OTP",
+    "category": "Frontend-Masters",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "Frontend-Masters/Overlapping-Circle",
+    "title": "Overlapping Circle",
+    "category": "Frontend-Masters",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "Frontend-Masters/Pagination",
+    "title": "Pagination",
+    "category": "Frontend-Masters",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "Frontend-Masters/Popover",
+    "title": "Popover",
+    "category": "Frontend-Masters",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "Frontend-Masters/Popover-2",
+    "title": "Popover 2",
+    "category": "Frontend-Masters",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "Frontend-Masters/Progress",
+    "title": "Progress",
+    "category": "Frontend-Masters",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "Frontend-Masters/React-Modal-Dialog",
+    "title": "React Modal Dialog",
+    "category": "Frontend-Masters",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "Frontend-Masters/Stopwatch",
+    "title": "Stopwatch",
+    "category": "Frontend-Masters",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "Frontend-Masters/Tab-List",
+    "title": "Tab List",
+    "category": "Frontend-Masters",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "Frontend-Masters/Timer",
+    "title": "Timer",
+    "category": "Frontend-Masters",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "Frontend-Masters/Todo-App",
+    "title": "Todo App",
+    "category": "Frontend-Masters",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "Frontend-Masters/Traffic-Light",
+    "title": "Traffic Light",
+    "category": "Frontend-Masters",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "great-frontend/Accordion",
+    "title": "Accordion",
+    "category": "great-frontend",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "great-frontend/Accordion-II",
+    "title": "Accordion II",
+    "category": "great-frontend",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "great-frontend/Accordion-III",
+    "title": "Accordion III",
+    "category": "great-frontend",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "great-frontend/Analog Clock",
+    "title": "Analog Clock",
+    "category": "great-frontend",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "great-frontend/Auth Code Input",
+    "title": "Auth Code Input",
+    "category": "great-frontend",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "great-frontend/Birth Year Histogram",
+    "title": "Birth Year Histogram",
+    "category": "great-frontend",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "great-frontend/Connect Four",
+    "title": "Connect Four",
+    "category": "great-frontend",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "great-frontend/contact-form",
+    "title": "contact form",
+    "category": "great-frontend",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "great-frontend/counter",
+    "title": "counter",
+    "category": "great-frontend",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "great-frontend/Data Table",
+    "title": "Data Table",
+    "category": "great-frontend",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "great-frontend/Data Table II",
+    "title": "Data Table II",
+    "category": "great-frontend",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "great-frontend/Data Table III",
+    "title": "Data Table III",
+    "category": "great-frontend",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "great-frontend/Data Table IV",
+    "title": "Data Table IV",
+    "category": "great-frontend",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "great-frontend/Dice Roller",
+    "title": "Dice Roller",
+    "category": "great-frontend",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "great-frontend/digital-clock",
+    "title": "digital clock",
+    "category": "great-frontend",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "great-frontend/File-Explorer",
+    "title": "File Explorer",
+    "category": "great-frontend",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "great-frontend/File-Explorer-II",
+    "title": "File Explorer II",
+    "category": "great-frontend",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "great-frontend/File-Explorer-III",
+    "title": "File Explorer III",
+    "category": "great-frontend",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "great-frontend/Flight Booker",
+    "title": "Flight Booker",
+    "category": "great-frontend",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "great-frontend/Generate Table",
+    "title": "Generate Table",
+    "category": "great-frontend",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "great-frontend/Grid Lights",
+    "title": "Grid Lights",
+    "category": "great-frontend",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "great-frontend/holy-grail",
+    "title": "holy grail",
+    "category": "great-frontend",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "great-frontend/Image Carousel",
+    "title": "Image Carousel",
+    "category": "great-frontend",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "great-frontend/Image Carousel II",
+    "title": "Image Carousel II",
+    "category": "great-frontend",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "great-frontend/Image Carousel III",
+    "title": "Image Carousel III",
+    "category": "great-frontend",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "great-frontend/Job Board",
+    "title": "Job Board",
+    "category": "great-frontend",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "great-frontend/Like Button",
+    "title": "Like Button",
+    "category": "great-frontend",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "great-frontend/Memory-Game",
+    "title": "Memory Game",
+    "category": "great-frontend",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "great-frontend/Modal Dialog",
+    "title": "Modal Dialog",
+    "category": "great-frontend",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "great-frontend/Modal Dialog II",
+    "title": "Modal Dialog II",
+    "category": "great-frontend",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "great-frontend/Modal Dialog III",
+    "title": "Modal Dialog III",
+    "category": "great-frontend",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "great-frontend/Modal Dialog IV",
+    "title": "Modal Dialog IV",
+    "category": "great-frontend",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "great-frontend/Mortgage Calculator",
+    "title": "Mortgage Calculator",
+    "category": "great-frontend",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "great-frontend/Nested Checkboxes",
+    "title": "Nested Checkboxes",
+    "category": "great-frontend",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "great-frontend/Pixel Art",
+    "title": "Pixel Art",
+    "category": "great-frontend",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "great-frontend/Progress Bars",
+    "title": "Progress Bars",
+    "category": "great-frontend",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "great-frontend/Progress Bars II",
+    "title": "Progress Bars II",
+    "category": "great-frontend",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "great-frontend/Progress Bars III",
+    "title": "Progress Bars III",
+    "category": "great-frontend",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "great-frontend/Progress Bars IV",
+    "title": "Progress Bars IV",
+    "category": "great-frontend",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "great-frontend/progress-bar",
+    "title": "progress bar",
+    "category": "great-frontend",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "great-frontend/Selectable Cells",
+    "title": "Selectable Cells",
+    "category": "great-frontend",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "great-frontend/signup-form",
+    "title": "signup form",
+    "category": "great-frontend",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "great-frontend/star-rating",
+    "title": "star rating",
+    "category": "great-frontend",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "great-frontend/Stopwatch",
+    "title": "Stopwatch",
+    "category": "great-frontend",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "great-frontend/Tabs",
+    "title": "Tabs",
+    "category": "great-frontend",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "great-frontend/Tabs II",
+    "title": "Tabs II",
+    "category": "great-frontend",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "great-frontend/Tabs III",
+    "title": "Tabs III",
+    "category": "great-frontend",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "great-frontend/Temperature-Converter",
+    "title": "Temperature Converter",
+    "category": "great-frontend",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "great-frontend/Tic-tac-toe",
+    "title": "Tic tac toe",
+    "category": "great-frontend",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "great-frontend/Tic-tac-toe II",
+    "title": "Tic tac toe II",
+    "category": "great-frontend",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "great-frontend/Todo-List",
+    "title": "Todo List",
+    "category": "great-frontend",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "great-frontend/Traffic Light",
+    "title": "Traffic Light",
+    "category": "great-frontend",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "great-frontend/traffic-light",
+    "title": "traffic light",
+    "category": "great-frontend",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "great-frontend/Transfer List",
+    "title": "Transfer List",
+    "category": "great-frontend",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "great-frontend/Transfer List II",
+    "title": "Transfer List II",
+    "category": "great-frontend",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "great-frontend/Tweet",
+    "title": "Tweet",
+    "category": "great-frontend",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "great-frontend/Undoable Counter",
+    "title": "Undoable Counter",
+    "category": "great-frontend",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "great-frontend/Users Database",
+    "title": "Users Database",
+    "category": "great-frontend",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "great-frontend/Whack-A-Mole",
+    "title": "Whack A Mole",
+    "category": "great-frontend",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "great-frontend/Wordle",
+    "title": "Wordle",
+    "category": "great-frontend",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "LB/Accordion",
+    "title": "Accordion",
+    "category": "LB",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "LB/Accordion-group",
+    "title": "Accordion group",
+    "category": "LB",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "LB/Animate-Element-In-Sequence",
+    "title": "Animate Element In Sequence",
+    "category": "LB",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "LB/Authentication-JWT-and-OAuth",
+    "title": "Authentication JWT and OAuth",
+    "category": "LB",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "LB/basic-stopwatch",
+    "title": "basic stopwatch",
+    "category": "LB",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "LB/Batch-api-calls-in-sequence",
+    "title": "Batch api calls in sequence",
+    "category": "LB",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "LB/Capture-product-visible-on-viewport",
+    "title": "Capture product visible on viewport",
+    "category": "LB",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "LB/Change-color-of-the-squares",
+    "title": "Change color of the squares",
+    "category": "LB",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "LB/Detect-Overlapping-Circle",
+    "title": "Detect Overlapping Circle",
+    "category": "LB",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "LB/Draw-circle-on-click",
+    "title": "Draw circle on click",
+    "category": "LB",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "LB/Editable-Todo-List",
+    "title": "Editable Todo List",
+    "category": "LB",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "LB/Feature-Flag",
+    "title": "Feature Flag",
+    "category": "LB",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "LB/file-explorer",
+    "title": "file explorer",
+    "category": "LB",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "LB/File-tree-view",
+    "title": "File tree view",
+    "category": "LB",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "LB/Functional-Modal-Component",
+    "title": "Functional Modal Component",
+    "category": "LB",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "LB/Grid-component",
+    "title": "Grid component",
+    "category": "LB",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "LB/grid-of-N-N-size",
+    "title": "grid of N N size",
+    "category": "LB",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "LB/Highlight-text-on-selection",
+    "title": "Highlight text on selection",
+    "category": "LB",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "LB/Image-Auto-Carousel",
+    "title": "Image Auto Carousel",
+    "category": "LB",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "LB/Image-comparison-slider",
+    "title": "Image comparison slider",
+    "category": "LB",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "LB/Infinite-Scroll",
+    "title": "Infinite Scroll",
+    "category": "LB",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "LB/LightBox-Modal-Image-Gallery",
+    "title": "LightBox Modal Image Gallery",
+    "category": "LB",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "LB/list-virtualization-with-vanilla-JavaScript",
+    "title": "list virtualization with vanilla JavaScript",
+    "category": "LB",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "LB/Maintain-timer-state-during-page-navigation",
+    "title": "Maintain timer state during page navigation",
+    "category": "LB",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "LB/modal-with-priority",
+    "title": "modal with priority",
+    "category": "LB",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "LB/Multi-Stepper-Component",
+    "title": "Multi Stepper Component",
+    "category": "LB",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "LB/multi-stepper-form",
+    "title": "multi stepper form",
+    "category": "LB",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "LB/nested-accordion",
+    "title": "nested accordion",
+    "category": "LB",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "LB/nested-comments",
+    "title": "nested comments",
+    "category": "LB",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "LB/Number-increment-counter",
+    "title": "Number increment counter",
+    "category": "LB",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "LB/Pagination-React",
+    "title": "Pagination React",
+    "category": "LB",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "LB/Preview-selected-color-from-swatches",
+    "title": "Preview selected color from swatches",
+    "category": "LB",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "LB/Preview-Zoomed-Image-On-Hover",
+    "title": "Preview Zoomed Image On Hover",
+    "category": "LB",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "LB/rating-star",
+    "title": "rating star",
+    "category": "LB",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "LB/React-Portal",
+    "title": "React Portal",
+    "category": "LB",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "LB/render-large-dataset",
+    "title": "render large dataset",
+    "category": "LB",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "LB/Responsive-Slideshow",
+    "title": "Responsive Slideshow",
+    "category": "LB",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "LB/Responsive-Slideshow-Gallery",
+    "title": "Responsive Slideshow Gallery",
+    "category": "LB",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "LB/reusable-extensible-generic-Form-component",
+    "title": "reusable extensible generic Form component",
+    "category": "LB",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "LB/reusable-select-dropdown",
+    "title": "reusable select dropdown",
+    "category": "LB",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "LB/Scroll-Indicator",
+    "title": "Scroll Indicator",
+    "category": "LB",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "LB/Search-With-AutoComplete",
+    "title": "Search With AutoComplete",
+    "category": "LB",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "LB/Search-With-AutoSuggestion-Vanilla-JS",
+    "title": "Search With AutoSuggestion Vanilla JS",
+    "category": "LB",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "LB/Search-With-Pagination",
+    "title": "Search With Pagination",
+    "category": "LB",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "LB/sortable-todo-list-with-drag-drop",
+    "title": "sortable todo list with drag drop",
+    "category": "LB",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "LB/spinner-with-CSS",
+    "title": "spinner with CSS",
+    "category": "LB",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "LB/stacked-snack-bar",
+    "title": "stacked snack bar",
+    "category": "LB",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "LB/Switch-Case-Component",
+    "title": "Switch Case Component",
+    "category": "LB",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "LB/Tab-component-with-Lazy-loading",
+    "title": "Tab component with Lazy loading",
+    "category": "LB",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "LB/Time-in-human-readable-format",
+    "title": "Time in human readable format",
+    "category": "LB",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "LB/TODO-card-list",
+    "title": "TODO card list",
+    "category": "LB",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "LB/Toggle-Switch",
+    "title": "Toggle Switch",
+    "category": "LB",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "LB/Two-Step-Login-Form",
+    "title": "Two Step Login Form",
+    "category": "LB",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "LB/Typing-Component",
+    "title": "Typing Component",
+    "category": "LB",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "LB/typing-test-with-invalid-character-highlighting",
+    "title": "typing test with invalid character highlighting",
+    "category": "LB",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "LB/Undo-grid-cell",
+    "title": "Undo grid cell",
+    "category": "LB",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "LB/website-walkthrough-assistant-in-JavaScript",
+    "title": "website walkthrough assistant in JavaScript",
+    "category": "LB",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "road-side-coder-premium/11-config-driven-form",
+    "title": "11 config driven form",
+    "category": "road-side-coder-premium",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "road-side-coder-premium/12-progress-bar-react-js",
+    "title": "12 progress bar react js",
+    "category": "road-side-coder-premium",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "road-side-coder-premium/13-star-rating-react-js",
+    "title": "13 star rating react js",
+    "category": "road-side-coder-premium",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "road-side-coder-premium/14-ecommerce-filters",
+    "title": "14 ecommerce filters",
+    "category": "road-side-coder-premium",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "road-side-coder-premium/15-shopping-cart",
+    "title": "15 shopping cart",
+    "category": "road-side-coder-premium",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "road-side-coder-premium/17-advance-tic-tac-toe",
+    "title": "17 advance tic tac toe",
+    "category": "road-side-coder-premium",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "road-side-coder-premium/18-toast-component",
+    "title": "18 toast component",
+    "category": "road-side-coder-premium",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "road-side-coder-premium/19-autosuggestion-typehead-component",
+    "title": "19 autosuggestion typehead component",
+    "category": "road-side-coder-premium",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "road-side-coder-premium/20-nested-comments",
+    "title": "20 nested comments",
+    "category": "road-side-coder-premium",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "road-side-coder-premium/21-Poll-Widget",
+    "title": "21 Poll Widget",
+    "category": "road-side-coder-premium",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "road-side-coder-premium/5-carousel-react-js",
+    "title": "5 carousel react js",
+    "category": "road-side-coder-premium",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "road-side-coder-premium/7-pagination-react-js",
+    "title": "7 pagination react js",
+    "category": "road-side-coder-premium",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "road-side-coder-premium/8-infinite-scroll-react-js",
+    "title": "8 infinite scroll react js",
+    "category": "road-side-coder-premium",
+    "difficulty": "Medium",
+    "framework": "React",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  }
+]

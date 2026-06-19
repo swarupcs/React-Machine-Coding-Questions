@@ -1,0 +1,10 @@
+{
+  "id": "great-frontend/digital-clock",
+  "title": "digital clock",
+  "category": "great-frontend",
+  "difficulty": "Medium",
+  "framework": "React",
+  "tags": [],
+  "estimatedTime": "30m",
+  "learningTopics": []
+}

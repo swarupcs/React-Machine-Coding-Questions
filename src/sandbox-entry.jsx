@@ -1,12 +1,35 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 
+// Global error handler for the sandbox
+window.addEventListener('error', (event) => {
+  window.parent.postMessage({
+    type: 'SANDBOX_ERROR',
+    message: event.message,
+    filename: event.filename,
+    lineno: event.lineno,
+    colno: event.colno,
+    error: event.error?.stack || event.error?.message || 'Unknown error'
+  }, '*');
+});
+
+window.addEventListener('unhandledrejection', (event) => {
+  window.parent.postMessage({
+    type: 'SANDBOX_ERROR',
+    message: event.reason?.message || 'Unhandled Promise Rejection',
+    error: event.reason?.stack || event.reason?.toString() || 'Unknown rejection reason'
+  }, '*');
+});
+
 async function bootstrap() {
   const params = new URLSearchParams(window.location.search);
   const questionPath = params.get('question');
 
   if (!questionPath) {
-    document.getElementById('root').innerHTML = '<h2>No question specified in URL</h2>';
+    document.getElementById('root').innerHTML = `
+      <div style="font-family: sans-serif; padding: 20px; color: #666; text-align: center;">
+        <h2>No question specified in URL</h2>
+      </div>`;
     return;
   }
 
@@ -28,7 +51,11 @@ async function bootstrap() {
       }
     } catch (err) {
       console.error("Failed to render React component:", err);
-      document.getElementById('root').innerHTML = `<h2 style="color:red">Error loading React component</h2><pre>${err.message}</pre>`;
+      document.getElementById('root').innerHTML = `
+        <div style="font-family: sans-serif; padding: 20px; color: #ef4444; background: #fee2e2; border: 1px solid #f87171; border-radius: 6px; margin: 20px;">
+          <h2 style="margin-top: 0;">Error loading React component</h2>
+          <pre style="white-space: pre-wrap; word-break: break-all; font-size: 14px;">${err.stack || err.message}</pre>
+        </div>`;
       return;
     }
   }
@@ -53,6 +80,15 @@ async function bootstrap() {
       const jsModules = import.meta.glob('./questions/*/*/{script.js,index.js}', { query: '?url', import: 'default' });
       const cssModules = import.meta.glob('./questions/*/*/*.css', { query: '?raw', import: 'default' });
 
+      // Inject CSS first
+      const matchedCssKeys = Object.keys(cssModules).filter(k => k.startsWith(prefix));
+      for (const key of matchedCssKeys) {
+        const cssContent = await cssModules[key]();
+        const style = document.createElement('style');
+        style.textContent = cssContent;
+        document.head.appendChild(style);
+      }
+
       // Inject JS
       const matchedJsKeys = Object.keys(jsModules).filter(k => k.startsWith(prefix));
       for (const key of matchedJsKeys) {
@@ -62,21 +98,20 @@ async function bootstrap() {
         script.src = src;
         document.body.appendChild(script);
       }
-
-      // Inject CSS
-      const matchedCssKeys = Object.keys(cssModules).filter(k => k.startsWith(prefix));
-      for (const key of matchedCssKeys) {
-        const cssContent = await cssModules[key]();
-        const style = document.createElement('style');
-        style.textContent = cssContent;
-        document.head.appendChild(style);
-      }
       
     } catch (err) {
       console.error("Failed to render Vanilla HTML:", err);
+      document.body.innerHTML = `
+        <div style="font-family: sans-serif; padding: 20px; color: #ef4444; background: #fee2e2; border: 1px solid #f87171; border-radius: 6px; margin: 20px;">
+          <h2 style="margin-top: 0;">Error loading Vanilla HTML</h2>
+          <pre style="white-space: pre-wrap; word-break: break-all; font-size: 14px;">${err.stack || err.message}</pre>
+        </div>`;
     }
   } else {
-    document.getElementById('root').innerHTML = `<h2>Could not find App.jsx or index.html for ${questionPath}</h2>`;
+    document.getElementById('root').innerHTML = `
+      <div style="font-family: sans-serif; padding: 20px; color: #666; text-align: center;">
+        <h2>Could not find App.jsx or index.html for ${questionPath}</h2>
+      </div>`;
   }
 }
 

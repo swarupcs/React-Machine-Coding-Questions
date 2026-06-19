@@ -1,0 +1,10 @@
+{
+  "id": "great-frontend/Todo-List",
+  "title": "Todo List",
+  "category": "great-frontend",
+  "difficulty": "Medium",
+  "framework": "React",
+  "tags": [],
+  "estimatedTime": "30m",
+  "learningTopics": []
+}

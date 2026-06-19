@@ -1,6 +1,11 @@
 import { useParams, Link } from 'react-router-dom';
 import { useEffect, useState, useCallback, useRef } from 'react';
-import './QuestionPreview.css';
+import * as Resizable from 'react-resizable-panels';
+const PanelGroup = Resizable.PanelGroup || Resizable.Group || Resizable.default?.PanelGroup || Resizable.default?.Group;
+const PanelResizeHandle = Resizable.PanelResizeHandle || Resizable.Separator || Resizable.default?.PanelResizeHandle || Resizable.default?.Separator;
+const Panel = Resizable.Panel || Resizable.default?.Panel;
+import { X, RefreshCw, ExternalLink, Monitor, Tablet, Smartphone, ChevronRight } from 'lucide-react';
+import { useTracking } from '../hooks/useTracking';
 import FileExplorer from '../components/FileExplorer';
 import CodeViewer from '../components/CodeViewer';
 
@@ -10,69 +15,35 @@ const allRawFiles = import.meta.glob('../questions/*/*/**/*', {
   import: 'default',
 });
 
-// Custom resizable panel hook
-function useResize(initialPx, minPx = 100, maxPx = 600) {
-  const [width, setWidth] = useState(initialPx);
-  const dragging = useRef(false);
-  const startX = useRef(0);
-  const startWidth = useRef(0);
-
-  const onMouseDown = useCallback((e) => {
-    dragging.current = true;
-    startX.current = e.clientX;
-    startWidth.current = width;
-    document.body.style.cursor = 'col-resize';
-    document.body.style.userSelect = 'none';
-  }, [width]);
-
-  useEffect(() => {
-    const onMouseMove = (e) => {
-      if (!dragging.current) return;
-      const delta = e.clientX - startX.current;
-      const next = Math.max(minPx, Math.min(maxPx, startWidth.current + delta));
-      setWidth(next);
-    };
-    const onMouseUp = () => {
-      dragging.current = false;
-      document.body.style.cursor = '';
-      document.body.style.userSelect = '';
-    };
-    window.addEventListener('mousemove', onMouseMove);
-    window.addEventListener('mouseup', onMouseUp);
-    return () => {
-      window.removeEventListener('mousemove', onMouseMove);
-      window.removeEventListener('mouseup', onMouseUp);
-    };
-  }, [minPx, maxPx]);
-
-  return [width, onMouseDown];
-}
-
 export default function QuestionPreview() {
   const { categoryName, questionName } = useParams();
+  const { markViewed } = useTracking();
+  const questionKey = `${categoryName}/${questionName}`;
 
   const [availableFiles, setAvailableFiles] = useState([]);
   const [rawFilesCache, setRawFilesCache] = useState({});
   const [selectedFilePath, setSelectedFilePath] = useState(null);
+  const [openTabs, setOpenTabs] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [isFullscreen, setIsFullscreen] = useState(false);
-
-  // Resizable panels: explorer width, editor width (preview gets the rest)
-  const [explorerWidth, onExplorerDrag] = useResize(200, 120, 400);
-  const [editorWidth, onEditorDrag] = useResize(480, 200, 900);
+  
+  const [deviceView, setDeviceView] = useState('desktop'); // desktop, tablet, mobile
+  const [refreshKey, setRefreshKey] = useState(0);
 
   const prefix = `../questions/${categoryName}/${questionName}/`;
-  const questionKey = `${categoryName}/${questionName}`;
+
+  useEffect(() => {
+    if (categoryName && questionName) {
+      markViewed(questionKey);
+    }
+  }, [questionKey]);
 
   useEffect(() => {
     setLoading(true);
     setAvailableFiles([]);
     setRawFilesCache({});
     setSelectedFilePath(null);
-    setIsFullscreen(false);
-  }, [questionKey]);
+    setOpenTabs([]);
 
-  useEffect(() => {
     const matchedKeys = Object.keys(allRawFiles).filter((p) => p.startsWith(prefix));
     const filePaths = matchedKeys.map((key) => key.replace(prefix, ''));
     setAvailableFiles(filePaths);
@@ -85,10 +56,16 @@ export default function QuestionPreview() {
   }, [questionKey]);
 
   const handleSelectFile = async (filePath, keys = null) => {
+    if (!openTabs.includes(filePath)) {
+      setOpenTabs(prev => [...prev, filePath]);
+    }
     setSelectedFilePath(filePath);
+    
     if (rawFilesCache[filePath]) return;
+    
     const matchedKeys = keys || Object.keys(allRawFiles).filter((p) => p.startsWith(prefix));
     const fullPath = matchedKeys.find(k => k.replace(prefix, '') === filePath);
+    
     if (fullPath && allRawFiles[fullPath]) {
       try {
         const content = await allRawFiles[fullPath]();
@@ -99,113 +76,132 @@ export default function QuestionPreview() {
     }
   };
 
-  // Keyboard shortcut
-  const handleKeyDown = useCallback((e) => {
-    if (e.key === 'F11') { e.preventDefault(); setIsFullscreen(p => !p); }
-    if (e.key === 'Escape' && isFullscreen) setIsFullscreen(false);
-  }, [isFullscreen]);
+  const closeTab = (e, filePath) => {
+    e.stopPropagation();
+    setOpenTabs(prev => prev.filter(t => t !== filePath));
+    if (selectedFilePath === filePath) {
+      const newTabs = openTabs.filter(t => t !== filePath);
+      setSelectedFilePath(newTabs.length > 0 ? newTabs[newTabs.length - 1] : null);
+    }
+  };
 
-  useEffect(() => {
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [handleKeyDown]);
+  const handleRefresh = () => setRefreshKey(k => k + 1);
+
+  if (loading) {
+    return <div className="flex items-center justify-center h-full bg-[#1e1e1e] text-muted-foreground">Loading workspace...</div>;
+  }
 
   return (
-    <div className={`qp-container${isFullscreen ? ' qp-fullscreen' : ''}`} key={questionKey}>
-      {/* Compact header */}
-      <div className="qp-header">
-        <div className="qp-breadcrumb">
-          <Link to="/">Home</Link>
-          <span className="qp-breadcrumb-sep">›</span>
-          <Link to={`/category/${categoryName}`}>{categoryName}</Link>
-          <span className="qp-breadcrumb-sep">›</span>
-          <span className="qp-breadcrumb-current">{questionName}</span>
-        </div>
-        <div className="qp-header-actions">
-          <button
-            className="qp-fullscreen-btn"
-            onClick={() => setIsFullscreen(p => !p)}
-            title={isFullscreen ? 'Exit Fullscreen (Esc)' : 'Fullscreen (F11)'}
-          >
-            {isFullscreen ? (
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                <polyline points="4 14 10 14 10 20"/><polyline points="20 10 14 10 14 4"/>
-                <line x1="10" y1="14" x2="3" y2="21"/><line x1="21" y1="3" x2="14" y2="10"/>
-              </svg>
-            ) : (
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                <polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/>
-                <line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/>
-              </svg>
-            )}
-            <span>{isFullscreen ? 'Exit' : 'Fullscreen'}</span>
-          </button>
+    <div className="flex flex-col h-full bg-[#1e1e1e] text-gray-300">
+      {/* Top Breadcrumb Bar */}
+      <div className="h-10 flex items-center justify-between px-4 bg-[#181818] border-b border-border text-sm">
+        <div className="flex items-center gap-2 text-muted-foreground">
+          <Link to="/" className="hover:text-foreground">Home</Link>
+          <ChevronRight className="w-4 h-4" />
+          <Link to={`/category/${categoryName}`} className="hover:text-foreground">{categoryName.replace(/-/g, ' ')}</Link>
+          <ChevronRight className="w-4 h-4" />
+          <span className="text-foreground font-medium">{questionName.replace(/-/g, ' ')}</span>
         </div>
       </div>
 
-      {/* Workspace */}
-      <div className="qp-workspace">
-        {loading ? (
-          <div className="qp-loading">
-            <div className="qp-spinner" />
-            <span className="qp-loading-text">Loading workspace…</span>
-          </div>
-        ) : availableFiles.length === 0 ? (
-          <div className="qp-not-found">
-            <div className="qp-not-found-icon">🔍</div>
-            <h2>Question Not Found</h2>
-            <p>The question you're looking for doesn't exist.</p>
-          </div>
-        ) : (
-          <div className="qp-panels">
-            {/* File Explorer */}
-            <div className="qp-panel-sidebar" style={{ width: explorerWidth, minWidth: explorerWidth, maxWidth: explorerWidth }}>
-              <FileExplorer
-                files={availableFiles}
-                selectedFile={selectedFilePath}
-                onSelectFile={(path) => handleSelectFile(path)}
-              />
-            </div>
-
-            {/* Drag handle 1 */}
-            <div className="qp-drag-handle" onMouseDown={onExplorerDrag} />
-
-            {/* Code Editor */}
-            <div className="qp-panel-editor" style={{ width: editorWidth, minWidth: editorWidth, maxWidth: editorWidth }}>
-              <CodeViewer
-                filePath={selectedFilePath}
-                code={selectedFilePath ? rawFilesCache[selectedFilePath] : ''}
-              />
-            </div>
-
-            {/* Drag handle 2 */}
-            <div className="qp-drag-handle" onMouseDown={onEditorDrag} />
-
-            {/* Live Preview — fills remaining space */}
-            <div className="qp-panel-preview">
-              <div className="qp-preview-header">
-                <span className="qp-preview-title">
-                  <span className="qp-preview-dot" />
-                  Preview
-                </span>
+      <div className="flex-1 overflow-hidden">
+        <PanelGroup direction="horizontal">
+          {/* Sidebar */}
+          <Panel defaultSize={20} minSize={15}>
+            <FileExplorer
+              files={availableFiles}
+              selectedFile={selectedFilePath}
+              onSelectFile={(path) => handleSelectFile(path)}
+            />
+          </Panel>
+          
+          <PanelResizeHandle className="w-1 bg-[#2d2d2d] hover:bg-primary transition-colors cursor-col-resize" />
+          
+          {/* Editor */}
+          <Panel defaultSize={40} minSize={20}>
+            <div className="flex flex-col h-full bg-[#1e1e1e]">
+              {/* Tabs */}
+              <div className="flex bg-[#181818] overflow-x-auto no-scrollbar">
+                {openTabs.map(tab => (
+                  <div 
+                    key={tab}
+                    onClick={() => setSelectedFilePath(tab)}
+                    className={`group flex items-center gap-2 px-4 py-2 text-sm border-r border-border/50 cursor-pointer min-w-max transition-colors ${
+                      selectedFilePath === tab ? 'bg-[#1e1e1e] text-white border-t-2 border-t-primary' : 'bg-[#2d2d2d] text-muted-foreground hover:bg-[#3d3d3d]'
+                    }`}
+                  >
+                    {tab.split('/').pop()}
+                    <button onClick={(e) => closeTab(e, tab)} className={`p-0.5 rounded-sm opacity-0 group-hover:opacity-100 hover:bg-white/10 ${selectedFilePath === tab ? 'opacity-100' : ''}`}>
+                      <X className="w-3 h-3" />
+                    </button>
+                  </div>
+                ))}
               </div>
-              <div className="qp-preview-content" style={{ overflow: 'auto' }}>
-                <iframe
-                  key={questionKey}
-                  title={`Sandbox - ${questionName}`}
-                  src={`/sandbox.html?question=${categoryName}/${questionName}`}
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    border: 'none',
-                    display: 'block',
-                  }}
-                  sandbox="allow-scripts allow-same-origin allow-modals allow-forms"
+              {/* Breadcrumb inside editor */}
+              {selectedFilePath && (
+                <div className="flex items-center px-4 py-1 bg-[#1e1e1e] text-xs text-muted-foreground border-b border-border/10">
+                  {selectedFilePath.split('/').join(' > ')}
+                </div>
+              )}
+              {/* Editor Content */}
+              <div className="flex-1 overflow-hidden">
+                <CodeViewer
+                  filePath={selectedFilePath}
+                  code={selectedFilePath ? rawFilesCache[selectedFilePath] : ''}
                 />
               </div>
             </div>
-          </div>
-        )}
+          </Panel>
+
+          <PanelResizeHandle className="w-1 bg-[#2d2d2d] hover:bg-primary transition-colors cursor-col-resize" />
+
+          {/* Preview */}
+          <Panel defaultSize={40} minSize={20}>
+            <div className="flex flex-col h-full bg-background relative">
+              {/* Toolbar */}
+              <div className="h-10 flex items-center justify-between px-3 bg-muted border-b">
+                <div className="flex items-center gap-1 bg-background rounded-md p-1 border shadow-sm">
+                  <button onClick={() => setDeviceView('mobile')} className={`p-1.5 rounded transition-colors ${deviceView === 'mobile' ? 'bg-muted text-foreground' : 'text-muted-foreground hover:text-foreground'}`}>
+                    <Smartphone className="w-4 h-4" />
+                  </button>
+                  <button onClick={() => setDeviceView('tablet')} className={`p-1.5 rounded transition-colors ${deviceView === 'tablet' ? 'bg-muted text-foreground' : 'text-muted-foreground hover:text-foreground'}`}>
+                    <Tablet className="w-4 h-4" />
+                  </button>
+                  <button onClick={() => setDeviceView('desktop')} className={`p-1.5 rounded transition-colors ${deviceView === 'desktop' ? 'bg-muted text-foreground' : 'text-muted-foreground hover:text-foreground'}`}>
+                    <Monitor className="w-4 h-4" />
+                  </button>
+                </div>
+                <div className="flex items-center gap-2">
+                  <button onClick={handleRefresh} className="p-1.5 text-muted-foreground hover:text-foreground transition-colors rounded hover:bg-muted" title="Refresh Preview">
+                    <RefreshCw className="w-4 h-4" />
+                  </button>
+                  <a href={`/sandbox.html?question=${categoryName}/${questionName}`} target="_blank" rel="noreferrer" className="p-1.5 text-muted-foreground hover:text-foreground transition-colors rounded hover:bg-muted" title="Open in New Tab">
+                    <ExternalLink className="w-4 h-4" />
+                  </a>
+                </div>
+              </div>
+              
+              {/* Iframe Wrapper */}
+              <div className="flex-1 flex justify-center bg-[#e5e5e5] dark:bg-black/20 overflow-auto p-4">
+                <div 
+                  className={`bg-white shadow-xl ring-1 ring-black/5 transition-all duration-300 ${
+                    deviceView === 'mobile' ? 'w-[375px] h-[812px] rounded-[2rem] border-8 border-gray-900 overflow-hidden' :
+                    deviceView === 'tablet' ? 'w-[768px] h-[1024px] rounded-xl overflow-hidden' :
+                    'w-full h-full rounded-md overflow-hidden'
+                  }`}
+                >
+                  <iframe
+                    key={`${questionKey}-${refreshKey}`}
+                    title={`Sandbox - ${questionName}`}
+                    src={`/sandbox.html?question=${categoryName}/${questionName}`}
+                    className="w-full h-full border-none bg-white"
+                    sandbox="allow-scripts allow-same-origin allow-modals allow-forms"
+                  />
+                </div>
+              </div>
+            </div>
+          </Panel>
+        </PanelGroup>
       </div>
     </div>
   );

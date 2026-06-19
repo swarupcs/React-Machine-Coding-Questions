@@ -4,7 +4,7 @@ import Editor from '@monaco-editor/react';
 export default function CodeViewer({ filePath, code }) {
   if (!filePath) {
     return (
-      <div className="qp-code-empty">
+      <div className="flex items-center justify-center h-full bg-[#1e1e1e] text-muted-foreground">
         <p>Select a file to view its source code.</p>
       </div>
     );
@@ -19,11 +19,8 @@ export default function CodeViewer({ filePath, code }) {
   if (extension === 'md') language = 'markdown';
 
   return (
-    <div className="qp-code-viewer">
-      <div className="qp-code-header">
-        <span className="qp-code-filename">{filePath.split('/').pop()}</span>
-      </div>
-      <div className="qp-code-editor-container">
+    <div className="flex flex-col h-full bg-[#1e1e1e]">
+      <div className="flex-1 overflow-hidden relative">
         <Editor
           height="100%"
           language={language}
@@ -33,9 +30,12 @@ export default function CodeViewer({ filePath, code }) {
             readOnly: true,
             minimap: { enabled: false },
             fontSize: 14,
+            fontFamily: "'JetBrains Mono', 'Fira Code', 'Consolas', monospace",
             wordWrap: 'on',
             scrollBeyondLastLine: false,
             padding: { top: 16 },
+            lineHeight: 24,
+            renderLineHighlight: 'all',
           }}
         />
       </div>

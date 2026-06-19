@@ -5,18 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sandbox Runtime</title>
     <style>
-      /* Base sandbox styling */
+      /* Base sandbox styling for absolute isolation */
       html, body {
         margin: 0;
         padding: 0;
         width: 100%;
         height: 100%;
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-          'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
         background-color: #ffffff;
-        color: #333333;
+        color: #1a1a1a;
       }
       body {
         /* No forced padding — each question controls its own spacing */
@@ -26,6 +25,7 @@
         width: 100%;
         height: 100%;
         min-height: 100vh;
+        isolation: isolate; /* Create new stacking context */
       }
       /* Reset basic elements to prevent styles from bleeding out of their expected boxes */
       h1, h2, h3, h4, h5, h6, p, ul, ol, li, figure {
