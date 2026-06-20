@@ -141,7 +141,7 @@ export default function NoteView() {
           {/* MDX Content */}
           <article className="prose prose-neutral dark:prose-invert max-w-none">
             <MDXProvider components={MDXComponents}>
-              {NoteContent && <NoteContent />}
+              {NoteContent && <NoteContent components={MDXComponents} />}
             </MDXProvider>
           </article>
 
