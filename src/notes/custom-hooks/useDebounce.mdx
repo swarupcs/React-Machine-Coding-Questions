@@ -1,0 +1,109 @@
+# useDebounce — Custom Hook
+
+<Callout type="tip">
+`useDebounce` is one of the most practical custom hooks in frontend development. It's used in every search input to avoid firing API calls on every keystroke.
+</Callout>
+
+## What is Debouncing?
+
+**Debouncing** delays invoking a function until after a specified wait time has passed since the last time it was invoked. If the function is called again before the wait time elapses, the timer resets.
+
+**Use case:** Search inputs — only call the API when the user stops typing, not on every keystroke.
+
+## Implementation
+
+```js
+import { useState, useEffect } from 'react';
+
+/**
+ * Debounces a value — only updates after `delay` ms of no changes.
+ * @param {*} value - The value to debounce
+ * @param {number} delay - Delay in milliseconds
+ */
+export function useDebounce(value, delay = 300) {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
+
+    // Cleanup: cancel the timer if value changes before delay elapses
+    return () => clearTimeout(timer);
+  }, [value, delay]);
+
+  return debouncedValue;
+}
+```
+
+## Usage
+
+```jsx
+import { useState } from 'react';
+import { useDebounce } from './useDebounce';
+
+function SearchInput() {
+  const [query, setQuery] = useState('');
+  const debouncedQuery = useDebounce(query, 400);
+
+  useEffect(() => {
+    if (debouncedQuery) {
+      // This only fires 400ms after the user stops typing
+      fetch(`/api/search?q=${debouncedQuery}`)
+        .then(r => r.json())
+        .then(data => setResults(data));
+    }
+  }, [debouncedQuery]);
+
+  return (
+    <input
+      value={query}
+      onChange={e => setQuery(e.target.value)}
+      placeholder="Search..."
+    />
+  );
+}
+```
+
+## How it Works — Step by Step
+
+1. User types a character → `query` state updates → component re-renders
+2. `useEffect` runs → clears previous timer → starts a new 400ms timer
+3. User types another character → same thing, timer resets
+4. User stops typing → 400ms passes → `setDebouncedValue` fires
+5. `debouncedQuery` updates → the search `useEffect` fires the API call
+
+<Callout type="info">
+The cleanup function `return () => clearTimeout(timer)` is the key. Without it, every render would start a timer that eventually fires, making debounce useless.
+</Callout>
+
+## Callback Version
+
+Sometimes you want to debounce a function call instead of a value:
+
+```js
+import { useRef, useCallback } from 'react';
+
+export function useDebouncedCallback(fn, delay = 300) {
+  const timerRef = useRef(null);
+
+  return useCallback((...args) => {
+    clearTimeout(timerRef.current);
+    timerRef.current = setTimeout(() => fn(...args), delay);
+  }, [fn, delay]);
+}
+```
+
+## useDebounce vs useThrottle
+
+| | **Debounce** | **Throttle** |
+|---|---|---|
+| **Fires** | After delay of inactivity | At most once per interval |
+| **Use case** | Search inputs, resize | Scroll handlers, rapid clicks |
+| **Behavior** | Resets timer on each call | Ignores calls within interval |
+
+## Interview Question
+
+> *"How would you prevent an API call on every keystroke in a search input?"*
+
+Answer: Use debouncing — delay the API call until the user pauses typing. With React hooks, `useDebounce` captures the latest input value and only updates after the specified delay, triggering the API call only when the debounced value changes.

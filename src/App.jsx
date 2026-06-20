@@ -4,6 +4,9 @@ import Home from './pages/Home';
 import Category from './pages/Category';
 import QuestionPreview from './pages/QuestionPreview';
 import Dashboard from './pages/Dashboard';
+import Explore from './pages/Explore';
+import NotesIndex from './pages/NotesIndex';
+import NoteView from './pages/NoteView';
 import { ThemeProvider } from './components/theme-provider';
 
 // For standalone apps
@@ -23,6 +26,9 @@ export default function App() {
                 <Routes>
                   <Route path='/' element={<Home />} />
                   <Route path='/dashboard' element={<Dashboard />} />
+                  <Route path='/explore' element={<Explore />} />
+                  <Route path='/notes' element={<NotesIndex />} />
+                  <Route path='/notes/:category/:slug' element={<NoteView />} />
                   <Route path='/category/:categoryName' element={<Category />} />
                   <Route
                     path='/category/:categoryName/:questionName'

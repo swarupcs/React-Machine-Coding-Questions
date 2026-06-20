@@ -10,6 +10,8 @@ export default function MainLayout({ children }) {
   
   // Question preview pages need full-height IDE layout (no padding, no scroll)
   const isPreview = /\/category\/.+\/.+/.test(location.pathname);
+  const isNoteView = /\/notes\/.+\/.+/.test(location.pathname);
+  const isFullHeight = isPreview || isNoteView;
 
   return (
     <div className="absolute inset-0 flex overflow-hidden bg-background">
@@ -18,7 +20,7 @@ export default function MainLayout({ children }) {
       </aside>
 
       <main className="flex-1 flex flex-col min-w-0 h-full overflow-hidden relative">
-        {!isPreview && (
+        {!isFullHeight && (
           <header className="h-16 flex items-center justify-between px-6 border-b bg-card text-card-foreground">
             <div className="flex items-center gap-4">
               <CommandPalette />
@@ -47,7 +49,7 @@ export default function MainLayout({ children }) {
           </header>
         )}
 
-        <div className={`flex-1 ${isPreview ? 'flex flex-col overflow-hidden p-0 bg-[#1e1e1e]' : 'overflow-y-auto p-6 bg-muted/30'}`}>
+        <div className={`flex-1 ${isFullHeight ? 'flex flex-col overflow-hidden p-0' : 'overflow-y-auto p-6 bg-muted/30'} ${isPreview ? 'bg-[#1e1e1e]' : ''}`}>
           {children}
         </div>
       </main>

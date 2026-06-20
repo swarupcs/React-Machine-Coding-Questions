@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { Command } from "cmdk"
 import registry from "../data/registry.json"
-import { Search, MonitorPlay, FolderOpen } from "lucide-react"
+import { Search, MonitorPlay, Compass, BookOpen } from "lucide-react"
 
 export function CommandPalette() {
   const [open, setOpen] = useState(false)
@@ -72,6 +72,14 @@ export function CommandPalette() {
                 <Command.Item onSelect={() => { setOpen(false); navigate('/dashboard') }} className="flex items-center gap-3 px-3 py-2 text-sm text-foreground rounded-md cursor-pointer aria-selected:bg-accent aria-selected:text-accent-foreground">
                   <MonitorPlay className="w-4 h-4" />
                   Dashboard
+                </Command.Item>
+                <Command.Item onSelect={() => { setOpen(false); navigate('/explore') }} className="flex items-center gap-3 px-3 py-2 text-sm text-foreground rounded-md cursor-pointer aria-selected:bg-accent aria-selected:text-accent-foreground">
+                  <Compass className="w-4 h-4" />
+                  Explore All Questions
+                </Command.Item>
+                <Command.Item onSelect={() => { setOpen(false); navigate('/notes') }} className="flex items-center gap-3 px-3 py-2 text-sm text-foreground rounded-md cursor-pointer aria-selected:bg-accent aria-selected:text-accent-foreground">
+                  <BookOpen className="w-4 h-4" />
+                  Theory Notes
                 </Command.Item>
               </Command.Group>
 

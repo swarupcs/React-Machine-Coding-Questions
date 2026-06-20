@@ -1,0 +1,125 @@
+# Closures in JavaScript
+
+<Callout type="tip">
+Closures are one of the most frequently asked JavaScript concepts in frontend interviews. They power everything from React hooks to module patterns.
+</Callout>
+
+## What is a Closure?
+
+A **closure** is a function that **remembers** the variables from its outer scope even after the outer function has returned.
+
+```js
+function outer() {
+  const count = 0;
+
+  function inner() {
+    console.log(count); // inner "closes over" count
+  }
+
+  return inner;
+}
+
+const fn = outer();
+fn(); // logs 0 — outer() has returned, but count is still accessible
+```
+
+The `inner` function forms a closure over `count`. Even though `outer()` has finished executing, `count` lives on in memory because `inner` still references it.
+
+## Why Do Closures Exist?
+
+JavaScript uses **lexical scoping** — functions can access variables defined in their outer scope at the time they were created, not at the time they are called.
+
+## Classic Counter Example
+
+```js
+function makeCounter(start = 0) {
+  let count = start;
+
+  return {
+    increment: () => ++count,
+    decrement: () => --count,
+    value:     () => count,
+    reset:     () => { count = start; },
+  };
+}
+
+const counter = makeCounter(10);
+counter.increment(); // 11
+counter.increment(); // 12
+counter.decrement(); // 11
+counter.value();     // 11
+```
+
+Here, `count` and `start` are "closed over" by all four methods. They share the same `count` variable.
+
+## The Classic Bug (and Fix)
+
+```js
+// ❌ BUG: All functions log 3
+for (var i = 0; i < 3; i++) {
+  setTimeout(() => console.log(i), 0);
+}
+// Output: 3, 3, 3
+```
+
+Because `var` is function-scoped, all closures share the **same** `i`. By the time the timeouts fire, the loop has finished and `i = 3`.
+
+```js
+// ✅ FIX 1: Use let (block-scoped)
+for (let i = 0; i < 3; i++) {
+  setTimeout(() => console.log(i), 0);
+}
+// Output: 0, 1, 2
+
+// ✅ FIX 2: IIFE to capture each i
+for (var i = 0; i < 3; i++) {
+  ((j) => setTimeout(() => console.log(j), 0))(i);
+}
+```
+
+## Closures in React
+
+React hooks are built on closures. Every time a component renders, event handlers and effects "close over" the state values from that render.
+
+```jsx
+function Counter() {
+  const [count, setCount] = useState(0);
+
+  // This closure captures `count` at the time of render
+  const handleClick = () => {
+    console.log(count); // stale closure if count changes asynchronously
+    setCount(count + 1);
+  };
+
+  return <button onClick={handleClick}>{count}</button>;
+}
+```
+
+<Callout type="warning">
+**Stale closures** are the most common React bug. If you use state inside a `useEffect` or async callback without adding it to the dependency array, you might be reading a stale (old) value.
+</Callout>
+
+```jsx
+// ❌ Stale closure: count is always 0 inside setInterval
+useEffect(() => {
+  const id = setInterval(() => {
+    setCount(count + 1); // stale!
+  }, 1000);
+  return () => clearInterval(id);
+}, []); // missing count dependency
+
+// ✅ Fix: Use functional updater
+useEffect(() => {
+  const id = setInterval(() => {
+    setCount(c => c + 1); // always uses latest value
+  }, 1000);
+  return () => clearInterval(id);
+}, []);
+```
+
+## Key Takeaways
+
+- A closure is a function + its surrounding scope
+- Closures enable **data privacy**, **factory functions**, and **stateful functions**
+- React hooks rely entirely on closures — understanding this prevents stale closure bugs
+- `let` and `const` in loops create a new binding per iteration; `var` does not

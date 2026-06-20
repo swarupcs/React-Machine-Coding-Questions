@@ -1,0 +1,101 @@
+# The JavaScript Event Loop
+
+<Callout type="tip">
+Understanding the event loop is fundamental to writing non-blocking JavaScript and acing frontend interviews.
+</Callout>
+
+## How JavaScript Works
+
+JavaScript is **single-threaded** — it can only execute one piece of code at a time. But it can handle asynchronous operations without blocking thanks to the **event loop**.
+
+The runtime consists of three key parts:
+
+| Part | Description |
+|------|-------------|
+| **Call Stack** | Where code executes (LIFO — last in, first out) |
+| **Web APIs** | Browser-provided async functions (setTimeout, fetch, DOM events) |
+| **Task Queue** | Queue for callbacks waiting to run |
+| **Microtask Queue** | High-priority queue for Promises and queueMicrotask |
+
+## The Event Loop Algorithm
+
+```js
+// Simplified event loop pseudocode
+while (true) {
+  // 1. Run all synchronous code in call stack
+  runCallStack();
+
+  // 2. Drain ALL microtasks (Promises, queueMicrotask)
+  while (microtaskQueue.length > 0) {
+    runNextMicrotask();
+  }
+
+  // 3. Run ONE macrotask (setTimeout, setInterval, I/O)
+  if (taskQueue.length > 0) {
+    runNextTask();
+  }
+
+  // 4. Render (if it's time)
+  renderIfNeeded();
+}
+```
+
+## Microtasks vs Macrotasks
+
+**Microtasks** (run immediately after current task, before next macrotask):
+- `Promise.then()`, `Promise.catch()`, `Promise.finally()`
+- `queueMicrotask()`
+- `MutationObserver`
+
+**Macrotasks** (scheduled for future iterations):
+- `setTimeout`, `setInterval`
+- `setImmediate` (Node.js)
+- I/O callbacks
+- UI events
+
+## Classic Interview Example
+
+```js
+console.log('1');
+
+setTimeout(() => {
+  console.log('2');
+}, 0);
+
+Promise.resolve().then(() => {
+  console.log('3');
+});
+
+console.log('4');
+
+// Output: 1, 4, 3, 2
+```
+
+**Why?**
+1. `1` — synchronous, runs immediately
+2. `4` — synchronous, runs immediately  
+3. `3` — Promise microtask, drains before macrotask
+4. `2` — setTimeout macrotask, runs last
+
+<Callout type="warning">
+Even `setTimeout(fn, 0)` doesn't run immediately. It schedules a macrotask, which always runs after all pending microtasks.
+</Callout>
+
+## Starvation
+
+If microtasks keep scheduling more microtasks, the macrotask queue is **never drained** — this is called starvation.
+
+```js
+// This will block the browser indefinitely:
+function loop() {
+  Promise.resolve().then(loop); // infinite microtask chain
+}
+loop();
+```
+
+## Key Takeaways
+
+- The call stack runs synchronous code
+- Microtasks (Promises) run **before** macrotasks (setTimeout)
+- `setTimeout(fn, 0)` doesn't mean "run now" — it means "run as soon as possible after current work"
+- The event loop is what enables JavaScript to be non-blocking despite being single-threaded
