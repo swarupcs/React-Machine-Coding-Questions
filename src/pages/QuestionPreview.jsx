@@ -7,6 +7,7 @@ const Panel = Resizable.Panel || Resizable.default?.Panel;
 import { X, RefreshCw, ExternalLink, Monitor, Tablet, Smartphone, ChevronRight } from 'lucide-react';
 import { useTracking } from '../hooks/useTracking';
 import FileExplorer from '../components/FileExplorer';
+import { getFileIcon } from '../utils/fileIcons';
 import CodeViewer from '../components/CodeViewer';
 
 // Load all raw files lazily
@@ -129,7 +130,8 @@ export default function QuestionPreview() {
                       selectedFilePath === tab ? 'bg-[#1e1e1e] text-white border-t-2 border-t-primary' : 'bg-[#2d2d2d] text-muted-foreground hover:bg-[#3d3d3d]'
                     }`}
                   >
-                    {tab.split('/').pop()}
+                    {getFileIcon(tab.split('/').pop())}
+                    <span>{tab.split('/').pop()}</span>
                     <button onClick={(e) => closeTab(e, tab)} className={`p-0.5 rounded-sm opacity-0 group-hover:opacity-100 hover:bg-white/10 ${selectedFilePath === tab ? 'opacity-100' : ''}`}>
                       <X className="w-3 h-3" />
                     </button>

@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
+import { getFileIcon } from '../utils/fileIcons';
 import {
   Folder,
   FolderOpen,
@@ -35,13 +36,7 @@ function buildTree(paths) {
   return root;
 }
 
-const getFileIcon = (filename) => {
-  if (filename.endsWith('.jsx') || filename.endsWith('.js')) return <FileCode2 className="w-4 h-4 text-blue-400" />;
-  if (filename.endsWith('.css')) return <FileType2 className="w-4 h-4 text-sky-400" />;
-  if (filename.endsWith('.html')) return <FileCode2 className="w-4 h-4 text-orange-400" />;
-  if (filename.endsWith('.json')) return <FileJson className="w-4 h-4 text-yellow-400" />;
-  return <FileText className="w-4 h-4 text-muted-foreground" />;
-};
+
 
 function TreeNode({ node, level, onSelectFile, selectedFile, expandedFolders, toggleFolder }) {
   const isOpen = expandedFolders.has(node.path) || node.name === 'root';
