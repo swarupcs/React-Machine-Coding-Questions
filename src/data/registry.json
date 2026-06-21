@@ -1089,8 +1089,19 @@
     "learningTopics": []
   },
   {
-    "id": "LB/Editable-Todo-List",
-    "title": "Editable Todo List",
+    "id": "LB/Editable-Todo-List-Basic",
+    "title": "Editable Todo List Basic",
+    "category": "LB",
+    "difficulty": "Medium",
+    "framework": "React",
+    "type": "React (JS)",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "LB/Editable-Todo-List-With-Expiry-Time",
+    "title": "Editable Todo List With Expiry Time",
     "category": "LB",
     "difficulty": "Medium",
     "framework": "React",
