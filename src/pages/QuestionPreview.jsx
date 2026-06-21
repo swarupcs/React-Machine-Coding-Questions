@@ -12,8 +12,7 @@ import CodeViewer from '../components/CodeViewer';
 
 // Load all raw files lazily
 const allRawFiles = import.meta.glob('../questions/*/*/**/*', {
-  query: '?raw',
-  import: 'default',
+  as: 'raw'
 });
 
 export default function QuestionPreview() {
