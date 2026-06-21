@@ -1,7 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useState } from 'react';
 import registry from '../../data/registry.json';
-import { ChevronDown, ChevronRight, Home, LayoutDashboard, Layers, Compass, BookOpen } from 'lucide-react';
+import { ChevronDown, ChevronRight, Home, LayoutDashboard, Layers, Compass, BookOpen, Search } from 'lucide-react';
 import { SiReact, SiJavascript, SiTypescript, SiCss } from 'react-icons/si';
 import { cn } from '@/lib/utils';
 
@@ -37,6 +37,8 @@ export default function Sidebar() {
   const location = useLocation();
   const [openCategories, setOpenCategories] = useState({});
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [globalSearch, setGlobalSearch] = useState('');
+  const [catSearch, setCatSearch] = useState({});
 
   // Group registry by category
   const categories = registry.reduce((acc, q) => {
@@ -60,6 +62,18 @@ export default function Sidebar() {
     if (cfg) return <cfg.icon className={cn("w-4 h-4 flex-shrink-0", cfg.color)} />;
     return <Layers className="w-4 h-4 flex-shrink-0 text-muted-foreground" />;
   };
+
+  // Filter categories based on global search and category search
+  const filteredCategories = Object.keys(categories).reduce((acc, cat) => {
+    let qs = categories[cat];
+    if (globalSearch.trim()) {
+      qs = qs.filter(q => q.title.toLowerCase().includes(globalSearch.toLowerCase()));
+    } else if (catSearch[cat]?.trim()) {
+      qs = qs.filter(q => q.title.toLowerCase().includes(catSearch[cat].toLowerCase()));
+    }
+    if (qs.length > 0) acc[cat] = qs;
+    return acc;
+  }, {});
 
   return (
     <div className={cn('flex flex-col h-full bg-card border-r transition-all duration-300 relative', isCollapsed ? 'w-16' : 'w-64')}>
@@ -117,10 +131,30 @@ export default function Sidebar() {
 
         {/* Categories */}
         <div className={cn("", isCollapsed ? "px-2" : "px-4")}>
-          {!isCollapsed && <p className="text-xs font-semibold text-muted-foreground mb-2 px-2 uppercase tracking-wider">Categories</p>}
+          {!isCollapsed && (
+            <div className="flex items-center justify-between mb-2 px-2">
+              <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Categories</p>
+            </div>
+          )}
+          
+          {!isCollapsed && (
+            <div className="px-2 mb-3">
+              <div className="relative">
+                <Search className="w-3.5 h-3.5 absolute left-2.5 top-2 text-muted-foreground" />
+                <input
+                  type="text"
+                  placeholder="Search all..."
+                  value={globalSearch}
+                  onChange={(e) => setGlobalSearch(e.target.value)}
+                  className="w-full bg-muted/50 border border-transparent focus:outline-none focus:ring-1 focus:ring-primary pl-8 pr-2 py-1.5 text-xs rounded-md transition-colors"
+                />
+              </div>
+            </div>
+          )}
+
           <ul className='space-y-1'>
-            {Object.keys(categories).map((cat) => {
-              const isOpen = openCategories[cat];
+            {Object.keys(filteredCategories).map((cat) => {
+              const isOpen = globalSearch ? true : openCategories[cat];
               return (
                 <li key={cat} className="mb-1">
                   <button
@@ -138,7 +172,22 @@ export default function Sidebar() {
 
                   {!isCollapsed && isOpen && (
                     <ul className='mt-1 ml-4 pl-4 border-l border-border space-y-1'>
-                      {categories[cat].map((q) => {
+                      {!globalSearch && (
+                        <li className="pr-2 mb-2 mt-2">
+                          <div className="relative">
+                            <Search className="w-3 h-3 absolute left-2 top-2 text-muted-foreground/70" />
+                            <input
+                              type="text"
+                              placeholder={`Search in ${cat}...`}
+                              value={catSearch[cat] || ''}
+                              onChange={(e) => setCatSearch(prev => ({ ...prev, [cat]: e.target.value }))}
+                              className="w-full bg-muted/30 border border-transparent focus:outline-none focus:ring-1 focus:ring-primary pl-6 pr-2 py-1 text-[11px] rounded-md transition-colors placeholder:text-muted-foreground/50"
+                            />
+                          </div>
+                        </li>
+                      )}
+                      
+                      {filteredCategories[cat].map((q) => {
                         const path = `/category/${q.id}`;
                         const isActive = location.pathname === path;
                         return (
@@ -157,11 +206,23 @@ export default function Sidebar() {
                           </li>
                         );
                       })}
+                      
+                      {filteredCategories[cat].length === 0 && (
+                        <li className="px-3 py-2 text-xs text-muted-foreground italic">
+                          No matches found.
+                        </li>
+                      )}
                     </ul>
                   )}
                 </li>
               );
             })}
+            
+            {!isCollapsed && globalSearch && Object.keys(filteredCategories).length === 0 && (
+              <div className="px-4 py-6 text-center">
+                <p className="text-sm text-muted-foreground">No questions found matching "{globalSearch}"</p>
+              </div>
+            )}
           </ul>
         </div>
       </div>
