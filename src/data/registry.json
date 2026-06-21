@@ -1309,8 +1309,19 @@
     "learningTopics": []
   },
   {
-    "id": "LB/Pagination-React",
-    "title": "Pagination React",
+    "id": "LB/Pagination-React-Basic",
+    "title": "Pagination React Basic",
+    "category": "LB",
+    "difficulty": "Medium",
+    "framework": "React",
+    "type": "React (JS)",
+    "tags": [],
+    "estimatedTime": "30m",
+    "learningTopics": []
+  },
+  {
+    "id": "LB/Pagination-React-Hiding-Unnecessary-Pages",
+    "title": "Pagination React Hiding Unnecessary Pages",
     "category": "LB",
     "difficulty": "Medium",
     "framework": "React",
