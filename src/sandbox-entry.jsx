@@ -36,8 +36,8 @@ async function bootstrap() {
   const prefix = `./questions/${questionPath}/`;
 
   // 1. Attempt to load React Component
-  const reactModules = import.meta.glob('./questions/*/*/App.jsx');
-  const reactModuleLoader = reactModules[`${prefix}App.jsx`];
+  const reactModules = import.meta.glob('./questions/*/*/App.{jsx,tsx,js,ts}');
+  const reactModuleLoader = reactModules[`${prefix}App.jsx`] || reactModules[`${prefix}App.tsx`] || reactModules[`${prefix}App.js`] || reactModules[`${prefix}App.ts`];
 
   if (reactModuleLoader) {
     try {

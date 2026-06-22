@@ -21,22 +21,29 @@ import Home from "./pages/home";
 import Context from "./context/context";
 import Cart from "./pages/cart";
 
-const router = createBrowserRouter([
-  {
-    element: <AppLayout />,
+const router = createBrowserRouter(
+  [
+    {
+      element: <AppLayout />,
 
-    children: [
-      {
-        path: "/",
-        element: <Home />,
-      },
-      {
-        path: "/cart",
-        element: <Cart />,
-      },
-    ],
-  },
-]);
+      children: [
+        {
+          path: "/",
+          element: <Home />,
+        },
+        {
+          path: "/cart",
+          element: <Cart />,
+        },
+      ],
+    },
+  ],
+  {
+    basename: window.location.pathname.startsWith("/sandbox.html")
+      ? "/sandbox.html"
+      : "/",
+  }
+);
 
 const App = () => {
   return (
