@@ -20,18 +20,23 @@ import AppLayout from "./components/app-layout";
 import Home from "./pages/home";
 import Context from "./context/context";
 
-const router = createBrowserRouter([
-  {
-    element: <AppLayout />,
+const router = createBrowserRouter(
+  [
+    {
+      element: <AppLayout />,
 
-    children: [
-      {
-        path: "/",
-        element: <Home />,
-      },
-    ],
-  },
-]);
+      children: [
+        {
+          path: "/",
+          element: <Home />,
+        },
+      ],
+    },
+  ],
+  {
+    basename: window.location.pathname,
+  }
+);
 
 const App = () => {
   return (
