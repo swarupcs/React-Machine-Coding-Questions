@@ -114,7 +114,7 @@ export default function App() {
   return (
     <div className="App">
       <h1>Config Driven Form</h1>
-      <Form schema={schema} onSubmit={onSubmit} />
+      <Form schema={schema.fields} onSubmit={onSubmit} />
     </div>
   );
 }
