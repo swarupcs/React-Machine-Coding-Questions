@@ -483,6 +483,17 @@ export default function PracticeView() {
               <ExternalLink className="w-3.5 h-3.5" />
               <span>Open solution</span>
             </a>
+            
+            <div className="w-px h-4 bg-white/10 mx-1 hidden sm:block"></div>
+            
+            <Link
+              to={`/category/${categoryName}/${questionName}`}
+              className="flex items-center gap-1.5 px-2.5 py-1 rounded text-xs text-rose-400 hover:text-rose-300 hover:bg-rose-400/10 transition-colors border border-rose-500/30 hover:border-rose-400/50"
+              title="Close Practice Mode"
+            >
+              <X className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline">Close</span>
+            </Link>
           </div>
         </div>
 
