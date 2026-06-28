@@ -17,8 +17,9 @@ import {
 
 import {
   ChevronRight, ExternalLink, Monitor, Tablet, Smartphone,
-  RefreshCw, RotateCcw, BookOpen, Zap, ArrowLeft, X
+  RefreshCw, RotateCcw, BookOpen, Zap, ArrowLeft, X, Eraser
 } from 'lucide-react';
+import { autocompletion } from '@codemirror/autocomplete';
 import Sidebar from '../components/layout/Sidebar';
 import FileExplorer from '../components/FileExplorer';
 import CodeViewer from '../components/CodeViewer';
@@ -48,6 +49,44 @@ function SandpackResetButton() {
     >
       <RotateCcw className="w-3.5 h-3.5" />
       Reset
+    </button>
+  );
+}
+
+// ─── Clear Button (inside Sandpack context) ──────────────────────────────────
+function SandpackClearButton({ template, entryFile }) {
+  const { sandpack } = useSandpack();
+  
+  const handleClear = useCallback(() => {
+    const updates = {};
+    Object.entries(sandpack.files).forEach(([path, fileObj]) => {
+      if (fileObj.hidden) return; // don't touch hidden files (e.g. index.js / App.js wrappers)
+      
+      if (path.match(/\.(jsx?|tsx?|css|html)$/)) {
+        if (path === entryFile) {
+          if (template.includes('react')) {
+            updates[path] = "import React from 'react';\n\nexport default function App() {\n  return (\n    <div>\n      {/* Write your code here */}\n    </div>\n  );\n}\n";
+          } else if (template === 'vanilla' || template === 'vanilla-ts') {
+            updates[path] = "// Write your code here\n";
+          } else {
+            updates[path] = "";
+          }
+        } else {
+          updates[path] = "";
+        }
+      }
+    });
+    sandpack.updateFile(updates);
+  }, [sandpack, template, entryFile]);
+
+  return (
+    <button
+      onClick={handleClear}
+      title="Clear all code to start fresh"
+      className="flex items-center gap-1.5 px-2.5 py-1 rounded text-xs text-rose-400 hover:text-rose-300 hover:bg-rose-400/10 transition-colors border border-rose-500/30 hover:border-rose-400/50"
+    >
+      <Eraser className="w-3.5 h-3.5" />
+      Clear
     </button>
   );
 }
@@ -104,7 +143,10 @@ function SandpackPracticePanel({ sandpackFiles, template, customSetup, entryFile
             </span>
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" title="Live" />
           </div>
-          <SandpackResetButton />
+          <div className="flex items-center gap-2">
+            <SandpackClearButton template={template} entryFile={entryFile} />
+            <SandpackResetButton />
+          </div>
         </div>
 
         {/* SandpackLayout with explicit pixel height so CodeMirror can scroll */}
@@ -122,6 +164,7 @@ function SandpackPracticePanel({ sandpackFiles, template, customSetup, entryFile
             showLineNumbers
             showInlineErrors
             wrapContent={false}
+            extensions={[autocompletion()]}
             style={{ height: spHeight }}
           />
           <SandpackPreview
