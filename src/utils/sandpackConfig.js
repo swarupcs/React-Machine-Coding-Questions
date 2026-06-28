@@ -5,6 +5,103 @@
  */
 
 /**
+ * All packages used by this project — pulled from package.json.
+ * These are pre-registered in every Sandpack sandbox so questions can freely
+ * import any of them without triggering "Could not find dependency" errors.
+ *
+ * Note: react / react-dom / typescript are handled separately per template,
+ * so they are excluded from KNOWN_PROJECT_DEPS but kept in BUILT_IN_PACKAGES.
+ */
+const BUILT_IN_PACKAGES = new Set([
+  // React ecosystem (handled via template deps)
+  'react', 'react-dom', 'react-router', 'react-router-dom',
+  'typescript', '@types/react', '@types/react-dom',
+  // Project-level tooling (not needed inside the sandbox)
+  '@codemirror/autocomplete', '@codemirror/lang-javascript', '@codemirror/state', '@codemirror/view',
+  '@codesandbox/sandpack-react', '@mdx-js/react', '@mdx-js/rollup', '@monaco-editor/react',
+  '@tailwindcss/typography', '@tailwindcss/vite', 'tailwindcss', 'tailwind-merge', 'tailwindcss-animate',
+  'next-themes', 'class-variance-authority', 'cmdk', 'clsx',
+  'react-resizable-panels', 'react-icons', 'lucide-react',
+  'react-markdown', 'rehype-highlight', 'remark-gfm', 'github-markdown-css', 'highlight.js',
+  // node built-ins
+  'path', 'fs', 'os', 'http', 'https', 'url', 'util', 'stream',
+  'events', 'crypto', 'buffer', 'assert', 'module',
+]);
+
+/**
+ * Pre-registered dependency versions from this project's package.json.
+ * Every Sandpack sandbox gets these available so questions can import them freely.
+ */
+const KNOWN_PROJECT_DEPS = {
+  // Styling / animation
+  'framer-motion':        '^12.40.0',
+  '@react-spring/web':    '^10.1.1',
+  // Data / utils
+  'axios':                '^1.18.0',
+  'lodash':               '^4.18.1',
+  'date-fns':             '^4.1.0',
+  'uuid':                 '^13.0.0',
+  'txtgen':               '^3.0.7',
+  '@faker-js/faker':      '^10.5.0',
+  // Forms / validation
+  'yup':                  '^1.7.1',
+  'zod':                  '^4.4.3',
+  'react-hook-form':      '^7.67.0',
+  // UI / components
+  'prop-types':           '^15.8.1',
+  'classnames':           '^2.5.1',
+  'react-virtualized':    '^9.22.6',
+  // Syncfusion (for questions using it)
+  '@syncfusion/ej2-base':          '^20.1.55',
+  '@syncfusion/ej2-buttons':       '^20.1.55',
+  '@syncfusion/ej2-inputs':        '^20.1.55',
+  '@syncfusion/ej2-react-buttons': '^20.1.55',
+  '@syncfusion/ej2-react-inputs':  '^20.1.55',
+  // Ant Design icons
+  '@ant-design/icons':    '^6.2.5',
+};
+
+/**
+ * Scans the raw source code of a question's files and extracts any third-party
+ * npm package names so they can be added to customSetup.dependencies.
+ *
+ * Handles:
+ *   import ... from 'pkg'
+ *   import ... from "pkg"
+ *   require('pkg') / require("pkg")
+ *
+ * Ignores:
+ *   - Relative imports (starting with . or /)
+ *   - Node built-ins listed in BUILT_IN_PACKAGES
+ *   - Sub-paths of already-known built-ins (e.g. 'react/jsx-runtime')
+ *
+ * @param {Record<string, string>} rawFilesCache - relative path → code string
+ * @returns {Record<string, string>} - { 'yup': 'latest', 'formik': 'latest', ... }
+ */
+export function extractDependencies(rawFilesCache) {
+  const deps = {};
+  // Matches: import ... from 'pkg'  |  import ... from "pkg"  |  require('pkg')  |  require("pkg")
+  const importRe = /(?:import\s+[\s\S]*?from\s+|require\s*\()\s*['"]([^'"]+)['"]/g;
+
+  for (const code of Object.values(rawFilesCache)) {
+    if (typeof code !== 'string') continue;
+    let m;
+    while ((m = importRe.exec(code)) !== null) {
+      const pkg = m[1];
+      // Skip relative paths and file-protocol imports
+      if (pkg.startsWith('.') || pkg.startsWith('/')) continue;
+      // Get the root package name (handles scoped like @scope/name and sub-paths like pkg/utils)
+      const rootPkg = pkg.startsWith('@')
+        ? pkg.split('/').slice(0, 2).join('/')
+        : pkg.split('/')[0];
+      if (BUILT_IN_PACKAGES.has(rootPkg)) continue;
+      deps[rootPkg] = 'latest';
+    }
+  }
+  return deps;
+}
+
+/**
  * Detects the best Sandpack template based on which files exist in the question.
  * @param {string[]} filePaths - array of relative file paths, e.g. ['App.jsx', 'styles.css']
  * @returns {'react' | 'react-ts' | 'vanilla' | 'static'}
@@ -129,15 +226,19 @@ export function getEntryFile(filePaths, template) {
 /**
  * Returns extra Sandpack customSetup for templates that need explicit dependencies.
  * React questions need react + react-dom declared so Sandpack's bundler can resolve them.
+ * Pass extraDeps from extractDependencies() to automatically include third-party packages.
  * @param {'react' | 'react-ts' | 'vanilla' | 'static'} template
+ * @param {Record<string, string>} extraDeps - additional detected packages
  * @returns {{ dependencies?: Record<string, string>, devDependencies?: Record<string, string> }}
  */
-export function getCustomSetup(template) {
+export function getCustomSetup(template, extraDeps = {}) {
   if (template === 'react') {
     return {
       dependencies: {
         react: '^18.3.0',
         'react-dom': '^18.3.0',
+        ...KNOWN_PROJECT_DEPS, // pre-load all project packages
+        ...extraDeps,          // anything auto-detected not already in KNOWN_PROJECT_DEPS
       },
     };
   }
@@ -146,6 +247,8 @@ export function getCustomSetup(template) {
       dependencies: {
         react: '^18.3.0',
         'react-dom': '^18.3.0',
+        ...KNOWN_PROJECT_DEPS,
+        ...extraDeps,
       },
       devDependencies: {
         typescript: '^5.0.0',
@@ -154,5 +257,11 @@ export function getCustomSetup(template) {
       },
     };
   }
-  return {};
+  // For vanilla/static: still provide project deps + any auto-detected ones
+  return {
+    dependencies: {
+      ...KNOWN_PROJECT_DEPS,
+      ...extraDeps,
+    },
+  };
 }

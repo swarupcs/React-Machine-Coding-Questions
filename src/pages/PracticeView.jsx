@@ -25,7 +25,7 @@ import Sidebar from '../components/layout/Sidebar';
 import FileExplorer from '../components/FileExplorer';
 import CodeViewer from '../components/CodeViewer';
 import { getFileIcon } from '../utils/fileIcons';
-import { detectTemplate, buildSandpackFiles, getEntryFile, getCustomSetup } from '../utils/sandpackConfig';
+import { detectTemplate, buildSandpackFiles, getEntryFile, getCustomSetup, extractDependencies } from '../utils/sandpackConfig';
 
 // ─── VS-Code-like completion sources ─────────────────────────────────────────
 // 1. localCompletionSource: completes variables/functions defined in the current file
@@ -440,7 +440,8 @@ export default function PracticeView() {
       const codePaths = Object.keys(spCache);
       const tpl = detectTemplate(codePaths);
       const spFiles = buildSandpackFiles(spCache, tpl);
-      const setup = getCustomSetup(tpl);
+      const extraDeps = extractDependencies(spCache); // auto-detect third-party packages (yup, formik, etc.)
+      const setup = getCustomSetup(tpl, extraDeps);
       const entry = getEntryFile(codePaths, tpl);
 
       setTemplate(tpl);
