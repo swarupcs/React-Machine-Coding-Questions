@@ -19,12 +19,62 @@ import {
   ChevronRight, ExternalLink, Monitor, Tablet, Smartphone,
   RefreshCw, RotateCcw, BookOpen, Zap, ArrowLeft, X, Eraser
 } from 'lucide-react';
-import { autocompletion } from '@codemirror/autocomplete';
+import { autocompletion, completionKeymap, completeFromList } from '@codemirror/autocomplete';
+import { snippets as jsSnippets, localCompletionSource } from '@codemirror/lang-javascript';
 import Sidebar from '../components/layout/Sidebar';
 import FileExplorer from '../components/FileExplorer';
 import CodeViewer from '../components/CodeViewer';
 import { getFileIcon } from '../utils/fileIcons';
 import { detectTemplate, buildSandpackFiles, getEntryFile, getCustomSetup } from '../utils/sandpackConfig';
+
+// ─── VS-Code-like completion sources ─────────────────────────────────────────
+// 1. localCompletionSource: completes variables/functions defined in the current file
+// 2. jsCompletions: keyword snippets (for, if, function, class, etc.)
+// 3. reactCompletions: React hooks and common JSX patterns
+const jsCompletions = completeFromList(jsSnippets);
+
+const REACT_COMPLETIONS = [
+  { label: 'useState',      type: 'function', info: 'const [state, setState] = useState(initialValue)' },
+  { label: 'useEffect',     type: 'function', info: 'useEffect(() => { ... }, [deps])' },
+  { label: 'useCallback',   type: 'function', info: 'useCallback(fn, [deps])' },
+  { label: 'useMemo',       type: 'function', info: 'useMemo(() => value, [deps])' },
+  { label: 'useRef',        type: 'function', info: 'useRef(initialValue)' },
+  { label: 'useContext',    type: 'function', info: 'useContext(Context)' },
+  { label: 'useReducer',    type: 'function', info: 'useReducer(reducer, initialState)' },
+  { label: 'useLayoutEffect', type: 'function', info: 'useLayoutEffect(() => { ... }, [deps])' },
+  { label: 'useImperativeHandle', type: 'function' },
+  { label: 'React',         type: 'variable' },
+  { label: 'Fragment',      type: 'variable' },
+  { label: 'createContext', type: 'function', info: 'React.createContext(defaultValue)' },
+  { label: 'createRef',     type: 'function' },
+  { label: 'forwardRef',    type: 'function' },
+  { label: 'memo',          type: 'function', info: 'React.memo(Component)' },
+  { label: 'lazy',          type: 'function', info: 'React.lazy(() => import(...))' },
+  { label: 'Suspense',      type: 'variable' },
+  { label: 'StrictMode',    type: 'variable' },
+  { label: 'PropTypes',     type: 'variable' },
+  { label: 'console',       type: 'variable' },
+  { label: 'console.log',   type: 'method' },
+  { label: 'console.error', type: 'method' },
+  { label: 'console.warn',  type: 'method' },
+  { label: 'document',      type: 'variable' },
+  { label: 'window',        type: 'variable' },
+  { label: 'fetch',         type: 'function' },
+  { label: 'setTimeout',    type: 'function' },
+  { label: 'clearTimeout',  type: 'function' },
+  { label: 'setInterval',   type: 'function' },
+  { label: 'clearInterval', type: 'function' },
+];
+
+const reactCompletions = completeFromList(REACT_COMPLETIONS);
+
+// The full set of editor extensions — registered once (stable reference)
+const CODE_EDITOR_EXTENSIONS = [
+  autocompletion({
+    activateOnTyping: true,
+    override: [localCompletionSource, jsCompletions, reactCompletions],
+  }),
+];
 
 // Load all raw files lazily - for editorial display
 const allRawFiles = import.meta.glob('../questions/*/*/**/*', { as: 'raw' });
@@ -164,7 +214,8 @@ function SandpackPracticePanel({ sandpackFiles, template, customSetup, entryFile
             showLineNumbers
             showInlineErrors
             wrapContent={false}
-            extensions={[autocompletion()]}
+            extensions={CODE_EDITOR_EXTENSIONS}
+            extensionsKeymap={completionKeymap}
             style={{ height: spHeight }}
           />
           <SandpackPreview
