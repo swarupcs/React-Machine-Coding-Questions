@@ -1,10 +1,10 @@
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState, useCallback, useRef } from 'react';
 import * as Resizable from 'react-resizable-panels';
 const PanelGroup = Resizable.PanelGroup || Resizable.Group || Resizable.default?.PanelGroup || Resizable.default?.Group;
 const PanelResizeHandle = Resizable.PanelResizeHandle || Resizable.Separator || Resizable.default?.PanelResizeHandle || Resizable.default?.Separator;
 const Panel = Resizable.Panel || Resizable.default?.Panel;
-import { X, RefreshCw, ExternalLink, Monitor, Tablet, Smartphone, ChevronRight } from 'lucide-react';
+import { X, RefreshCw, ExternalLink, Monitor, Tablet, Smartphone, ChevronRight, Zap } from 'lucide-react';
 import { useTracking } from '../hooks/useTracking';
 import FileExplorer from '../components/FileExplorer';
 import { getFileIcon } from '../utils/fileIcons';
@@ -17,6 +17,7 @@ const allRawFiles = import.meta.glob('../questions/*/*/**/*', {
 
 export default function QuestionPreview() {
   const { categoryName, questionName } = useParams();
+  const navigate = useNavigate();
   const { markViewed } = useTracking();
   const questionKey = `${categoryName}/${questionName}`;
 
@@ -102,6 +103,15 @@ export default function QuestionPreview() {
           <ChevronRight className="w-4 h-4" />
           <span className="text-foreground font-medium">{questionName.replace(/-/g, ' ')}</span>
         </div>
+        {/* Practice Button */}
+        <button
+          onClick={() => navigate(`/practice/${categoryName}/${questionName}`)}
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-semibold bg-violet-600 hover:bg-violet-500 text-white transition-all duration-200 shadow-sm hover:shadow-violet-500/30 hover:shadow-md group"
+          title="Open interactive practice sandbox"
+        >
+          <Zap className="w-3.5 h-3.5 group-hover:animate-pulse" />
+          Practice
+        </button>
       </div>
 
       <PanelGroup direction="horizontal" className="flex-1 min-h-0 w-full">

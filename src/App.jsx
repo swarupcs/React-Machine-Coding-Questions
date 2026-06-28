@@ -7,6 +7,7 @@ import Dashboard from './pages/Dashboard';
 import Explore from './pages/Explore';
 import NotesIndex from './pages/NotesIndex';
 import NoteView from './pages/NoteView';
+import PracticeView from './pages/PracticeView';
 import { ThemeProvider } from './components/theme-provider';
 
 // For standalone apps
@@ -42,6 +43,8 @@ export default function App() {
           {/* Standalone routes without layout */}
           <Route path='/overlapping-circles' element={<OverLappingCircleApp />} />
           <Route path='/popover' element={<PopOverApp />} />
+          {/* Practice Sandbox — full-screen, no sidebar */}
+          <Route path='/practice/:categoryName/:questionName' element={<PracticeView />} />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>
