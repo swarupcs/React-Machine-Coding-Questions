@@ -13,7 +13,7 @@ export interface Poll {
 
 // Fetch a specific poll by ID
 export const fetchPoll = async (pollId: number): Promise<Poll> => {
-  const response = await fetch(`http://localhost:3000/polls/${pollId}`);
+  const response = await fetch(`/polls/${pollId}`);
   if (!response.ok) {
     throw new Error("Failed to fetch poll");
   }
@@ -38,7 +38,7 @@ export const submitVote = async (
     0
   );
 
-  await fetch(`http://localhost:3000/polls/${pollId}`, {
+  await fetch(`/polls/${pollId}`, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
@@ -67,7 +67,7 @@ export const removeVote = async (
     0
   );
 
-  await fetch(`http://localhost:3000/polls/${pollId}`, {
+  await fetch(`/polls/${pollId}`, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
